@@ -1,7 +1,7 @@
-#!/bin/bash
-if [ "$1" != "" ]; then
-	git add . && git commit -m "$1" && git push origin dev
+!/bin/bash
+if [ "$#" -ne "4" ]; then
+	git add . && git commit -m "$1: $2; $3; branch: origin/$4" && git push origin $4
 
     else
-        echo "Kindly specify the commit message"
+        echo " - Usage: ./commit-script action (e.g. feat/fix/style) task (e.g. Create User Authentication) done-task-description (e.g. Created the get_session_token method in the Auth Class) git-branch (e.g. development/hotfix)"
 fi

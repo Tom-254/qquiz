@@ -1,5 +1,10 @@
 # QQuiz - Quiz Creating & Sharing Application
 
+## Branches
+- development
+- production
+- hotfix
+
 ## Proper commit type prefixes
 - feat: A new feature or functionality has been added.
 - fix: A bug or issue has been fixed.
