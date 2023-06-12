@@ -1,5 +1,5 @@
 !/bin/bash
-if [ "$#" -ne "4" ]; then
+if [ "$#" -ne 4 ]; then
 	git add . && git commit -m "$1: $2; $3; branch: origin/$4" && git push origin $4
 
     else
