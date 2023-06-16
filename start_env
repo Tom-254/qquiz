@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+source ./qquiz-venv/bin/activate
