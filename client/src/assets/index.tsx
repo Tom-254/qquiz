@@ -3,11 +3,13 @@ import { ReactComponent as LogoIconSmall } from "../assets/qquiz-logo-icon-small
 import { ReactComponent as LogoIcon } from "../assets/qquiz-logo-icon.svg";
 import { ReactComponent as Logo } from "../assets/qquiz-logo.svg";
 import { ReactComponent as HyphenWhite } from "../assets/small-hyphen-white.svg";
+import { ReactComponent as BackToTopArrow } from "../assets/back-to-top-arrow.svg";
 
 export {
     MenuIcon,
     LogoIconSmall,
     Logo,
     LogoIcon,
-    HyphenWhite
+    HyphenWhite,
+    BackToTopArrow
 }

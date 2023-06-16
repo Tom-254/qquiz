@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Props {
-  size?: "small" | "medium" | "large";
+  size?: "small"| "xsmedium" | "medium" | "large";
   type?:
     | "primary"
     | "secondary"
@@ -43,6 +43,13 @@ const Button = ({
     small: `flex flex-row items-center justify-center px-[12px] h-[27px] text-[length:var(--button-text-13-b)] normal-case ${
       full ? "w-full" : ""
     }`,
+    xsmedium: type.toLowerCase().includes("link".toLowerCase())
+    ? `group flex flex-col w-fit items-center p-0 text-[length:var(${
+        type === "navlink" ? "--body-text-bold-16" : "--button-text-15-b"
+      })] justify-center normal-case`
+    : `flex flex-col items-center justify-center px-[24px] sm:px[32px]  h-[40px] sm:h-[48px] text-[length:var(--button-text-15-b)] normal-case ${
+        full ? "w-full" : ""
+      }`,
     medium: type.toLowerCase().includes("link".toLowerCase())
       ? `group flex flex-col w-fit items-center p-0 text-[length:var(${
           type === "navlink" ? "--body-text-bold-16" : "--button-text-15-b"
