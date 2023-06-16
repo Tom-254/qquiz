@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Nunito Sans", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  /* Color styles */
+  --background-color: rgba(246, 247, 252, 1);
+  --border-color: rgba(208, 213, 221, 1);
+  --border-dark-color: rgba(208, 213, 221, 1);
+  --background-white: rgba(255, 255, 255, 1);
+  --primary-color-500: rgba(158, 119, 237, 1);
+  --primary-text-900: rgba(16, 24, 40, 1);
+  --secondary-text-600: rgba(71, 84, 103, 1);
+  --primary-color-800: rgba(83, 56, 158, 1);
+  --primary-color-900: rgba(62, 28, 150, 1);
+  --primay-accent-300: rgba(214, 187, 251, 1);
+  --primary-text-black: rgba(0, 0, 0, 1);
+  --border-color-light: rgba(242, 244, 247, 1);
+  --primary-red-500: rgba(240, 68, 56, 1);
+  --primary-green-500: rgba(18, 183, 106, 1);
+  --secondary-text-500: rgba(102, 112, 133, 1);
+
+  /* Text-size styles */
+  --h1-title-56: 56px;
+  --h2-title-48: 48px;
+  --h3-title-40: 40px;
+  --h4-title-32: 32px;
+  --h5-title-24: 24px;
+  --h6-title-16: 16px;
+  --body-text-bold-16: 16px;
+  --body-text-16-r: 16px;
+  --button-text-15-b: 15px;
+  --button-text-15-r: 15px;
+  --lead-text-sb-24: 24px;
+  --body-text-13-r: 13px;
+  --lead-text-sb-20: 20px;
+  --body-text-16-sb: 16px;
+  --button-text-15-b-line-auto: 15px;
+  --lead-text-b: 20px;
+  --button-text-13-b: 14px;
+  --body-text-16-sb: 16px;
+  --h4-title-32--sb: 32px;
+  --body-text-sb-14: 14px;
+  --lead-text-b-20: 20px;
+
+  /* Effect styles */
+  --main-shadow: 0px 0px 30px rgba(17, 12, 46, 0.02);
+  --white-shadow: 0px 1px 20px rgba(17, 12, 46, 0.05);
+
+  /** General Size Styles **/
+  --border-radius-large: 12px;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+}
