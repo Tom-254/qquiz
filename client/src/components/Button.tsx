@@ -13,10 +13,10 @@ interface Props {
   buttonIconLeft?: React.ReactNode;
   buttonIconRight?: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const Button: React.FC<Props> = ({
+const Button = ({
   size = "medium",
   type = "primary",
   full = false,
@@ -62,7 +62,7 @@ const Button: React.FC<Props> = ({
       </div>
       {type === "navlink" && (
         <div
-          className={`${active ? "bg-current" : "bg-transparent"} h-[2px] group-hover:bg-current w-[60%] mx-auto rounded-full -mt-[2px]`}
+          className={`${active ? "bg-current" : "bg-transparent"} h-[2px] group-hover:bg-current w-[60%] mr-auto lg:mx-auto rounded-full -mt-[2px]`}
         ></div>
       )}
     </button>
