@@ -40,7 +40,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 h-10 left-0 right-0 py-[16px] z-20">
+    <nav className="sticky top-0 h-fit left-0 right-0 py-[16px] z-20 bg-white">
       <div className="max-w-[1280px] mx-auto flex items-center justify-between z-20 bg-white">
         <Link to="/" className="ml-[20px] md:ml-[50px] lg:ml-[80px]">
           <Logo className="hidden lg:block" />

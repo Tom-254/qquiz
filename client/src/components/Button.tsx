@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Props {
-  size?: "small"| "xsmedium" | "medium" | "large";
+  size?: "small"| "xsmall" | "xsmedium" | "medium" | "large" | "icon";
   type?:
     | "primary"
     | "secondary"
@@ -41,6 +41,12 @@ const Button = ({
   };
   const ButtonSize: StringObject = {
     small: `flex flex-row items-center justify-center px-[12px] h-[27px] text-[length:var(--button-text-13-b)] normal-case ${
+      full ? "w-full" : ""
+    }`,
+    icon: `flex flex-row items-center justify-center px-[12px] h-[40px] text-[length:var(--button-text-13-b)] normal-case ${
+      full ? "w-full" : ""
+    }`,
+    xsmall: `flex flex-row items-center justify-center px-[12px] h-[24px] text-[length:var(--button-text-13-b)] normal-case ${
       full ? "w-full" : ""
     }`,
     xsmedium: type.toLowerCase().includes("link".toLowerCase())

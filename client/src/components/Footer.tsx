@@ -33,7 +33,7 @@ const Footer = () => {
     setActive(id);
   };
   return (
-    <footer className="flex flex-col gap-[20px] sticky top-0 h-fit left-0 right-0  py-[30px]">
+    <footer className="flex flex-col gap-[20px] h-fit  py-[30px] bg-white z-20">
       <div className="max-w-[1280px] w-full mx-auto flex flex-col md:flex-row md:items-center justify-between gap-[20px] md:gap-[15px] z-10">
         <Link
           to="/"
@@ -70,7 +70,7 @@ const Footer = () => {
         <div className="w-full border-t-[1px] mx-[20px] md:mx-[50px] lg:mx-[80px]"></div>
       </div>
       <div className="max-w-[1280px] w-full flex mx-auto ">
-        <div className="flex flex-col gap-[8px] sm:justify-between w-full mx-[20px] md:mx-[50px] lg:mx-[80px]">
+        <div className="flex flex-col gap-[8px] sm:justify-between sm:flex-row w-full mx-[20px] md:mx-[50px] lg:mx-[80px]">
             <p><strong>&copy; {new Date().getFullYear()} - Qquiz </strong> all rights reserved</p>
             <div className="flex gap-[20px]">
               <p>Terms & Conditions</p>

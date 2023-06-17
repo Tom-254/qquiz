@@ -11,6 +11,7 @@ import {
   DashboardRoot,
   Errors,
 } from "./routes";
+import Home from "./routes/Home.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <div className="my-[128px]">Children</div>,
+        element: <Home />,
       },
     ],
   },
