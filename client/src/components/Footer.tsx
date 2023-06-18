@@ -34,7 +34,7 @@ const Footer = () => {
   };
   return (
     <footer className="flex flex-col gap-[20px] h-fit  py-[30px] bg-white z-20">
-      <div className="max-w-[1280px] w-full mx-auto flex flex-col md:flex-row md:items-center justify-between gap-[20px] md:gap-[15px] z-10">
+      <div className="max-w-[1280px] w-full mx-auto flex flex-col md:flex-row md:items-center justify-between gap-[20px] md:gap-[12px] z-10">
         <Link
           to="/"
           className="flex justify-between ml-[20px] md:ml-[50px] lg:ml-[80px]"
@@ -62,7 +62,7 @@ const Footer = () => {
             </Button>
           ))}
         </ul>
-        <div className=" hidden md:block lg:ml-[55px] md:mr-[50px] lg:mr-[80px]">
+        <div className=" hidden md:block lg:ml-[90px] md:mr-[50px] lg:mr-[80px]">
           <Button buttonIconRight={<BackToTopArrow />}>Back to top</Button>
         </div>
       </div>
