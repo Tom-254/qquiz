@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+// --main-shadow: 0px 0px 30px rgba(17, 12, 46, 0.02);
+// --white-shadow: 0px 1px 20px rgba(17, 12, 46, 0.05);
 export default {
   content: [
     "./index.html",
@@ -29,6 +31,10 @@ export default {
       fontFamily: {
         primary: "Nunito Sans",
       },
+      boxShadow: {
+        "custom-main": "0px 0px 30px rgba(17, 12, 46, 0.02)",
+        "custom-white": "0px 1px 20px rgba(17, 12, 46, 0.05)",
+      }
     },
   },
   plugins: [],

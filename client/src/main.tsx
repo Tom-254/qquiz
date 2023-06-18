@@ -10,8 +10,10 @@ import {
   DashbaordInvitations,
   DashboardRoot,
   Errors,
+  Home,
+  Login,
+  Register,
 } from "./routes";
-import Home from "./routes/Home.tsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
         element: <Home />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/dashboard",

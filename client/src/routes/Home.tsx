@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   AboutUsImage,
   ArrowRightUp,
@@ -29,7 +30,7 @@ const Home = () => {
               invite your friends to take them
             </p>
             <Button buttonIconRight={<LongRightArrow />}>
-              Create an account
+              <Link to="/register">Create an account</Link>
             </Button>
           </div>
 

@@ -45,7 +45,7 @@
   --lead-text-b: 20px;
   --button-text-13-b: 14px;
   --body-text-16-sb: 16px;
-  --h4-title-32--sb: 32px;
+  --h4-title-32-sb: 32px;
   --body-text-sb-14: 14px;
   --lead-text-b-20: 20px;
 
@@ -55,5 +55,13 @@
 
   /** General Size Styles **/
   --border-radius-large: 12px;
+}
+
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
