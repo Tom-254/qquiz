@@ -169,6 +169,7 @@ const Login = () => {
               which="submit"
               size="large"
               buttonIconRight={<LongRightArrow />}
+              onClick={() => OnClickRedirect("/dashboard")}
             >
               Login
             </Button>
