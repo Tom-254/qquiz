@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   EmailIcon,
   FullNameIcon,
@@ -28,6 +28,7 @@ const schema = yup.object().shape({
     .email("Please enter a valid email address"),
     password: yup
     .string()
+    .defined()
     .test(
       "password",
       "Password must not contain at least one uppercase letter, one lowercase letter, and one number",
@@ -51,8 +52,14 @@ const Register = () => {
     resolver: yupResolver(schema)
   });
 
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<Inputs> = (data: object) => {
     console.log(data);
+  };
+
+  const OnClickRedirect = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -166,7 +173,7 @@ const Register = () => {
                 <PasswordIcon className="w-fit shrink group-focus-within:text-primary" />
                 <input
                   className="h-[90%] outline-none w-[90%] text-primarytext-900 rounded-[8px]"
-                  type="text"
+                  type="password"
                   placeholder="Enter password"
                   id="password"
                   {...register("password")}
@@ -189,7 +196,7 @@ const Register = () => {
                 Confirm Password*
               </label>
               <div className="group flex items-center gap-[12px] h-[52px] border-[1px] rounded-[12px] px-[20px] focus-within:border-primary text-secondarytext-500">
-                <FullNameIcon className="w-fit shrink group-focus-within:text-primary" />
+                <PasswordIcon className="w-fit shrink group-focus-within:text-primary" />
                 <input
                   className="h-[90%] outline-none w-[90%] text-primarytext-900 rounded-[8px]"
                   type="password"
@@ -207,14 +214,14 @@ const Register = () => {
                 </p>
               )}
             </div>
-            <Button size="large" buttonIconRight={<LongRightArrow />}>
+            <Button which="submit" size="large" buttonIconRight={<LongRightArrow />}>
               Create your account
             </Button>
             <div className="flex items-center gap-[8px]">
               <p className="text-secondarytext-500 font-semibold text-[length:var(--body-text-16-sb)]">
                 Already registered?
               </p>
-              <Button which="submit" type="linkdashed">
+              <Button which="button" type="linkunderlined" onClick={() => OnClickRedirect("/login")}>
                 Login to your account
               </Button>
             </div>

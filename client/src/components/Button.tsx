@@ -7,7 +7,7 @@ interface Props {
     | "secondary"
     | "tertiary"
     | "link"
-    | "linkdashed"
+    | "linkunderlined"
     | "navlink";
   full?: boolean;
   active?: boolean;
@@ -37,10 +37,10 @@ const Button = ({
     secondary:
       "border-[1px] border-primary  hover:bg-primary text-primary hover:text-white font-bold rounded-full",
     tertiary:
-      "border-[1px] border-border hover:border-borderdark hover:bg-borderdark hover:text-white text-secondarytext-600 font-bold rounded-[--border-radius-large]",
+      "border-[1px] border-border hover:border-borderdark hover:bg-tertiaryhover hover:text-primarytext-800 text-secondarytext-600 font-bold rounded-[--border-radius-large]",
     dark: "border-[1px] border-primarydark hover:border-primarydark bg-primarydark hover:bg-transparent text-primaryBackgroundWhite hover:text-primarydark font-bold rounded-full",
     link: "text-primary hover:text-primarydark font-bold",
-    linkdashed: "text-primary hover:text-primarydark font-bold underline underline-offset-4",
+    linkunderlined: "text-primary hover:text-primarydark font-bold underline underline-offset-4",
     navlink: `hover:text-primary text-primarytext-900 font-bold ${active ? "text-primarytext-primary" : ""}`,
   };
   const ButtonSize: StringObject = {

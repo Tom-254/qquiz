@@ -23,6 +23,7 @@ export default {
         primaryred: "var(--primary-red-500)",
         white: "var(--background-white)",
         background: "var(--background-color)",
+        tertiaryhover: "#f9fafb",
         border: "var(--border-color)",
         borderlight: "var(--border-color-light)",
         borderdark: "var(--border-dark-color)",
