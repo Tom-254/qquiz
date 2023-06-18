@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { HyphenWhite, Logo, LogoIconSmall, MenuIcon } from "../assets";
 import { Button } from "../components";

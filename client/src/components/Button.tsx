@@ -8,6 +8,7 @@ interface Props {
     | "tertiary"
     | "link"
     | "linkunderlined"
+    | "navlinkdashboard"
     | "navlink";
   full?: boolean;
   active?: boolean;

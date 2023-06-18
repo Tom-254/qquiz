@@ -70,7 +70,7 @@ const Home = () => {
               </p>
               <p className="text-primarytext-900 font-medium">
                 Easily create custom quizzes on any topic with multiple choice
-                questions.
+                questions. For any one any where to take.
               </p>
               <div className="flex items-center border-t-[1px] border-border pt-[24px] w-full">
                 <div className="flex bg-green-100 ml-auto w-full"></div>

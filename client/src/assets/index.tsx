@@ -10,11 +10,27 @@ import { ReactComponent as GoogleGLogo } from "../assets/google-g-logo.svg";
 import { ReactComponent as FullNameIcon } from "../assets/full-name-icon.svg";
 import { ReactComponent as EmailIcon } from "../assets/email-icon.svg";
 import { ReactComponent as PasswordIcon } from "../assets/password-icon.svg";
+import { ReactComponent as DashboardHomeIcon } from "../assets/dashboard-icon.svg";
+import { ReactComponent as QuizzesIcon } from "../assets/quizzes-icon.svg";
+import { ReactComponent as InvitationsIcon } from "../assets/invitations-icon.svg";
+import { ReactComponent as LogoutIcon } from "../assets/logout-icon.svg";
+import { ReactComponent as AddIcon } from "../assets/add-icon.svg";
+import { ReactComponent as SearchIcon } from "../assets/search-icon.svg";
+import { ReactComponent as NotificationIcon } from "../assets/notifications-icon.svg";
+import  AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
 import OurProcessImage from "../assets/our-process-image.svg";
 
 export {
+    NotificationIcon,
+    SearchIcon,
+    AddIcon,
+    LogoutIcon,
+    InvitationsIcon,
+    QuizzesIcon,
+    DashboardHomeIcon,
+    AvatarIcon,
     FullNameIcon,
     EmailIcon,
     PasswordIcon,
