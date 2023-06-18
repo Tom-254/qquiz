@@ -15,11 +15,13 @@ const Home = () => {
       <section className="my-[128px]">
         <div className="max-w-[1280px] xl:mx-auto flex flex-col gap-[70px] mx-[20px] md:mx-[50px] lg:mx-[80px] items-center justify-between bg-white">
           <div className="flex flex-col items-center text-center gap-[30px]">
-            <div className="border-[1px] border-borderdarker rounded-full  border-dashed  flex flex-col sm:flex-row gap-[10px] sm:gap-[47px] px-[12px] sm:px-[15px] py-[8px] sm:py-[4px] items-center gap-[47]px">
-              <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
-                Interested in us ? Explore our features.
+            <div className="border-[1px] border-borderdarker rounded-full  border-dashed  flex flex-col sm:flex-row gap-[10px] px-[15px] sm:px-[15px] py-[8px] sm:py-[4px] items-center">
+              <p className=" text-primarytext-900 font-bold text-[length:var(--button-text-15-b)] w-fit text-center">
+                Interested in us ?
               </p>
-              <Button size="xsmall" buttonIconRight={<LongRightArrow />} />
+              <div className="flex gap-[10px] sm:gap-[47px] items-center gap-[47]px mb-[8px] sm:mb-0">
+                <p className=" text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">Explore our features.</p>
+                <Button size="xsmall" buttonIconRight={<LongRightArrow />} /></div>
             </div>
             <p className="text-primarytext-1000 font-bold text-[length:var(--h3-title-40)] leading-[70px] md:text-[length:var(--h1-title-56)] w-[90%] lg:w-[70%] capitalize -mt-[16px]">
               Introducing <span className="text-primary">Qquizz</span> - create
@@ -155,46 +157,60 @@ const Home = () => {
               Steps to join us
             </p>
             <div className="flex flex-col items-center lg:items-start gap-[20px] w-fit">
-                <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-16)] w-[90%] text-left lg:w-[70%]">
-                  Joining Qquiz is easy and only takes a few simple steps! Here’s
-                  how to get started:
-                </p>
-                <div className="flex gap-[10px] flex-col justify-center w-[92%]">
-                  <div className="flex gap-[10px] text-left">
-                    <div className="flex justify-center items-center border-[1px] h-[24px] w-[24px] p-[20px] rounded-full border-border ">
-                        <p className="text-primarytext-900 font-bold text-[length:var(--body-text-bold-16)] normal-case">01</p>
-                    </div>
-                    <div className="flex flex-col gap-[8px]">
-                      <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-20)] normal-case">Create an Account</p>
-                      <p className="text-primarytext-900 font-medium text-[length:var(--body-text-13-r)] w-[95%] normal-case  break-words">
-                        To create an account you’ll need to provide some basic
-                        information such as your username, email, and password.
-                      </p>
-                    </div>
+              <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-16)] w-[90%] text-left lg:w-[70%]">
+                Joining Qquiz is easy and only takes a few simple steps! Here’s
+                how to get started:
+              </p>
+              <div className="flex gap-[10px] flex-col justify-center w-[92%]">
+                <div className="flex gap-[10px] text-left">
+                  <div className="flex justify-center items-center border-[1px] h-[24px] w-[24px] p-[20px] rounded-full border-border ">
+                    <p className="text-primarytext-900 font-bold text-[length:var(--body-text-bold-16)] normal-case">
+                      01
+                    </p>
                   </div>
-                  <div className="flex gap-[10px] text-left">
-                    <div className="flex justify-center items-center border-[1px] h-[24px] w-[24px] p-[20px] rounded-full border-border ">
-                        <p className="text-primarytext-900 font-bold text-[length:var(--body-text-bold-16)] normal-case">02</p>
-                    </div>
-                    <div className="flex flex-col gap-[8px]">
-                      <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-20)] normal-case">Verify Your Email</p>
-                      <p className="text-primarytext-900 font-medium text-[length:var(--body-text-13-r)] w-[95%] normal-case  break-words">
-                      Check your email for a verification message from QUIZZO and follow the instructions to verify your email address.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex gap-[10px] text-left">
-                    <div className="flex justify-center items-center border-[1px] h-[24px] w-[24px] p-[20px] rounded-full border-border ">
-                        <p className="text-primarytext-900 font-bold text-[length:var(--body-text-bold-16)] normal-case">03</p>
-                    </div>
-                    <div className="flex flex-col gap-[8px]">
-                      <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-20)] normal-case">Start Creating and Taking Quizzes</p>
-                      <p className="text-primarytext-900 font-medium text-[length:var(--body-text-13-r)] w-[95%] normal-case  break-words">
-                      Once your account is set up and verified, you can start creating and taking quizzes right away!
-                      </p>
-                    </div>
+                  <div className="flex flex-col gap-[8px]">
+                    <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-20)] normal-case">
+                      Create an Account
+                    </p>
+                    <p className="text-primarytext-900 font-medium text-[length:var(--body-text-13-r)] w-[95%] normal-case  break-words">
+                      To create an account you’ll need to provide some basic
+                      information such as your username, email, and password.
+                    </p>
                   </div>
                 </div>
+                <div className="flex gap-[10px] text-left">
+                  <div className="flex justify-center items-center border-[1px] h-[24px] w-[24px] p-[20px] rounded-full border-border ">
+                    <p className="text-primarytext-900 font-bold text-[length:var(--body-text-bold-16)] normal-case">
+                      02
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-[8px]">
+                    <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-20)] normal-case">
+                      Verify Your Email
+                    </p>
+                    <p className="text-primarytext-900 font-medium text-[length:var(--body-text-13-r)] w-[95%] normal-case  break-words">
+                      Check your email for a verification message from QUIZZO
+                      and follow the instructions to verify your email address.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-[10px] text-left">
+                  <div className="flex justify-center items-center border-[1px] h-[24px] w-[24px] p-[20px] rounded-full border-border ">
+                    <p className="text-primarytext-900 font-bold text-[length:var(--body-text-bold-16)] normal-case">
+                      03
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-[8px]">
+                    <p className="text-primarytext-900 font-semibold text-[length:var(--lead-text-sb-20)] normal-case">
+                      Start Creating and Taking Quizzes
+                    </p>
+                    <p className="text-primarytext-900 font-medium text-[length:var(--body-text-13-r)] w-[95%] normal-case  break-words">
+                      Once your account is set up and verified, you can start
+                      creating and taking quizzes right away!
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex w-[50%] mx-[20px]  lg:ml-[80px]">

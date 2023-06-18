@@ -24,7 +24,7 @@ const schema = yup.object().shape({
     .required("This field is required")
     .email("Please enter a valid email address"),
   password: yup.string().required("This field is required"),
-  rememberMe: yup.boolean()
+  rememberMe: yup.boolean(),
 });
 
 const Login = () => {
@@ -158,7 +158,6 @@ const Login = () => {
                 <label
                   htmlFor="rememberMe"
                   className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)] cursor-pointer"
-
                 >
                   Remember me
                 </label>
