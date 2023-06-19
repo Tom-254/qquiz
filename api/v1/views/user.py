@@ -31,3 +31,9 @@ def login_user():
 def get_user_profile(userId):
     # Retrieve user profile information
     pass
+
+@users_bp.route('/users<userId>/notifications', methods=['POST'])
+def user_send_notification(userId):
+    # Send a notification to a specific user
+    pass
+
