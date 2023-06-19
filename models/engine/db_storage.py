@@ -6,8 +6,13 @@ import os, sys
 from sqlalchemy import create_engine
 from models.base_model import Base
 from models.user import User
-from models.images import Image
-from models.shared_with import SharedWith
+from models.answers import Answers
+from models.choices import Choices
+from models.index import Index
+from models.questions import Questions
+from models.quiz_invitations import Quiz_invitation
+from models.quiz_submissions import Quiz_submissions
+from models.quizzes import Quizzes
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
@@ -43,7 +48,7 @@ class DBStorage():
                 key = item.__class__.__name__ + '.' + item.id
                 new_dict[key] = item
         else:
-            classes = [User, Image, SharedWith]
+            classes = [User, Answers, Choices, Index, Questions, Quiz_invitation, Quiz_submissions, Quizzes]
             for class_name in classes:
                 try:
                     result = (self.__session.query(class_name).all())

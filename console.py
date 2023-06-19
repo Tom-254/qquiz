@@ -16,7 +16,7 @@ class QQuizCommand(cmd.Cmd):
         Contains the entry point of the command interpreter.
     """
 
-    prompt = ("(i-share) ")
+    prompt = ("(Qquiz) ")
 
     def do_quit(self, args):
         """
