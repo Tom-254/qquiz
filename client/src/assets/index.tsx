@@ -1,6 +1,6 @@
 import { ReactComponent as MenuIcon } from "../assets/menu-icon.svg";
 import { ReactComponent as LogoIconSmall } from "../assets/qquiz-logo-icon-small.svg";
-import { ReactComponent as LogoIcon } from "../assets/qquiz-logo-icon.svg";
+import { ReactComponent as LogoIcon } from "../assets/logo-icon.svg";
 import { ReactComponent as Logo } from "../assets/qquiz-logo.svg";
 import { ReactComponent as HyphenWhite } from "../assets/small-hyphen-white.svg";
 import { ReactComponent as BackToTopArrow } from "../assets/back-to-top-arrow.svg";
@@ -17,6 +17,7 @@ import { ReactComponent as LogoutIcon } from "../assets/logout-icon.svg";
 import { ReactComponent as AddIcon } from "../assets/add-icon.svg";
 import { ReactComponent as SearchIcon } from "../assets/search-icon.svg";
 import { ReactComponent as NotificationIcon } from "../assets/notifications-icon.svg";
+import { ReactComponent as QquizLogo } from "../assets/qquiz-logo.svg";
 import  AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
@@ -45,5 +46,6 @@ export {
     ArrowRightUp,
     AboutUsImage,
     OurProcessImage,
-    GoogleGLogo
+    GoogleGLogo,
+    QquizLogo
 }

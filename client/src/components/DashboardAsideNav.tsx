@@ -4,7 +4,7 @@ import {
   DashboardHomeIcon,
   InvitationsIcon,
   Logo,
-  LogoIconSmall,
+  LogoIcon,
   LogoutIcon,
   QuizzesIcon,
 } from "../assets";
@@ -14,6 +14,7 @@ import { useState } from "react";
 type AsideNavLinkType = {
   active: boolean;
   path: string;
+  title: string;
   children?: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
@@ -21,6 +22,7 @@ type AsideNavLinkType = {
 const AsideNavLink = ({
   active,
   path,
+  title,
   children,
   onClick,
 }: AsideNavLinkType) => {
@@ -29,10 +31,11 @@ const AsideNavLink = ({
       to={path}
       className={
         active
-          ? "bg-primary hover:bg-primarydark px-[24px] py-[16px] font-bold text-white flex items-center gap-[16px] rounded-[12px]"
-          : "bg-transparent px-[24px] py-[16px] text-secondarytext-600 font-bold hover:text-primary flex items-center gap-[16px] rounded-[12px]"
+          ? "w-fit lg:w-auto bg-primary hover:bg-primarydark px-[24px] py-[16px] font-bold text-white flex items-center justify-center lg:justify-start gap-[16px] rounded-[12px]"
+          : "w-fit lg:w-auto bg-transparent px-[24px] py-[16px] text-secondarytext-600 font-bold hover:text-primary flex items-center justify-center lg:justify-start gap-[16px] rounded-[12px]"
       }
       onClick={onClick}
+      title={title}
     >
       {children}
     </Link>
@@ -68,48 +71,58 @@ const DashboardAsideNav = () => {
   };
 
   return (
-    <aside className="bg-white flex flex-col gap-[30px] h-full max-h-[1000px] max-w-[254px] px-[24px] ">
-        <Link to="/" className="px-[24px] mt-[20px]">
-          <Logo className="hidden lg:block" />
-          <LogoIconSmall className="lg:hidden" />
-        </Link>
-      <div className="flex flex-col items-center gap-[8px] px-[24px]">
-        <div className="flex items-center justify-center w-[70px] h-[70px] rounded-full">
-          <img
-            className="rounded-full w-full"
-            src={AvatarIcon}
-            alt="Profile Image"
-          />
-        </div>
-        <p className="text-primarytext-1000 font-bold text-[length:var(--h6-title-16)]">
+    <aside className="hidden md:flex bg-white flex-col gap-[30px] h-full max-h-[1000px] max-w-[254px] lg:px-[24px] ">
+      <Link to="/" className="px-[24px] mx-auto lg:mx-0 mt-[20px]">
+        <Logo className="hidden lg:block" />
+        <LogoIcon className="lg:hidden" />
+      </Link>
+      <div className="flex flex-col items-center gap-[8px] lg:px-[24px]">
+        <Button
+          type="link"
+          buttonIconRight={
+            <div className="flex items-center justify-center w-[60px] h-[60px] lg:w-[70px] lg:h-[70px] rounded-full">
+              <img
+                className="rounded-full w-full"
+                src={AvatarIcon}
+                alt="Profile Image"
+              />
+            </div>
+          }
+        />
+
+        <p className="hidden lg:block text-primarytext-1000 font-bold text-[length:var(--h6-title-16)] ">
           Louis Carter
         </p>
-        <Button type="tertiary" size="small">
-          Edit
-        </Button>
+        <div className="hidden lg:block">
+          <Button type="tertiary" size="small">
+            Edit
+          </Button>
+        </div>
       </div>
       <div className="flex flex-col h-full">
-        <div>
+        <div className="flex flex-col justify-center mx-auto lg:mx-0">
           {navItems.map(({ id, path, icon, name }) => (
             <AsideNavLink
               key={id}
               active={active === id}
+              title={name}
               path={path}
               onClick={() => AsideNavLinkClicked(id)}
             >
               {icon}
-              {name}
+              <span className="hidden lg:block">{name}</span>
             </AsideNavLink>
           ))}
         </div>
-        <div className="mt-[65%] mb-[20px]">
+        <div className="mt-[65%] mb-[20px] mx-auto lg:mx-0">
           <Link
             to={"/register"}
             className={
-              "bg-transparent px-[24px] py-[16px] text-secondarytext-600 font-bold hover:text-primary flex items-center gap-[16px] rounded-[12px]"
+              "w-fit lg:w-auto bg-transparent px-[24px] py-[16px] text-secondarytext-600 font-bold hover:text-primary flex items-center justify-center lg:justify-start gap-[16px] rounded-[12px]"
             }
+            title="Logout"
           >
-            <LogoutIcon /> Logout
+            <LogoutIcon /> <span className="hidden lg:block">Logout</span>
           </Link>
         </div>
       </div>
