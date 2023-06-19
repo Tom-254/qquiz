@@ -17,5 +17,3 @@ class SharedWith(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes Image"""
         super().__init__(*args, **kwargs)
-
-
