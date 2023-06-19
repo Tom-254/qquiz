@@ -23,8 +23,3 @@ def update_quiz(quizId):
 def delete_quiz(quizId):
     # Handle quiz deletion logic
     pass
-
-@quizzes_bp.route('/<quizId>/questions', methods=['GET'])
-def get_questions(quizId):
-    # Retrieve a list of all questions for a specific quiz
-    pass
