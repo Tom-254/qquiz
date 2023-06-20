@@ -26,6 +26,9 @@ import { ReactComponent as MoreMenuIcon } from "../assets/more-icon.svg";
 import { ReactComponent as SeeIcon } from "../assets/see-icon.svg";
 import { ReactComponent as DeleteIcon } from "../assets/delete-icon.svg";
 import { ReactComponent as AcceptInvitation } from "../assets/accept-invitations.svg";
+import { ReactComponent as PrivateIcon } from "../assets/private-icon.svg";
+import { ReactComponent as PublicIcon } from "../assets/public-icon.svg";
+import { ReactComponent as EditIcon } from "../assets/edit-icon.svg";
 import AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
@@ -36,6 +39,9 @@ import SamRajes from "../assets/sam-rejesh.svg";
 import LegendBe from "../assets/legend-be.svg";
 
 export {
+  EditIcon,
+  PrivateIcon,
+  PublicIcon,
   SeeIcon,
   DeleteIcon,
   AcceptInvitation,
