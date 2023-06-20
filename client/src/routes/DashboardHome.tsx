@@ -94,7 +94,7 @@ const DashboardHome = () => {
                 </div>
               </div>
               <div className="flex gap-[16px] border-t-[1px] xl:border-0 pt-[12px] xl:p-0 pb-[5px]">
-                <Button type="tertiary">Take Quiz</Button>
+                <Button size="icon" type="tertiary">Take Quiz</Button>
               </div>
             </div>
           ))}
