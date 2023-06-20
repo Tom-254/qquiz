@@ -29,6 +29,8 @@ import { ReactComponent as AcceptInvitation } from "../assets/accept-invitations
 import { ReactComponent as PrivateIcon } from "../assets/private-icon.svg";
 import { ReactComponent as PublicIcon } from "../assets/public-icon.svg";
 import { ReactComponent as EditIcon } from "../assets/edit-icon.svg";
+import { ReactComponent as CloseIcon } from "../assets/close-icon.svg";
+import { ReactComponent as LongLeftArrow } from "../assets/long-left-arrow.svg";
 import AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
@@ -39,6 +41,8 @@ import SamRajes from "../assets/sam-rejesh.svg";
 import LegendBe from "../assets/legend-be.svg";
 
 export {
+  LongLeftArrow,
+  CloseIcon,
   EditIcon,
   PrivateIcon,
   PublicIcon,

@@ -1,7 +1,21 @@
+import { useState } from "react";
 import { Button } from ".";
 import { AddIcon, AvatarIcon, NotificationIcon, SearchIcon } from "../assets";
+import CustomDialog from "./CustomDialog";
 
 const DashboardTopNav = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [createQuizTitle, setCreateQuizTitle] = useState("Create Quiz - General Details ");
+  const [mainButtonTitle, setMainButtonTitle] = useState("Continue");
+
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
+  const openModal = ()  => {
+    setIsOpen(true)
+  }
+
   return (
     <nav className="sticky top-0 h-fit left-0 right-0 py-[16px] z-20 flex items-center justify-between px-[10px] sm:px-[24px] bg-background">
       <div className="flex items-center gap-[8px]">
@@ -29,7 +43,7 @@ const DashboardTopNav = () => {
         </div>
       </div>
       <div className="flex items-center gap-[32px]">
-        <div className="hidden md:block"><Button buttonIconLeft={<AddIcon />}>Create quiz</Button></div>
+        <div className="hidden md:block"><Button buttonIconLeft={<AddIcon />} onClick={openModal}>Create quiz</Button></div>
         <div className="flex items-center gap-[16px]">
           <div className="hidden bg-white group md:flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] border-white px-[20px] focus-within:border-primary text-secondarytext-500">
             <Button
@@ -51,6 +65,7 @@ const DashboardTopNav = () => {
           </div>
         </div>
       </div>
+      <CustomDialog isOpen={isOpen} title={createQuizTitle} mainButtonTitle={mainButtonTitle} closeModal={closeModal}/>
     </nav>
   );
 };
