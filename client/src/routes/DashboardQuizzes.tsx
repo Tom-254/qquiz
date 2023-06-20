@@ -45,6 +45,17 @@ const DashboardQuizzes = () => {
             </div>
           ))}
         </div>
+        <div className="flex flex-col gap-[15px] sm:flex-row sm:items-center justify-between mt-[50px]">
+          <Button size="icon" type="tertiary">
+            Previous
+          </Button>
+          <p className="text-secondarytext-600 mx-auto sm:mx-0 font-bold text-[length:var(--body-text-13)]">
+            Page 1 of 10
+          </p>
+          <Button size="icon" type="tertiary">
+            Next
+          </Button>
+        </div>
       </div>
     </section>
   );
