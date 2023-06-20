@@ -4,11 +4,11 @@ import { Invitations } from "../data";
 
 const DashbaordInvitations = () => {
   return (
-    <section className="flex flex-col gap-[16px] px-[10px] sm:px-[24px] pb-[70px] pt-[16px] overflow-y-auto max-h-[80vh]">
+    <section className="flex flex-col gap-[16px] px-[10px] sm:px-[24px] pb-[70px] pt-[16px] overflow-y-auto h-full max-h-[80vh]">
       <p className="text-primarytext-1000 font-bold text-[length:var(--lead-text-b)]">
         Invitations
       </p>
-      <div className="flex flex-col gap-[16px] bg-white rounded-[24px] w-full p-[24px]">
+      <div className="flex flex-col gap-[16px] bg-white rounded-[24px] w-full flex-1 p-[24px]">
         <div className="flex flex-col gap-[16px] w-full">
           {Invitations.map(({ id, image, data }) => (
             <div
@@ -49,6 +49,17 @@ const DashbaordInvitations = () => {
               </div>
             </div>
           ))}
+        </div>
+        <div className="flex flex-col gap-[15px] sm:flex-row sm:items-center justify-between mt-[50px]">
+          <Button size="icon" type="tertiary">
+            Previous
+          </Button>
+          <p className="text-secondarytext-600 mx-auto sm:mx-0 font-bold text-[length:var(--body-text-13)]">
+            Page 1 of 10
+          </p>
+          <Button size="icon" type="tertiary">
+            Next
+          </Button>
         </div>
       </div>
     </section>
