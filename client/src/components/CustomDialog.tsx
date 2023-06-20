@@ -6,14 +6,11 @@ import { CloseIcon, LongLeftArrow } from "../assets";
 interface Props {
   isOpen?: boolean;
   title?: string,
-  mainButtonTitle?: string,
-  next?: boolean;
   closeModal: (event: React.MouseEvent<HTMLElement>) => void;
-  goBack?: (event: React.MouseEvent<HTMLElement>) => void;
   children?: React.ReactNode;
 }
 
-const CustomDialog = ({ isOpen, title, mainButtonTitle, next=false, closeModal, goBack, children }: Props) => {
+const CustomDialog = ({ isOpen, title, closeModal, children }: Props) => {
   // const [isOpen, setIsOpen] = useState(true);
 
   // const closeModal = () => {
@@ -60,24 +57,10 @@ const CustomDialog = ({ isOpen, title, mainButtonTitle, next=false, closeModal, 
                       <Button type="link" buttonIconRight={<CloseIcon />} onClick={closeModal} />
                     </div>
                   </Dialog.Title>
-                  <Dialog.Description className="p-[24px]">
+                  <Dialog.Description as="div">
                     {children}
                   </Dialog.Description>
-                  <div className="px-[24px] py-[16px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
-                    {next && <div className="mx-auto sm:mx-0">
-                      <Button type="link" buttonIconLeft={<LongLeftArrow />} onClick={goBack}>
-                          Back
-                        </Button>
-                    </div>}
-                    <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
-                      <Button type="tertiary" onClick={closeModal}>
-                        Cancel
-                      </Button>
-                      <Button>
-                        {mainButtonTitle}
-                      </Button>
-                    </div>
-                  </div>
+
                 </Dialog.Panel>
               </Transition.Child>
             </div>

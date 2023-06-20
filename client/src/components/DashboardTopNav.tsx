@@ -1,19 +1,168 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Button } from ".";
-import { AddIcon, AvatarIcon, NotificationIcon, SearchIcon } from "../assets";
+import {
+  AddIcon,
+  AvatarIcon,
+  LongLeftArrow,
+  NotificationIcon,
+  SearchIcon,
+} from "../assets";
 import CustomDialog from "./CustomDialog";
+
+type InputsTwo = {
+  question: string;
+  type: string;
+  choices: string;
+};
+
+const schemaTwo = yup.object().shape({
+  question: yup.string().required("This field is required"),
+  type: yup.string().required("This field is required"),
+  choices: yup.string().required("This field is required"),
+});
+
+interface Props {
+  next: number;
+  setNext: React.Dispatch<React.SetStateAction<number>>;
+  closeModal: (event: React.MouseEvent<HTMLElement>) => void;
+}
+
+const FormTwo = ({ next, setNext, closeModal }: Props) => {
+  const [mainButtonTitle, setMainButtonTitle] = useState("Continue");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<InputsTwo>({
+    resolver: yupResolver(schemaTwo),
+  });
+
+  const onSubmit: SubmitHandler<InputsTwo> = (data: object, event) => {
+    console.log(data);
+    // event?.preventDefault();
+    setNext((prev) => prev + 1);
+  };
+
+  const goBack = () => {
+    setNext((prev) => prev - 1);
+  }
+
+  const closeModalAndClearForm = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    reset();
+    closeModal(event);
+  }
+
+  return (
+    <>
+      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-[24px] p-[24px]">
+          <div className="flex flex-col sm:flex-row gap-[24px]">
+            <div className="flex flex-col gap-[8px]">
+              <label
+                htmlFor="category"
+                className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+              >
+                Category*
+              </label>
+              <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
+                <select
+                  className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-select focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border"
+                  placeholder="Select the Quiz Category e.g. Catering"
+                  id="category"
+                  {...register("category")}
+                >
+                  <option value="">
+                    Select the Quiz Category e.g. Catering
+                  </option>
+                  <option value="Food">Food</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Computer Science">Computer Science</option>
+                </select>
+              </div>
+              {errors.category && (
+                <p
+                  role="alert"
+                  className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                >
+                  {errors.category.message}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
+          {next !== 1 && (
+            <div className="mx-auto sm:mx-0">
+              <Button which="button" type="link" buttonIconLeft={<LongLeftArrow />} onClick={goBack}>
+                Back
+              </Button>
+            </div>
+          )}
+          <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
+            <Button which="button" type="tertiary" onClick={closeModalAndClearForm}>
+              Cancel
+            </Button>
+            <Button>{mainButtonTitle}</Button>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+};
+
+type Inputs = {
+  title: string;
+  category: string;
+  description: string;
+};
+
+const schema = yup.object().shape({
+  title: yup.string().required("This field is required"),
+  category: yup.string().required("This field is required"),
+  description: yup.string().required("This field is required"),
+});
 
 const DashboardTopNav = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [createQuizTitle, setCreateQuizTitle] = useState("Create Quiz - General Details ");
+  const [createQuizTitle, setCreateQuizTitle] = useState(
+    "Create Quiz - General Details "
+  );
   const [mainButtonTitle, setMainButtonTitle] = useState("Continue");
 
-  const closeModal = () => {
-    setIsOpen(false)
-  }
+  const [next, setNext] = useState(1);
 
-  const openModal = ()  => {
-    setIsOpen(true)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit: SubmitHandler<Inputs> = (data: object, event) => {
+    console.log(data);
+    // event?.preventDefault();
+    setNext((prev) => prev + 1);
+  };
+
+  const closeModal = () => {
+    reset();
+    setIsOpen(false);
+  };
+
+  const openModal = () => {
+    setNext(1);
+    setIsOpen(true);
+  };
+
+  const goBack = () => {
+    setNext((prev) => prev - 1);
   }
 
   return (
@@ -43,7 +192,11 @@ const DashboardTopNav = () => {
         </div>
       </div>
       <div className="flex items-center gap-[32px]">
-        <div className="hidden md:block"><Button buttonIconLeft={<AddIcon />} onClick={openModal}>Create quiz</Button></div>
+        <div className="hidden md:block">
+          <Button buttonIconLeft={<AddIcon />} onClick={openModal}>
+            Create quiz
+          </Button>
+        </div>
         <div className="flex items-center gap-[16px]">
           <div className="hidden bg-white group md:flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] border-white px-[20px] focus-within:border-primary text-secondarytext-500">
             <Button
@@ -65,7 +218,114 @@ const DashboardTopNav = () => {
           </div>
         </div>
       </div>
-      <CustomDialog isOpen={isOpen} title={createQuizTitle} mainButtonTitle={mainButtonTitle} closeModal={closeModal}/>
+      <CustomDialog
+        isOpen={isOpen}
+        title={createQuizTitle}
+        closeModal={closeModal}
+      >
+        {next === 1 && (
+          <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-[24px] p-[24px]">
+              <div className="flex flex-col gap-[8px]">
+                <label
+                  htmlFor="title"
+                  className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+                >
+                  Title*
+                </label>
+                <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
+                  <input
+                    className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-input focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border "
+                    type="text"
+                    placeholder="Add quiz topic e.g Cooking dinner"
+                    id="title"
+                    {...register("title")}
+                  />
+                </div>
+                {errors.title && (
+                  <p
+                    role="alert"
+                    className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                  >
+                    {errors.title.message}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col gap-[8px]">
+                <label
+                  htmlFor="category"
+                  className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+                >
+                  Category*
+                </label>
+                <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
+                  <select
+                    className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-select focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border"
+                    placeholder="Select the Quiz Category e.g. Catering"
+                    id="category"
+                    {...register("category")}
+                  >
+                    <option value="">
+                      Select the Quiz Category e.g. Catering
+                    </option>
+                    <option value="Food">Food</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Computer Science">Computer Science</option>
+                  </select>
+                </div>
+                {errors.category && (
+                  <p
+                    role="alert"
+                    className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                  >
+                    {errors.category.message}
+                  </p>
+                )}
+              </div>
+              <div className="flex flex-col gap-[8px]">
+                <label
+                  htmlFor="description"
+                  className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+                >
+                  Description*
+                </label>
+                <div className="group flex items-center gap-[12px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
+                  <textarea
+                    className=" outline-none w-full text-primarytext-900 rounded-[8px] form-textarea focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none h-full"
+                    placeholder="Enter the questions description here"
+                    id="description"
+                    {...register("description")}
+                  />
+                </div>
+                {errors.description && (
+                  <p
+                    role="alert"
+                    className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                  >
+                    {errors.description.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
+              {next !== 1 && (
+                <div className="mx-auto sm:mx-0">
+                  <Button which="button" type="link" buttonIconLeft={<LongLeftArrow />} onClick={goBack}>
+                    Back
+                  </Button>
+                </div>
+              )}
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
+                <Button which="button" type="tertiary" onClick={closeModal}>
+                  Cancel
+                </Button>
+                <Button>{mainButtonTitle}</Button>
+              </div>
+            </div>
+          </form>
+        )}
+        {next === 2 && <FormTwo next={next} setNext={setNext} closeModal={closeModal}/>}
+      </CustomDialog>
     </nav>
   );
 };
