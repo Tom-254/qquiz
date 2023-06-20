@@ -71,7 +71,7 @@ const DashboardAsideNav = () => {
   };
 
   return (
-    <aside className="hidden md:flex bg-white flex-col gap-[30px] h-full max-h-[1000px] max-w-[254px] lg:px-[24px] ">
+    <aside className="hidden md:flex bg-white md:flex-col gap-[30px] max-h-full h-[100vh]  max-w-[254px] lg:px-[24px] ">
       <Link to="/" className="px-[24px] mx-auto lg:mx-0 mt-[20px]">
         <Logo className="hidden lg:block" />
         <LogoIcon className="lg:hidden" />
@@ -99,7 +99,7 @@ const DashboardAsideNav = () => {
           </Button>
         </div>
       </div>
-      <div className="flex flex-col h-full">
+      <div className="flex-1 flex flex-col max-h-full">
         <div className="flex flex-col justify-center mx-auto lg:mx-0">
           {navItems.map(({ id, path, icon, name }) => (
             <AsideNavLink
@@ -114,7 +114,7 @@ const DashboardAsideNav = () => {
             </AsideNavLink>
           ))}
         </div>
-        <div className="mt-[65%] mb-[20px] mx-auto lg:mx-0">
+        <div className="mt-auto mb-[20px] mx-auto lg:mx-0">
           <Link
             to={"/register"}
             className={

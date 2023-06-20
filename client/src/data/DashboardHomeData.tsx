@@ -20,7 +20,7 @@ export const OverviewData = [
         title: "Average Quiz Score"
     },
     {
-        id: 3,
+        id: 4,
         icon: <AcceptedInvitationsIcon />,
         count: "20",
         title: "Accepted Invitations"

@@ -3,10 +3,10 @@ import { DashboardAsideNav, DashboardFooter, DashboardTopNav } from "../componen
 
 const DashboardRoot = () => {
   return (
-    <main className="flex bg-background h-screen">
-      <div className="flex w-full max-w-[1400px] mx-auto">
+    <main className="relative bg-background h-screen">
+      <div className="flex w-full bg-background max-w-[1400px] mx-auto">
         <DashboardAsideNav />
-        <div className="relative flex w-full flex-col max-h-[1000px] h-full gap-[56px]">
+        <div className="bg-background flex w-full h-full flex-col gap-[30px]">
           <DashboardTopNav />
           <Outlet />
           <DashboardFooter />
