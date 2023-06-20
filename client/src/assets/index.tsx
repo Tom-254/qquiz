@@ -18,34 +18,52 @@ import { ReactComponent as AddIcon } from "../assets/add-icon.svg";
 import { ReactComponent as SearchIcon } from "../assets/search-icon.svg";
 import { ReactComponent as NotificationIcon } from "../assets/notifications-icon.svg";
 import { ReactComponent as QquizLogo } from "../assets/qquiz-logo.svg";
-import  AvatarIcon from "../assets/avatar.svg";
+import { ReactComponent as TotalQuizzesIcon } from "../assets/total-quizzes-icon.svg";
+import { ReactComponent as QuizInvitationsIcon } from "../assets/quizz-invitations-icon.svg";
+import { ReactComponent as AverageScoreIcon } from "../assets/average-score-icon.svg";
+import { ReactComponent as AcceptedInvitationsIcon } from "../assets/accepted-invitations-icon.svg";
+import { ReactComponent as MoreMenuIcon } from "../assets/more-icon.svg";
+import AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
 import OurProcessImage from "../assets/our-process-image.svg";
+import JohnSmith from "../assets/john-smith.svg";
+import HeroWor from "../assets/hello-wor.svg";
+import SamRajes from "../assets/sam-rejesh.svg";
+import LegendBe from "../assets/legend-be.svg";
 
 export {
-    NotificationIcon,
-    SearchIcon,
-    AddIcon,
-    LogoutIcon,
-    InvitationsIcon,
-    QuizzesIcon,
-    DashboardHomeIcon,
-    AvatarIcon,
-    FullNameIcon,
-    EmailIcon,
-    PasswordIcon,
-    MenuIcon,
-    LogoIconSmall,
-    Logo,
-    LogoIcon,
-    HyphenWhite,
-    BackToTopArrow,
-    LongRightArrow,
-    HeroImage,
-    ArrowRightUp,
-    AboutUsImage,
-    OurProcessImage,
-    GoogleGLogo,
-    QquizLogo
-}
+  MoreMenuIcon,
+  JohnSmith,
+  HeroWor,
+  SamRajes,
+  LegendBe,
+  AverageScoreIcon,
+  AcceptedInvitationsIcon,
+  QuizInvitationsIcon,
+  TotalQuizzesIcon,
+  NotificationIcon,
+  SearchIcon,
+  AddIcon,
+  LogoutIcon,
+  InvitationsIcon,
+  QuizzesIcon,
+  DashboardHomeIcon,
+  AvatarIcon,
+  FullNameIcon,
+  EmailIcon,
+  PasswordIcon,
+  MenuIcon,
+  LogoIconSmall,
+  Logo,
+  LogoIcon,
+  HyphenWhite,
+  BackToTopArrow,
+  LongRightArrow,
+  HeroImage,
+  ArrowRightUp,
+  AboutUsImage,
+  OurProcessImage,
+  GoogleGLogo,
+  QquizLogo,
+};

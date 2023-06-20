@@ -3,7 +3,7 @@ import { AddIcon, AvatarIcon, NotificationIcon, SearchIcon } from "../assets";
 
 const DashboardTopNav = () => {
   return (
-    <nav className="sticky top-0 h-fit left-0 right-0 py-[16px] z-20 flex items-center justify-between px-[10px] sm:px-[24px]">
+    <nav className="sticky top-0 h-fit left-0 right-0 py-[16px] z-20 flex items-center justify-between px-[10px] sm:px-[24px] bg-background">
       <div className="flex items-center gap-[8px]">
         <div className="md:hidden">
           <Button

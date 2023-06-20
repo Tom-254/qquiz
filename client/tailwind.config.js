@@ -35,6 +35,7 @@ export default {
       boxShadow: {
         "custom-main": "0px 0px 30px rgba(17, 12, 46, 0.02)",
         "custom-white": "0px 1px 20px rgba(17, 12, 46, 0.05)",
+        "bottom-nav": "0px 0px 111px 49px rgba(0, 0, 0, 0.07)",
       }
     },
   },

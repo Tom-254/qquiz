@@ -66,8 +66,8 @@ const DashboardFooter = () => {
 
 
   return (
-    <footer className="md:hidden absolute bottom-0 h-fit left-0 right-0 py-[16px] z-20 flex items-center justify-between px-[10px] md:px-[24px]">
-      <div className="flex items-center justify-between gap-[4px] bg-white max-[300px]:w-[100%] w-[90%] sm:w-[50%] mx-auto rounded-[15px] max-[300px]:px-[10px] px-[20px] py-[10px] relative">
+    <footer className="md:hidden fixed bottom-0 h-fit left-0 right-0 py-[16px] z-20 flex items-center justify-between px-[10px] md:px-[24px]">
+      <div className="flex items-center justify-between gap-[4px] bg-white  max-[300px]:w-[100%] w-[90%] sm:w-[50%] mx-auto rounded-[15px] max-[300px]:px-[10px] px-[20px] py-[10px] relative shadow-bottom-nav">
         <BottomNavLink path="/dashboard" title={"Dashboard"} active={active === 1} onClick={() => AsideNavLinkClicked(1)}>
           <DashboardHomeIcon className={"w-[22px] h-[22px]"} />
         </BottomNavLink>

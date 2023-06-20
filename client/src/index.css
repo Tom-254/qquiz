@@ -52,6 +52,8 @@
   /* Effect styles */
   --main-shadow: 0px 0px 30px rgba(17, 12, 46, 0.02);
   --white-shadow: 0px 1px 20px rgba(17, 12, 46, 0.05);
+  --white-bottom-nav: 0px 0px 111px 12px rgba(0, 0, 0, 0.07);
+
 
   /** General Size Styles **/
   --border-radius-large: 12px;
