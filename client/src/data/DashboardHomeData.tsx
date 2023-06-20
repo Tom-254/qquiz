@@ -30,36 +30,110 @@ export const OverviewData = [
 export const MyQuizzes = [
     {
         id: 1,
-        createdAt: "22.05.2024",
-        title: "Animal Health",
-        peopleTook: "200",
-    }
+        data: [
+            {
+                id: 1,
+                name: "Created at",
+                value: "22.05.2024",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+            {
+                id: 3,
+                name: "Taken by",
+                value: "200",
+            },
+        ]
+    },
+    {
+        id: 2,
+        data: [
+            {
+                id: 1,
+                name: "Created at",
+                value: "22.05.2024",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+            {
+                id: 3,
+                name: "Taken by",
+                value: "200",
+            },
+        ]
+    },
 ]
 
 export const NewQuizzes = [
     {
         id: 1,
         image: JohnSmith,
-        owner: "John Smith",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Owner",
+                value: "John Smith",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
     {
         id: 2,
         image: HeroWor,
-        owner: "Hello World",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Owner",
+                value: "Hello World",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
     {
         id: 3,
         image: SamRajes,
-        owner: "Sam Rajes",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Owner",
+                value: "Sam Rajes",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
     {
         id: 4,
         image: LegendBe,
-        owner: "Legend be",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Owner",
+                value: "Legend Be",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
 ]
 
@@ -67,26 +141,65 @@ export const QuizInvitations = [
     {
         id: 1,
         image: JohnSmith,
-        inviter: "John Smith",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Inviter",
+                value: "John Smith",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
     {
         id: 2,
         image: HeroWor,
-        inviter: "Hello World",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Inviter",
+                value: "Hello World",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
     {
         id: 3,
         image: SamRajes,
-        inviter: "Sam Rajes",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Inviter",
+                value: "Sam Rajes",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
     {
         id: 4,
         image: LegendBe,
-        inviter: "Legend be",
-        title: "Animal Health"
+        data: [
+            {
+                id: 1,
+                name: "Inviter",
+                value: "Legend Be",
+            },
+            {
+                id: 2,
+                name: "Title",
+                value: "Animal Health",
+            },
+        ]
     },
 ]
-

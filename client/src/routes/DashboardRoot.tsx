@@ -6,7 +6,7 @@ const DashboardRoot = () => {
     <main className="relative bg-background h-screen">
       <div className="flex w-full bg-background max-w-[1400px] mx-auto">
         <DashboardAsideNav />
-        <div className="bg-background flex w-full h-full flex-col gap-[30px]">
+        <div className="bg-background flex w-full h-full flex-col gap-[5px]">
           <DashboardTopNav />
           <Outlet />
           <DashboardFooter />

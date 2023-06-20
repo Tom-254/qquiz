@@ -23,6 +23,9 @@ import { ReactComponent as QuizInvitationsIcon } from "../assets/quizz-invitatio
 import { ReactComponent as AverageScoreIcon } from "../assets/average-score-icon.svg";
 import { ReactComponent as AcceptedInvitationsIcon } from "../assets/accepted-invitations-icon.svg";
 import { ReactComponent as MoreMenuIcon } from "../assets/more-icon.svg";
+import { ReactComponent as SeeIcon } from "../assets/see-icon.svg";
+import { ReactComponent as DeleteIcon } from "../assets/delete-icon.svg";
+import { ReactComponent as AcceptInvitation } from "../assets/accept-invitations.svg";
 import AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
@@ -33,6 +36,9 @@ import SamRajes from "../assets/sam-rejesh.svg";
 import LegendBe from "../assets/legend-be.svg";
 
 export {
+  SeeIcon,
+  DeleteIcon,
+  AcceptInvitation,
   MoreMenuIcon,
   JohnSmith,
   HeroWor,
