@@ -7,22 +7,23 @@ import {
   AddChoices,
   AddIcon,
   AvatarIcon,
+  DeleteIcon,
   LongLeftArrow,
   NotificationIcon,
   SearchIcon,
+  UpIcon
 } from "../assets";
 import CustomDialog from "./CustomDialog";
+import { Disclosure } from '@headlessui/react'
 
 type InputsTwo = {
   question: string;
   type: string;
-  choices: string;
 };
 
 const schemaTwo = yup.object().shape({
   question: yup.string().required("This field is required"),
   type: yup.string().required("This field is required"),
-  choices: yup.string().required("This field is required"),
 });
 
 interface Props {
@@ -47,6 +48,9 @@ const FormTwo = ({ next, setNext, closeModal }: Props) => {
     console.log(data);
     // event?.preventDefault();
     setNext((prev) => prev + 1);
+    if (next === 3) {
+      setMainButtonTitle("Save & Continue");
+    }
   };
 
   const goBack = () => {
@@ -126,24 +130,46 @@ const FormTwo = ({ next, setNext, closeModal }: Props) => {
             >
               Choices*
             </label>
-            <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
+            <div className="group flex items-center gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px]">
               <input
-                className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-input focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border "
+                className="outline-none h-full w-full text-primarytext-900 rounded-[8px] "
                 type="text"
                 placeholder="Add  as many choices as you can"
                 id="choices"
-                {...register("choices")}
+                // {...register("choices")}
               />
-              <Button buttonIconRight={<AddChoices />} />
+              <Button
+                which="button"
+                type="link"
+                buttonIconRight={<AddChoices />}
+              />
             </div>
-            {errors.choices && (
+            {/* {errors.choices && (
               <p
                 role="alert"
                 className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
               >
                 {errors.choices.message}
               </p>
-            )}
+            )} */}
+          </div>
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
+              Question choices
+            </p>
+            <div className="group flex flex-col gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px] py-[12px]">
+              <ul className="bg-white h-full max-h-[300px]">
+                <li className="flex items-center gap-[8px] justify-between">
+                  <div className="flex items-center gap-[8px]">
+                    <div className=" max-h-[1px] rounded-full border-[3px] border-secondarytext-600"></div>
+                    <p className="text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)]">
+                      Warm the water and soak.
+                    </p>
+                  </div>
+                  <Button type="link" buttonIconRight={<DeleteIcon />} />
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
@@ -195,6 +221,8 @@ const DashboardTopNav = () => {
   const [mainButtonTitle, setMainButtonTitle] = useState("Continue");
 
   const [next, setNext] = useState(1);
+
+  const [openQuestion, setOpenQuestion] = useState(false);
 
   const {
     register,
@@ -391,6 +419,103 @@ const DashboardTopNav = () => {
         )}
         {next === 2 && (
           <FormTwo next={next} setNext={setNext} closeModal={closeModal} />
+        )}
+
+        {next === 3 && (
+          <>
+            <div className="flex flex-col gap-[24px] p-[24px]">
+              <div className="flex flex-col gap-[8px] w-full">
+                <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+                  Title
+                </p>
+                <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+                  Cooking Dinner
+                </p>
+              </div>
+              <div className="flex flex-col gap-[8px] w-full">
+                <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+                  Category
+                </p>
+                <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+                  Catering
+                </p>
+              </div>
+              <div className="flex flex-col gap-[8px] w-full">
+                <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+                  Description
+                </p>
+                <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+                  Lorem ipsum dolor sit amet consectetur. Malesuada vitae est
+                  amet enim ultrices semper. Odio convallis placerat velit nunc.
+                </p>
+              </div>
+              <div className="flex flex-col gap-[8px] w-full">
+                <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+                  Questions
+                </p>
+                <div>
+                  <div className="w-full px-4 pt-16">
+                    <div className="mx-auto w-full max-w-md rounded-2xl bg-white p-2">
+                      <Disclosure>
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                              <span>What is your refund policy?</span>
+                              <UpIcon
+                                className={`${
+                                  open ? "rotate-180 transform" : ""
+                                } h-5 w-5 text-purple-500`}
+                              />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
+                              If you're unhappy with your purchase for any
+                              reason, email us within 90 days and we'll refund
+                              you in full, no questions asked.
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                      <Disclosure as="div" className="mt-2">
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                              <span>Do you offer technical support?</span>
+                              <UpIcon
+                                className={`${
+                                  open ? "rotate-180 transform" : ""
+                                } h-5 w-5 text-purple-500`}
+                              />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
+                              No.
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
+              <div className="mx-auto sm:mx-0">
+                <Button
+                  which="button"
+                  type="link"
+                  buttonIconLeft={<LongLeftArrow />}
+                  onClick={goBack}
+                >
+                  Back
+                </Button>
+              </div>
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
+                <Button which="button" type="tertiary" onClick={closeModal}>
+                  Cancel
+                </Button>
+                <Button>{mainButtonTitle}</Button>
+              </div>
+            </div>
+          </>
         )}
       </CustomDialog>
     </nav>

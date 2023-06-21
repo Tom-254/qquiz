@@ -32,6 +32,7 @@ import { ReactComponent as EditIcon } from "../assets/edit-icon.svg";
 import { ReactComponent as CloseIcon } from "../assets/close-icon.svg";
 import { ReactComponent as LongLeftArrow } from "../assets/long-left-arrow.svg";
 import { ReactComponent as AddChoices } from "../assets/add-choices-icon.svg";
+import { ReactComponent as UpIcon } from "../assets/up_icon.svg";
 import AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
@@ -42,6 +43,7 @@ import SamRajes from "../assets/sam-rejesh.svg";
 import LegendBe from "../assets/legend-be.svg";
 
 export {
+  UpIcon,
   AddChoices,
   LongLeftArrow,
   CloseIcon,
