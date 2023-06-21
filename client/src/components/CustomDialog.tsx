@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment } from "react";
 import { Button } from ".";
-import { CloseIcon, LongLeftArrow } from "../assets";
+import { CloseIcon } from "../assets";
 
 interface Props {
   isOpen?: boolean;
@@ -57,7 +57,7 @@ const CustomDialog = ({ isOpen, title, closeModal, children }: Props) => {
                       <Button type="link" buttonIconRight={<CloseIcon />} onClick={closeModal} />
                     </div>
                   </Dialog.Title>
-                  <Dialog.Description as="div">
+                  <Dialog.Description as="div" className="relative">
                     {children}
                   </Dialog.Description>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -8,6 +8,7 @@ import {
   AddIcon,
   AvatarIcon,
   DeleteIcon,
+  EditIcon,
   LongLeftArrow,
   NotificationIcon,
   SearchIcon,
@@ -31,12 +32,27 @@ const schema = yup.object().shape({
 type InputsTwo = {
   question: string;
   type: string;
+  choice: string;
 };
 
 const schemaTwo = yup.object().shape({
   question: yup.string().required("This field is required"),
   type: yup.string().required("This field is required"),
+  choice: yup.string(),
 });
+
+type ChoiceArray = Array<string>;
+
+type QuestionsObject = {
+  title: string;
+  category: string;
+  description: string;
+};
+type QuestionObject = {
+  question: string;
+  type: string;
+  choices: Array<string>;
+};
 
 const DashboardTopNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,9 +61,24 @@ const DashboardTopNav = () => {
   );
   const [mainButtonTitle, setMainButtonTitle] = useState("Continue");
 
+  const [choices, setChoices] = useState<ChoiceArray>([]);
+
+  const [formData, setFormData] = useState<QuestionsObject>({
+    title: "",
+    category: "",
+    description: "",
+  });
+
+  const [questions, setQuestions] = useState<QuestionObject[]>([]);
+
+  const [generalError, setGeneralError] = useState("");
+  const [generalSuccess, setGeneralSuccess] = useState("");
+
   const [next, setNext] = useState(1);
 
-  const [openQuestion, setOpenQuestion] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [indexEditing, setIndexingEditing] = useState(0);
+  const [createButtonText, setCreateButtonText] = useState("Create question");
 
   const {
     register,
@@ -61,43 +92,196 @@ const DashboardTopNav = () => {
   const {
     register: formTwoRegister,
     handleSubmit: formTwoHandleSubmit,
+    watch: formTwoWatch,
     reset: formTwoReset,
+    setError: formTwoSetError,
+    setValue: formTwoSetValue,
+    getValues: getFormTwoValues,
+    resetField: formTwoResetField,
     formState: { errors: formTwoErrors },
   } = useForm<InputsTwo>({
     resolver: yupResolver(schemaTwo),
   });
 
-  const onSubmit: SubmitHandler<Inputs | InputsTwo> = (data: object, event) => {
-    console.log(data);
+  // const watchShowQuestion = formTwoWatch("question");
+  const watchShowType = formTwoWatch("type");
+
+  const onSubmit: SubmitHandler<Inputs | InputsTwo> = (
+    data: object,
+    _event
+  ) => {
     // event?.preventDefault();
-    setNext((prev) => prev + 1);
 
     if (next + 1 === 3) {
-      setMainButtonTitle("Save & Continue");
-    }
+      if (watchShowType === "multiple" && choices.length < 2) {
+        formTwoSetError(
+          "choice",
+          {
+            type: "custom",
+            message: "Please add atleast two choices ",
+          },
+          { shouldFocus: true }
+        );
+        return;
+      }
 
-    console.log(next);
+      if (watchShowType === "description") {
+        if (isEditing) {
+          const newQuestions = questions;
+          newQuestions[indexEditing] = {...data, choices: []} as unknown as QuestionObject;
+          setQuestions(newQuestions);
+        } else {
+          setQuestions((prev) => [
+            ...prev,
+            { ...data, choices: [] } as unknown as QuestionObject,
+          ]);
+        }
+      } else {
+        if (isEditing) {
+          const newQuestions = questions;
+          newQuestions[indexEditing] = {...data, choices} as unknown as QuestionObject;
+          setQuestions(newQuestions);
+
+        } else {
+          setQuestions((prev) => [
+            ...prev,
+            { ...data, choices } as unknown as QuestionObject,
+          ]);
+        }
+      }
+      if (isEditing) {
+        setGeneralSuccess("Successfully saved question");
+        setIsEditing(false);
+      } else {
+        setGeneralSuccess("Question created Successfully");
+      }
+      return;
+    }
+    setFormData((prev) => ({ ...prev, ...data }));
+    setCreateQuizTitle("Create Quiz - Add a question ");
+    setNext((prev) => prev + 1);
   };
 
   const closeModal = () => {
     setIsOpen(false);
-    reset();
   };
 
   const closeModalAndClearForm = () => {
-    closeModal();
-    formTwoReset();
+    setIsOpen(false);
   };
 
   const openModal = () => {
     setNext(1);
+    reset();
+    formTwoReset();
+    setChoices([]);
+    setFormData({
+      title: "",
+      category: "",
+      description: "",
+    });
+    setQuestions([]);
+    setIsEditing(false);
+    setCreateQuizTitle("Create Quiz - General Details");
+    setMainButtonTitle("Continue");
+    setCreateButtonText("Create question");
     setIsOpen(true);
+
   };
 
   const goBack = () => {
     setNext((prev) => prev - 1);
     setMainButtonTitle("Continue");
+    setCreateButtonText("Create question");
+    setIsEditing(false);
   };
+
+  const addChoice = () => {
+    const choiceValue = getFormTwoValues("choice");
+    if (!choiceValue) {
+      formTwoSetError(
+        "choice",
+        {
+          type: "custom",
+          message: `Please add a choice`,
+        },
+        { shouldFocus: true }
+      );
+      return;
+    }
+    if (choices.includes(choiceValue)) {
+      formTwoSetError(
+        "choice",
+        {
+          type: "custom",
+          message: `Choice "${choiceValue}" already added`,
+        },
+        { shouldFocus: true }
+      );
+      formTwoResetField("choice", { keepError: true });
+      return;
+    }
+    if (choiceValue !== undefined) setChoices((prev) => [...prev, choiceValue]);
+    formTwoResetField("choice", { keepError: true });
+    return;
+  };
+
+  const continueForward = () => {
+    if (next + 1 === 3 && questions.length === 0) {
+      setGeneralError("Create atleast one question to proceed");
+      return;
+    }
+
+    if (isEditing) {
+      setGeneralError("Save edited question to proceed");
+      return;
+    }
+    setGeneralError("");
+    setNext((prev) => prev + 1);
+    setCreateQuizTitle("Create Quiz - Preview details ");
+    setMainButtonTitle("Save & Continue");
+    setCreateButtonText("Create question");
+  };
+
+  const saveAndContinue = () => {
+    console.log(formData);
+    console.log(questions);
+  };
+
+  const deleteChoice = (index: number) => {
+    const newChoices = choices.filter((_choice, i) => i !== index);
+    setChoices(newChoices);
+  };
+
+  const deleteQuiz = (index: number) => {
+    const newQuestions = questions.filter((_choice, i) => i !== index);
+    setQuestions(newQuestions);
+    if (questions.length === 1) {
+      setNext((prev) => prev - 1);
+    }
+    return;
+  };
+
+  const editQuiz = (index: number) => {
+    formTwoSetValue("question", questions[index]["question"]);
+    formTwoSetValue("type", questions[index]["type"]);
+    setChoices(questions[index]["choices"]);
+    setIsEditing(true);
+    setIndexingEditing(index);
+    setCreateButtonText("Save question");
+    setMainButtonTitle("Continue");
+    setNext((prev) => prev - 1);
+    return;
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setGeneralError("");
+      setGeneralSuccess("");
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [generalError, generalSuccess]);
 
   return (
     <nav className="sticky top-0 h-fit left-0 right-0 py-[16px] z-20 flex items-center justify-between px-[10px] sm:px-[24px] bg-background">
@@ -165,7 +349,7 @@ const DashboardTopNav = () => {
                   htmlFor="title"
                   className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
                 >
-                  Title*
+                  Quizes Title*
                 </label>
                 <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
                   <input
@@ -190,7 +374,7 @@ const DashboardTopNav = () => {
                   htmlFor="category"
                   className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
                 >
-                  Category*
+                  Quiz Category*
                 </label>
                 <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
                   <select
@@ -221,7 +405,7 @@ const DashboardTopNav = () => {
                   htmlFor="description"
                   className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
                 >
-                  Description*
+                  Quiz Description*
                 </label>
                 <div className="group flex items-center gap-[12px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
                   <textarea
@@ -275,7 +459,7 @@ const DashboardTopNav = () => {
                     htmlFor="question"
                     className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
                   >
-                    Title*
+                    Question*
                   </label>
                   <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
                     <input
@@ -300,7 +484,7 @@ const DashboardTopNav = () => {
                     htmlFor="type"
                     className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
                   >
-                    Type*
+                    Answer Type*
                   </label>
                   <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
                     <select
@@ -310,7 +494,7 @@ const DashboardTopNav = () => {
                       {...formTwoRegister("type")}
                     >
                       <option value="">Select question type</option>
-                      <option value="mutliple">Multiple Choice</option>
+                      <option value="multiple">Multiple Choice</option>
                       <option value="description">Description</option>
                     </select>
                   </div>
@@ -324,52 +508,103 @@ const DashboardTopNav = () => {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col gap-[8px] w-full">
-                <label
-                  htmlFor="choices"
-                  className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
-                >
-                  Choices*
-                </label>
-                <div className="group flex items-center gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px]">
-                  <input
-                    className="outline-none h-full w-full text-primarytext-900 rounded-[8px] "
-                    type="text"
-                    placeholder="Add  as many choices as you can"
-                    id="choices"
-                    // {...register("choices")}
-                  />
-                  <Button
-                    which="button"
-                    type="link"
-                    buttonIconRight={<AddChoices />}
-                  />
-                </div>
-                {/* {errors.choices && (
-                <p
-                  role="alert"
-                  className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
-                >
-                  {errors.choices.message}
-                </p>
-              )} */}
-              </div>
-              <div className="flex flex-col gap-[8px] w-full">
-                <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
-                  Question choices
-                </p>
-                <div className="group flex flex-col gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px] py-[12px]">
-                  <ul className="bg-white h-full max-h-[300px]">
-                    <li className="flex items-center gap-[8px] justify-between">
-                      <div className="flex items-center gap-[8px]">
-                        <div className=" max-h-[1px] rounded-full border-[3px] border-secondarytext-600"></div>
-                        <p className="text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)]">
-                          Warm the water and soak.
-                        </p>
-                      </div>
-                      <Button type="link" buttonIconRight={<DeleteIcon />} />
-                    </li>
-                  </ul>
+              {watchShowType === "multiple" && (
+                <>
+                  <div className="flex flex-col gap-[8px] w-full">
+                    <label
+                      htmlFor="choice"
+                      className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+                    >
+                      Choice*
+                    </label>
+                    <div className="group flex items-center gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px]">
+                      <input
+                        className="outline-none h-full w-full text-primarytext-900 rounded-[8px] "
+                        type="text"
+                        placeholder="Add  as many choices as you can"
+                        id="choice"
+                        {...formTwoRegister("choice")}
+                      />
+                      <Button
+                        onClick={addChoice}
+                        which="button"
+                        type="link"
+                        buttonIconRight={<AddChoices />}
+                      />
+                    </div>
+                    {formTwoErrors.choice && (
+                      <p
+                        role="alert"
+                        className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                      >
+                        {formTwoErrors.choice.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex flex-col gap-[8px] w-full">
+                    <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
+                      Question choices
+                    </p>
+                    <div className="group flex flex-col gap-[12px] h-full border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px] py-[12px]">
+                      <ul className="bg-white h-full max-h-[300px] flex flex-col gap-[5px]">
+                        {choices &&
+                          choices.map((choice, index) => (
+                            <li
+                              key={index + 1}
+                              className="flex items-center gap-[8px] justify-between"
+                            >
+                              <div className="flex items-center gap-[8px]">
+                                <div className=" max-h-[1px] rounded-full border-[3px] border-secondarytext-600"></div>
+                                <p className="first-letter:uppercase text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)] normal-case">
+                                  {choice}
+                                </p>
+                              </div>
+                              <Button
+                                which="button"
+                                type="link"
+                                buttonIconRight={<DeleteIcon />}
+                                onClick={() => deleteChoice(index)}
+                              />
+                            </li>
+                          ))}
+                        {choices.length === 0 && (
+                          <>
+                            <p>Choices you add will appear here</p>
+                          </>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+              {watchShowType === "description" && (
+                <>
+                  <div className="flex flex-col gap-[8px] w-full">
+                    <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
+                      What is a Description answer ?
+                    </p>
+                    <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+                      A Description answer is one where a user describes what
+                      there answer is. This ofcourse is subject to the rules of
+                      a particular subject
+                    </p>
+                  </div>
+                </>
+              )}
+
+              <div className="flex flex-col gap-[15px]">
+                {generalError && (
+                  <p className=" p-[8px] px-[20px] text-center w-fit rounded-full max-w-sm font-bold bg-red-100 text-primaryred text-[length:var(--button-text-15-b)">
+                    {generalError}
+                  </p>
+                )}
+                {generalSuccess && (
+                  <p className=" p-[8px] px-[20px] text-center w-fit rounded-full max-w-sm font-bold bg-green-100 text-primarygreen text-[length:var(--button-text-15-b)">
+                    {generalSuccess}
+                  </p>
+                )}
+                <div>
+                  <Button type="tertiary">{createButtonText}</Button>
                 </div>
               </div>
             </div>
@@ -392,7 +627,9 @@ const DashboardTopNav = () => {
                 >
                   Cancel
                 </Button>
-                <Button>{mainButtonTitle}</Button>
+                <Button which="button" onClick={continueForward}>
+                  {mainButtonTitle}
+                </Button>
               </div>
             </div>
           </form>
@@ -406,7 +643,7 @@ const DashboardTopNav = () => {
                   Title
                 </p>
                 <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
-                  Cooking Dinner
+                  {formData.title}
                 </p>
               </div>
               <div className="flex flex-col gap-[8px] w-full">
@@ -414,7 +651,7 @@ const DashboardTopNav = () => {
                   Category
                 </p>
                 <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
-                  Catering
+                  {formData.category}
                 </p>
               </div>
               <div className="flex flex-col gap-[8px] w-full">
@@ -430,47 +667,98 @@ const DashboardTopNav = () => {
                 <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
                   Questions
                 </p>
-                <div>
-                  <div className="w-full px-4 pt-16">
-                    <div className="mx-auto w-full max-w-md rounded-2xl bg-white p-2">
-                      <Disclosure>
-                        {({ open }) => (
-                          <>
-                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                              <span>What is your refund policy?</span>
-                              <UpIcon
-                                className={`${
-                                  open ? "rotate-180 transform" : ""
-                                } h-5 w-5 text-purple-500`}
+                <div className="flex flex-col gap-[10px] mx-auto w-full">
+                  {questions.map((question, index) => (
+                    <Disclosure
+                      key={index + 2}
+                      as="div"
+                      className="border-t-[1px] py-[10px]"
+                    >
+                      {({ open }) => (
+                        <>
+                          <div className="flex w-full flex-col sm:flex-row sm:items-center gap-[10px] md:justify-between text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb) focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                            <div className="flex items-center w-full justify-between text-left">
+                              <span className="flex items-center gap-[8px] first-letter:uppercase">
+                                {index + 1}.{" "}
+                                <p className="first-letter:uppercase">
+                                  {question.question}?
+                                </p>
+                              </span>
+                              <Disclosure.Button>
+                                <UpIcon
+                                  className={`${
+                                    open ? "rotate-180 transform" : ""
+                                  } h-[15px] w-[15px] text-purple-500`}
+                                />
+                              </Disclosure.Button>
+                            </div>
+
+                            <div className="flex gap-[16px] w-full border-t-[1px] sm:border-0 pt-[12px] sm:p-0 pb-[5px] ml-auto sm:flex-1">
+                              <Button
+                                which="button"
+                                type="tertiary"
+                                size="icon"
+                                buttonIconRight={<EditIcon />}
+                                onClick={() => editQuiz(index)}
                               />
-                            </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                              If you're unhappy with your purchase for any
-                              reason, email us within 90 days and we'll refund
-                              you in full, no questions asked.
-                            </Disclosure.Panel>
-                          </>
-                        )}
-                      </Disclosure>
-                      <Disclosure as="div" className="mt-2">
-                        {({ open }) => (
-                          <>
-                            <Disclosure.Button className="flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
-                              <span>Do you offer technical support?</span>
-                              <UpIcon
-                                className={`${
-                                  open ? "rotate-180 transform" : ""
-                                } h-5 w-5 text-purple-500`}
+                              <Button
+                                which="button"
+                                type="tertiary"
+                                size="icon"
+                                onClick={() => deleteQuiz(index)}
+                                buttonIconRight={<DeleteIcon />}
                               />
-                            </Disclosure.Button>
-                            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                              No.
-                            </Disclosure.Panel>
-                          </>
-                        )}
-                      </Disclosure>
-                    </div>
-                  </div>
+                            </div>
+                          </div>
+
+                          <Disclosure.Panel className="px-[8px] pt-4 pb-2 text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)">
+                            <div className="flex items-center gap-[8px]">
+                              <p className="text-secondarytext-600 font-bold text-[length:var(--body-text-13-r)]">
+                                Type:
+                              </p>
+                              <Button
+                                which="button"
+                                type="tertiary"
+                                size="small"
+                              >
+                                {question.type === "multiple"
+                                  ? "Multiple Choices"
+                                  : "Description Answer"}
+                              </Button>
+                            </div>
+                            {question.choices && (
+                              <ul className="flex flex-col gap-[4px] mt-[8px]">
+                                {question.choices.map((choice, index) => (
+                                  <li
+                                    key={index + 3}
+                                    className="flex items-center gap-[8px]"
+                                  >
+                                    <div className=" max-h-[1px] rounded-full border-[3px] border-secondarytext-600"></div>
+                                    <p className="text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)]">
+                                      {choice}
+                                    </p>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                            {question.type === "description" && (
+                              <div className="flex flex-col gap-[8px] w-full">
+                                <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
+                                  What is a Description answer ?
+                                </p>
+                                <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+                                  A Description answer is one where a user
+                                  describes what there answer is. This ofcourse
+                                  is subject to the rules of a particular
+                                  subject
+                                </p>
+                              </div>
+                            )}
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                  ))}
                 </div>
               </div>
             </div>
@@ -489,7 +777,9 @@ const DashboardTopNav = () => {
                 <Button which="button" type="tertiary" onClick={closeModal}>
                   Cancel
                 </Button>
-                <Button>{mainButtonTitle}</Button>
+                <Button which="button" onClick={saveAndContinue}>
+                  {mainButtonTitle}
+                </Button>
               </div>
             </div>
           </>
