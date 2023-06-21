@@ -9,7 +9,9 @@ interface Props {
     | "link"
     | "linkunderlined"
     | "navlinkdashboard"
-    | "navlink";
+    | "navlink"
+    | "green"
+    | "red";
   full?: boolean;
   active?: boolean;
   which?: "button" | "reset" | "submit";
@@ -48,6 +50,8 @@ const Button = ({
     navlink: `hover:text-primary text-primarytext-900 font-bold ${
       active ? "text-primarytext-primary" : ""
     }`,
+    green: "border-[1px] border-primarygreen hover:border-primayred hover:bg-primarygreen/20 hover:text-primarygreen text-primarygreen font-bold rounded-[--border-radius-large]",
+    red: "border-[1px] border-primaryred hover:border-primayred hover:bg-primaryred/20 hover:text-primaryred text-primaryred font-bold rounded-[--border-radius-large]"
   };
   const ButtonSize: StringObject = {
     small: `flex flex-row items-center justify-center px-[12px] h-[27px] text-[length:var(--button-text-13-b)] normal-case ${

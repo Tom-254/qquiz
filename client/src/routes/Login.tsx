@@ -95,7 +95,7 @@ const Login = () => {
                 <EmailIcon className="w-fit shrink group-focus-within:text-primary" />
                 <input
                   className="h-[90%] outline-none w-[90%] text-primarytext-900 rounded-[8px]"
-                  type="text"
+                  type="email"
                   placeholder="Email e.g. john@gmail.com"
                   id="email"
                   {...register("email", {
@@ -162,7 +162,7 @@ const Login = () => {
                   Remember me
                 </label>
               </div>
-              <Button type="link">Forgot Password</Button>
+              <Button type="link" which="button">Forgot Password</Button>
             </div>
             <Button
               which="submit"

@@ -18,7 +18,7 @@ import {
 } from "../assets";
 import CustomDialog from "./CustomDialog";
 import { Disclosure } from "@headlessui/react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from ".";
 
 type BottomNavLinkType = {
@@ -116,6 +116,8 @@ const DashboardMains = () => {
   const [createButtonText, setCreateButtonText] = useState("Create question");
 
   const [active, setActive] = useState(1);
+
+  const { pathname } = useLocation();
 
   const {
     register,
@@ -325,6 +327,18 @@ const DashboardMains = () => {
   const AsideNavLinkClicked = (id: number) => {
     setActive(id);
   };
+
+  const location = pathname.split("/").pop()
+
+  useEffect(() => {
+    if (location === "dashboard") {
+      setActive(1);
+    } else if (location === 'quizzes') {
+      setActive(2);
+    } else if (location === 'invitations') {
+      setActive(3);
+    }
+  }, [location])
 
   useEffect(() => {
     const timeout = setTimeout(() => {

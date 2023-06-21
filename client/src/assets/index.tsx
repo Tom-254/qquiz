@@ -41,8 +41,10 @@ import JohnSmith from "../assets/john-smith.svg";
 import HeroWor from "../assets/hello-wor.svg";
 import SamRajes from "../assets/sam-rejesh.svg";
 import LegendBe from "../assets/legend-be.svg";
+import ImagePlaceHolder from "../assets/image-placeholder-icon.svg";
 
 export {
+  ImagePlaceHolder,
   UpIcon,
   AddChoices,
   LongLeftArrow,

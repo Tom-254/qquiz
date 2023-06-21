@@ -26,7 +26,7 @@ const schema = yup.object().shape({
     .string()
     .required("This field is required")
     .email("Please enter a valid email address"),
-    password: yup
+  password: yup
     .string()
     .defined()
     .test(
@@ -40,16 +40,16 @@ const schema = yup.object().shape({
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), undefined], "Passwords must match")
-    .required("This field is required")
+    .required("This field is required"),
 });
 
 const Register = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<Inputs>({
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   const navigate = useNavigate();
@@ -137,7 +137,7 @@ const Register = () => {
                 <EmailIcon className="w-fit shrink group-focus-within:text-primary" />
                 <input
                   className="h-[90%] outline-none w-[90%] text-primarytext-900 rounded-[8px]"
-                  type="text"
+                  type="email"
                   placeholder="Email e.g. john@gmail.com"
                   id="email"
                   {...register("email", {
@@ -214,14 +214,22 @@ const Register = () => {
                 </p>
               )}
             </div>
-            <Button which="submit" size="large" buttonIconRight={<LongRightArrow />}>
+            <Button
+              which="submit"
+              size="large"
+              buttonIconRight={<LongRightArrow />}
+            >
               Create your account
             </Button>
             <div className="flex items-center gap-[8px]">
               <p className="text-secondarytext-500 font-semibold text-[length:var(--body-text-16-sb)]">
                 Already registered?
               </p>
-              <Button which="button" type="linkunderlined" onClick={() => OnClickRedirect("/login")}>
+              <Button
+                which="button"
+                type="linkunderlined"
+                onClick={() => OnClickRedirect("/login")}
+              >
                 Login to your account
               </Button>
             </div>
