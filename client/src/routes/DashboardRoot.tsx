@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { DashboardAsideNav, DashboardFooter, DashboardTopNav } from "../components";
+import { DashboardAsideNav, DashboardFooter, DashboardMains, DashboardTopNav } from "../components";
 
 const DashboardRoot = () => {
   return (
@@ -7,9 +7,7 @@ const DashboardRoot = () => {
       <div className="flex w-full bg-background max-w-[1400px] mx-auto">
         <DashboardAsideNav />
         <div className="bg-background flex w-full h-full flex-col gap-[5px]">
-          <DashboardTopNav />
-          <Outlet />
-          <DashboardFooter />
+          <DashboardMains />
         </div>
       </div>
     </main>

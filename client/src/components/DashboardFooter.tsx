@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button } from ".";
-import { AddIcon, AvatarIcon, DashboardHomeIcon, InvitationsIcon, NotificationIcon, QuizzesIcon, SearchIcon } from "../assets";
+import { AddIcon, DashboardHomeIcon, InvitationsIcon, NotificationIcon, QuizzesIcon, SearchIcon } from "../assets";
 import { Link } from "react-router-dom";
 
 type BottomNavLinkType = {
@@ -38,27 +37,6 @@ const BottomNavLink = ({
 const DashboardFooter = () => {
   const [active, setActive] = useState(1);
 
-
-  const navItems = [
-    {
-      id: 1,
-      path: "/dashboard",
-      icon: <DashboardHomeIcon />,
-      name: "Dashboard",
-    },
-    {
-      id: 2,
-      path: "/dashboard/quizzes",
-      icon: <QuizzesIcon />,
-      name: "Quizzes",
-    },
-    {
-      id: 3,
-      path: "/dashboard/invitations",
-      icon: <InvitationsIcon />,
-      name: "Invitations",
-    },
-  ];
 
   const AsideNavLinkClicked = (id: number) => {
     setActive(id);

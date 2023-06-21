@@ -258,7 +258,14 @@ const DashboardTopNav = () => {
     setQuestions(newQuestions);
     if (questions.length === 1) {
       setNext((prev) => prev - 1);
+      formTwoReset();
+      setChoices([]);
+      setIsEditing(false);
+      setCreateQuizTitle("Create Quiz - Add a question");
+      setMainButtonTitle("Continue");
+      setCreateButtonText("Create question");
     }
+
     return;
   };
 
