@@ -11,195 +11,10 @@ import {
   LongLeftArrow,
   NotificationIcon,
   SearchIcon,
-  UpIcon
+  UpIcon,
 } from "../assets";
 import CustomDialog from "./CustomDialog";
-import { Disclosure } from '@headlessui/react'
-
-type InputsTwo = {
-  question: string;
-  type: string;
-};
-
-const schemaTwo = yup.object().shape({
-  question: yup.string().required("This field is required"),
-  type: yup.string().required("This field is required"),
-});
-
-interface Props {
-  next: number;
-  setNext: React.Dispatch<React.SetStateAction<number>>;
-  closeModal: (event: React.MouseEvent<HTMLElement>) => void;
-}
-
-const FormTwo = ({ next, setNext, closeModal }: Props) => {
-  const [mainButtonTitle, setMainButtonTitle] = useState("Continue");
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<InputsTwo>({
-    resolver: yupResolver(schemaTwo),
-  });
-
-  const onSubmit: SubmitHandler<InputsTwo> = (data: object, event) => {
-    console.log(data);
-    // event?.preventDefault();
-    setNext((prev) => prev + 1);
-    if (next === 3) {
-      setMainButtonTitle("Save & Continue");
-    }
-  };
-
-  const goBack = () => {
-    setNext((prev) => prev - 1);
-  };
-
-  const closeModalAndClearForm = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
-    closeModal(event);
-    reset();
-  };
-
-  return (
-    <>
-      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-[24px] p-[24px]">
-          <div className="flex flex-col sm:flex-row gap-[24px] w-full">
-            <div className="flex flex-col gap-[8px] w-full">
-              <label
-                htmlFor="question"
-                className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
-              >
-                Title*
-              </label>
-              <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
-                <input
-                  className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-input focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border "
-                  type="text"
-                  placeholder="Add  a question."
-                  id="question"
-                  {...register("question")}
-                />
-              </div>
-              {errors.question && (
-                <p
-                  role="alert"
-                  className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
-                >
-                  {errors.question.message}
-                </p>
-              )}
-            </div>
-            <div className="flex flex-col gap-[8px] w-full">
-              <label
-                htmlFor="type"
-                className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
-              >
-                Type*
-              </label>
-              <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
-                <select
-                  className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-select focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border"
-                  placeholder="Select the Quiz Category e.g. Catering"
-                  id="type"
-                  {...register("type")}
-                >
-                  <option value="">Select question type</option>
-                  <option value="mutliple">Multiple Choice</option>
-                  <option value="description">Description</option>
-                </select>
-              </div>
-              {errors.type && (
-                <p
-                  role="alert"
-                  className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
-                >
-                  {errors.type.message}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col gap-[8px] w-full">
-            <label
-              htmlFor="choices"
-              className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
-            >
-              Choices*
-            </label>
-            <div className="group flex items-center gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px]">
-              <input
-                className="outline-none h-full w-full text-primarytext-900 rounded-[8px] "
-                type="text"
-                placeholder="Add  as many choices as you can"
-                id="choices"
-                // {...register("choices")}
-              />
-              <Button
-                which="button"
-                type="link"
-                buttonIconRight={<AddChoices />}
-              />
-            </div>
-            {/* {errors.choices && (
-              <p
-                role="alert"
-                className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
-              >
-                {errors.choices.message}
-              </p>
-            )} */}
-          </div>
-          <div className="flex flex-col gap-[8px] w-full">
-            <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
-              Question choices
-            </p>
-            <div className="group flex flex-col gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px] py-[12px]">
-              <ul className="bg-white h-full max-h-[300px]">
-                <li className="flex items-center gap-[8px] justify-between">
-                  <div className="flex items-center gap-[8px]">
-                    <div className=" max-h-[1px] rounded-full border-[3px] border-secondarytext-600"></div>
-                    <p className="text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)]">
-                      Warm the water and soak.
-                    </p>
-                  </div>
-                  <Button type="link" buttonIconRight={<DeleteIcon />} />
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
-          {next !== 1 && (
-            <div className="mx-auto sm:mx-0">
-              <Button
-                which="button"
-                type="link"
-                buttonIconLeft={<LongLeftArrow />}
-                onClick={goBack}
-              >
-                Back
-              </Button>
-            </div>
-          )}
-          <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
-            <Button
-              which="button"
-              type="tertiary"
-              onClick={closeModalAndClearForm}
-            >
-              Cancel
-            </Button>
-            <Button>{mainButtonTitle}</Button>
-          </div>
-        </div>
-      </form>
-    </>
-  );
-};
+import { Disclosure } from "@headlessui/react";
 
 type Inputs = {
   title: string;
@@ -211,6 +26,16 @@ const schema = yup.object().shape({
   title: yup.string().required("This field is required"),
   category: yup.string().required("This field is required"),
   description: yup.string().required("This field is required"),
+});
+
+type InputsTwo = {
+  question: string;
+  type: string;
+};
+
+const schemaTwo = yup.object().shape({
+  question: yup.string().required("This field is required"),
+  type: yup.string().required("This field is required"),
 });
 
 const DashboardTopNav = () => {
@@ -233,15 +58,35 @@ const DashboardTopNav = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (data: object, event) => {
+  const {
+    register: formTwoRegister,
+    handleSubmit: formTwoHandleSubmit,
+    reset: formTwoReset,
+    formState: { errors: formTwoErrors },
+  } = useForm<InputsTwo>({
+    resolver: yupResolver(schemaTwo),
+  });
+
+  const onSubmit: SubmitHandler<Inputs | InputsTwo> = (data: object, event) => {
     console.log(data);
     // event?.preventDefault();
     setNext((prev) => prev + 1);
+
+    if (next + 1 === 3) {
+      setMainButtonTitle("Save & Continue");
+    }
+
+    console.log(next);
   };
 
   const closeModal = () => {
     setIsOpen(false);
     reset();
+  };
+
+  const closeModalAndClearForm = () => {
+    closeModal();
+    formTwoReset();
   };
 
   const openModal = () => {
@@ -251,6 +96,7 @@ const DashboardTopNav = () => {
 
   const goBack = () => {
     setNext((prev) => prev - 1);
+    setMainButtonTitle("Continue");
   };
 
   return (
@@ -418,7 +264,138 @@ const DashboardTopNav = () => {
           </form>
         )}
         {next === 2 && (
-          <FormTwo next={next} setNext={setNext} closeModal={closeModal} />
+          <form
+            className="flex flex-col"
+            onSubmit={formTwoHandleSubmit(onSubmit)}
+          >
+            <div className="flex flex-col gap-[24px] p-[24px]">
+              <div className="flex flex-col sm:flex-row gap-[24px] w-full">
+                <div className="flex flex-col gap-[8px] w-full">
+                  <label
+                    htmlFor="question"
+                    className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+                  >
+                    Title*
+                  </label>
+                  <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
+                    <input
+                      className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-input focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border "
+                      type="text"
+                      placeholder="Add  a question."
+                      id="question"
+                      {...formTwoRegister("question")}
+                    />
+                  </div>
+                  {formTwoErrors.question && (
+                    <p
+                      role="alert"
+                      className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                    >
+                      {formTwoErrors.question.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex flex-col gap-[8px] w-full">
+                  <label
+                    htmlFor="type"
+                    className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+                  >
+                    Type*
+                  </label>
+                  <div className="group flex items-center gap-[12px] h-[48px] border-[1px] rounded-[12px] focus-within:border-primary text-secondarytext-500">
+                    <select
+                      className="outline-none h-full w-full text-primarytext-900 rounded-[8px] form-select focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none border-[1px] border-border"
+                      placeholder="Select the Quiz Category e.g. Catering"
+                      id="type"
+                      {...formTwoRegister("type")}
+                    >
+                      <option value="">Select question type</option>
+                      <option value="mutliple">Multiple Choice</option>
+                      <option value="description">Description</option>
+                    </select>
+                  </div>
+                  {formTwoErrors.type && (
+                    <p
+                      role="alert"
+                      className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                    >
+                      {formTwoErrors.type.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col gap-[8px] w-full">
+                <label
+                  htmlFor="choices"
+                  className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]"
+                >
+                  Choices*
+                </label>
+                <div className="group flex items-center gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px]">
+                  <input
+                    className="outline-none h-full w-full text-primarytext-900 rounded-[8px] "
+                    type="text"
+                    placeholder="Add  as many choices as you can"
+                    id="choices"
+                    // {...register("choices")}
+                  />
+                  <Button
+                    which="button"
+                    type="link"
+                    buttonIconRight={<AddChoices />}
+                  />
+                </div>
+                {/* {errors.choices && (
+                <p
+                  role="alert"
+                  className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                >
+                  {errors.choices.message}
+                </p>
+              )} */}
+              </div>
+              <div className="flex flex-col gap-[8px] w-full">
+                <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
+                  Question choices
+                </p>
+                <div className="group flex flex-col gap-[12px] h-[48px] border-[2px] rounded-[12px] focus-within:border-primary text-secondarytext-500 px-[12px] py-[12px]">
+                  <ul className="bg-white h-full max-h-[300px]">
+                    <li className="flex items-center gap-[8px] justify-between">
+                      <div className="flex items-center gap-[8px]">
+                        <div className=" max-h-[1px] rounded-full border-[3px] border-secondarytext-600"></div>
+                        <p className="text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)]">
+                          Warm the water and soak.
+                        </p>
+                      </div>
+                      <Button type="link" buttonIconRight={<DeleteIcon />} />
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
+              <div className="mx-auto sm:mx-0">
+                <Button
+                  which="button"
+                  type="link"
+                  buttonIconLeft={<LongLeftArrow />}
+                  onClick={goBack}
+                >
+                  Back
+                </Button>
+              </div>
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
+                <Button
+                  which="button"
+                  type="tertiary"
+                  onClick={closeModalAndClearForm}
+                >
+                  Cancel
+                </Button>
+                <Button>{mainButtonTitle}</Button>
+              </div>
+            </div>
+          </form>
         )}
 
         {next === 3 && (
