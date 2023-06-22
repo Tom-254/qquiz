@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -15,9 +15,10 @@ import {
   AvatarIcon,
   DeleteIcon,
   NotificationIcon,
+  CloseIcon,
 } from "../assets";
 import CustomDialog from "./CustomDialog";
-import { Disclosure } from "@headlessui/react";
+import { Disclosure, Popover } from "@headlessui/react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from ".";
 
@@ -118,6 +119,7 @@ const DashboardMains = () => {
   const [active, setActive] = useState(1);
 
   const { pathname } = useLocation();
+
 
   const {
     register,
@@ -328,17 +330,17 @@ const DashboardMains = () => {
     setActive(id);
   };
 
-  const location = pathname.split("/").pop()
+  const location = pathname.split("/").pop();
 
   useEffect(() => {
     if (location === "dashboard") {
       setActive(1);
-    } else if (location === 'quizzes') {
+    } else if (location === "quizzes") {
       setActive(2);
-    } else if (location === 'invitations') {
+    } else if (location === "invitations") {
       setActive(3);
     }
-  }, [location])
+  }, [location]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -396,11 +398,28 @@ const DashboardMains = () => {
                 placeholder="Search"
               />
             </div>
-            <div className="flex items-center justify-center bg-white shadow-custom-main rounded-full h-[48px] w-[48px] p-[11px]">
-              <Button type="link">
+            <Popover className="relative flex items-center justify-center bg-white shadow-custom-main rounded-full h-[48px] w-[48px] p-[11px]" >
+              <Popover.Button className="focus:outline-none">
                 <NotificationIcon />
-              </Button>
-            </div>
+              </Popover.Button>
+
+              <Popover.Panel
+                as="div"
+                className="absolute shadow-lg top-[60px] right-0 z-40 bg-white flex flex-col rounded-[16px]"
+              >
+                <div className="px-[20px] pt-[15px] pb-[10px] w-full border-b-[1px] border-border/20 flex items-center justify-between">
+                  <p className="text-primarytext-1000 font-extrabold text-[length:var(--h6-title-16)] ">
+                    Notifications
+                  </p>
+                  <div className="text-secondarytext-500"><Popover.Button><Button type="link" buttonIconRight={<CloseIcon className="text-secondarytext-600 h-[14px] w-[14px]" />} /></Popover.Button></div>
+                </div>
+                <ul className="flex flex-col w-[260px] sm:w-[350px] px-[20px] pt-[5px] pb-[12px] rounded-[24px]">
+                  <li className="cursor-pointer flex items-center  gap-[16px] py-[12px] w-full text-[length:var(--h6-title-16)] text-secondarytext-600 font-medium"><div className="flex items-center justify-center bg-background w-[45px] h-[45px] p-[10px] rounded-full">
+                    <InvitationsIcon />
+                  </div> New invitation from Juma!!</li>
+                </ul>
+              </Popover.Panel>
+            </Popover>
           </div>
         </div>
         <CustomDialog

@@ -66,7 +66,7 @@ const DashboardAsideNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
 
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   const {
     register,
@@ -121,21 +121,17 @@ const DashboardAsideNav = () => {
     console.log(data);
   };
 
-  const location = pathname.split("/").pop()
+  const location = pathname.split("/").pop();
 
   useEffect(() => {
     if (location === "dashboard") {
       setActive(1);
-    } else if (location === 'quizzes') {
+    } else if (location === "quizzes") {
       setActive(2);
-    } else if (location === 'invitations') {
+    } else if (location === "invitations") {
       setActive(3);
     }
-  }, [location])
-
-
-
-
+  }, [location]);
 
   return (
     <>
@@ -201,9 +197,14 @@ const DashboardAsideNav = () => {
         title={"Edit Profile Details"}
         closeModal={closeModal}
       >
-        <form className="flex flex-col py-[24px]" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="flex flex-col py-[24px]"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="flex flex-col gap-[24px] px-[24px] sm:flex-row sm:justify-between sm:items-center sm:w-[70%] sm:mx-auto">
-            <div className="w-[88px] h-[80px]"><img src={ImagePlaceHolder} alt="Person Image" /></div>
+            <div className="w-[88px] h-[80px]">
+              <img src={ImagePlaceHolder} alt="Person Image" />
+            </div>
             <div className="flex flex-row items-center gap-[16px]">
               <Button which="button" type="green" size="small">
                 Update
@@ -264,23 +265,39 @@ const DashboardAsideNav = () => {
                 </p>
               )}
             </div>
-
           </div>
           <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
-              <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
-                <Button which="button" type="tertiary" onClick={closeModal}>
-                  Cancel
-                </Button>
-                <Button which="submit">Save changes</Button>
-              </div>
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
+              <Button which="button" type="tertiary" onClick={closeModal}>
+                Cancel
+              </Button>
+              <Button which="submit">Save changes</Button>
             </div>
+          </div>
         </form>
       </CustomDialog>
-      <CustomDialog isOpen={isOpenProfile}
-      title={"Profile Details"}
-      closeModal={closeProfileModal}
+      <CustomDialog
+        isOpen={isOpenProfile}
+        title={"Profile Details"}
+        closeModal={closeProfileModal}
       >
-
+        <div className="flex flex-col justify-center items-center sm:mx-auto my-[100px] sm:w-[70%] text-center gap-[20px]">
+          <div className="flex items-center justify-center w-[100px] h-[100px] rounded-full">
+            <img
+              className="rounded-full w-full"
+              src={AvatarIcon}
+              alt="Profile Image"
+            />
+          </div>
+          <div className="flex flex-col gap-[5px]">
+          <p className="text-primarytext-1000 font-extrabold text-[length:var(--h6-title-16)] ">
+            Louis Carter
+          </p>
+            <p  className=" text-secondarytext-600 font-medium text-[length:var(--button-text-15-b)] ">
+              louiscarte@gmail.com
+            </p>
+          </div>
+        </div>
       </CustomDialog>
     </>
   );
