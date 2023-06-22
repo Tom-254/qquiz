@@ -26,4 +26,7 @@
 - "git commit -m "feat: Add Necessary Fonts; added appropriate fonts; branch: origin/dev""
 
 # QQUIZ Environment Variables
-#### export QQUIZ_MYSQL_USER=qquiz_dev export QQUIZ_MYSQL_PWD=Joshuat254 export QQUIZ_MYSQL_HOST=localhost export QQUIZ_MYSQL_DB=qquiz_dev_db export QQUIZ_API_HOST=0.0.0.0 export QQUIZ_API_PORT=5000 python3 -m api.v1.app
+#### export QQUIZ_MYSQL_USER=qquiz_dev export QQUIZ_MYSQL_PWD="Joshuat25422?*)" export QQUIZ_MYSQL_HOST=localhost export QQUIZ_MYSQL_DB=qquiz_dev_db export QQUIZ_API_HOST=0.0.0.0 export QQUIZ_API_PORT=5000 python3 -m api.v1.app
+
+### N/B Run this to ensure mysqlclient installs in Ubuntu22.04
+# sudo apt-get install build-essential libapache2-mod-wsgi-py3 libmysqlclient-dev

@@ -4,7 +4,7 @@
 """
 import os
 from sqlalchemy import create_engine
-from models.base_model import Base
+from models.base import Base
 from models.user import User
 from sqlalchemy.orm import sessionmaker, scoped_session
 
@@ -20,10 +20,10 @@ class DBStorage():
         """
         Creates engine connection
         """
-        username = os.getenv('ISHARE_MYSQL_USER', default=None)
-        password = os.getenv('ISHARE_MYSQL_PWD', default=None)
-        db_host = os.getenv('ISHARE_MYSQL_HOST', default=None)
-        db_name = os.getenv('ISHARE_MYSQL_DB', default=None)
+        username = os.getenv('QQUIZ_MYSQL_USER', default=None)
+        password = os.getenv('QQUIZ_MYSQL_PWD', default=None)
+        db_host = os.getenv('QQUIZ_MYSQL_HOST', default=None)
+        db_name = os.getenv('QQUIZ_MYSQL_DB', default=None)
         connection = 'mysql+mysqldb://{}:{}@{}/{}'
         self.__engine = create_engine(connection.format(
             username, password, db_host, db_name), pool_pre_ping=True)

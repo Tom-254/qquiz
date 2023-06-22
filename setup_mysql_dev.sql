@@ -12,4 +12,4 @@ GRANT SELECT ON performance_schema.* TO 'qquiz_dev'@'localhost' WITH GRANT OPTIO
 FLUSH PRIVILEGES;
 
 ALTER USER 'qquiz_dev'@'localhost'
-IDENTIFIED WITH mysql_native_password BY 'Joshuat254';
+IDENTIFIED WITH mysql_native_password BY 'Joshuat25422?*)';

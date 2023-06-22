@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+export QQUIZ_MYSQL_USER=qquiz_dev export QQUIZ_MYSQL_PWD="Joshuat25422?*)" export QQUIZ_MYSQL_HOST=localhost export QQUIZ_MYSQL_DB=qquiz_dev_db export QQUIZ_API_HOST=0.0.0.0 export QQUIZ_API_PORT=5000

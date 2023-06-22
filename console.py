@@ -7,7 +7,7 @@ import re
 import cmd
 import shlex
 import models
-from models.base_model import BaseModel
+from models.base import BaseModel
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 

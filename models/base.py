@@ -5,11 +5,15 @@
 
 import uuid
 from datetime import datetime
+from typing import TypeVar, List, Iterable
 import models
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 
 Base = declarative_base()
+
+
+TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S"
 
 
 class BaseModel:
@@ -61,6 +65,15 @@ class BaseModel:
         return ("[{}] ({}) {}".format(self.__class__.__name__,
                                       self.id, self.__dict__))
 
+    def __eq__(self, other):
+        """ Equality
+        """
+        if type(self) != type(other):
+            return False
+        if not isinstance(self, Base):
+            return False
+        return (self.id == other.id)
+
     def save(self):
         """
             Update the updated_at attribute with new.
@@ -92,3 +105,28 @@ class BaseModel:
                 by calling the method delete.
         """
         models.storage.delete(self)
+
+    @classmethod
+    def count(cls) -> int:
+        """ Count all objects
+        """
+        pass
+
+    @classmethod
+    def all(cls) -> Iterable[TypeVar('Base')]:
+        """ Return all objects
+        """
+        pass
+
+    @classmethod
+    def get(cls, id: str) -> TypeVar('Base'):
+        """ Return one object by ID
+        """
+        pass
+
+    @classmethod
+    def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
+        """ Search all objects with matching attributes
+        """
+        pass
+
