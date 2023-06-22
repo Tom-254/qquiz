@@ -13,9 +13,6 @@ from sqlalchemy import Column, String, DateTime
 Base = declarative_base()
 
 
-TIMESTAMP_FORMAT = "%Y-%m-%dT%H:%M:%S"
-
-
 class BaseModel:
     """
         Base class inheritated by other classes
@@ -99,34 +96,54 @@ class BaseModel:
 
         return (copy_dict)
 
+    def to_json(self, for_serialization: bool = False) -> dict:
+        """ Convert the object a JSON dictionary
+        """
+        result = {}
+        for key, value in self.__dict__.items():
+            if not for_serialization and key[0] == '_':
+                continue
+            if type(value) is datetime:
+                result[key] = value.strftime("%Y-%m-%dT%H:%M:%S.%f")
+            else:
+                result[key] = value
+        return result
+
     def delete(self):
         """
             Deletes the current instance from the storage
                 by calling the method delete.
         """
-        models.storage.delete(self)
+        return  models.storage.delete(self)
 
     @classmethod
     def count(cls) -> int:
         """ Count all objects
         """
-        pass
+        return models.storage.count(cls)
 
     @classmethod
     def all(cls) -> Iterable[TypeVar('Base')]:
         """ Return all objects
         """
-        pass
+        return models.storage.all(cls)
 
     @classmethod
     def get(cls, id: str) -> TypeVar('Base'):
         """ Return one object by ID
         """
-        pass
+        return models.storage.get(cls, id)
 
     @classmethod
     def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
         """ Search all objects with matching attributes
         """
-        pass
+        return list(filter(self._search, models.storage[cls.__name__].values()))
 
+    def _search(obj, attributes: dict = {}) -> bool:
+        if len(attributes) == 0:
+            return True
+        for k, v in attributes.items():
+            if (getattr(obj, k) != v):
+                return False
+        return True

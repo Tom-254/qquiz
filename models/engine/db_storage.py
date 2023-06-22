@@ -41,7 +41,7 @@ class DBStorage():
                 key = item.__class__.__name__ + '.' + item.id
                 new_dict[key] = item
         else:
-            classes = [User, Image, SharedWith]
+            classes = [User]
             for class_name in classes:
                 try:
                     result = (self.__session.query(class_name).all())

@@ -24,8 +24,7 @@ class User(BaseModel, Base):
         super().__init__(*args, **kwargs)
         self.email = kwargs.get('email')
         self._password = kwargs.get('_password')
-        self.first_name = kwargs.get('first_name')
-        self.last_name = kwargs.get('last_name')
+        self.full_name = kwargs.get('full_name')
 
     @property
     def password(self) -> str:
@@ -53,16 +52,11 @@ class User(BaseModel, Base):
         return hashlib.sha256(pwd_e).hexdigest().lower() == self.password
 
     def display_name(self) -> str:
-        """ Display User name based on email/first_name/last_name
+        """ Display User name based on email/full_name/last_name
         """
-        if self.email is None and self.first_name is None \
-                and self.last_name is None:
+        if self.email is None and self.full_name is None:
             return ""
-        if self.first_name is None and self.last_name is None:
+        if self.full_name is None:
             return "{}".format(self.email)
-        if self.last_name is None:
-            return "{}".format(self.first_name)
-        if self.first_name is None:
-            return "{}".format(self.last_name)
         else:
-            return "{} {}".format(self.first_name, self.last_name)
+            return "{} {}".format(self.full_name)
