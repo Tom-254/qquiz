@@ -4,7 +4,7 @@ for the Session authentication
 """
 import os
 from typing import Tuple
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, make_response
 
 from models.user import User
 from api.v1.views import app_views
@@ -17,10 +17,15 @@ def login() -> Tuple[str, int]:
       - JSON representation of a User object.
     """
     error_not_found = {"error": "no user found for this email"}
-    email = request.form.get('email')
+    try:
+        request_data = request.get_json()
+    except Exception as ex:
+        return make_response(jsonify({'error': 'Not a JSON', "status" : 400}))
+
+    email = request_data.get('email')
     if not email or not email.strip():
         return jsonify({"error": "email missing"}), 400
-    password = request.form.get('password')
+    password = request_data.get('password')
     if not password or not password.strip():
         return jsonify({"error": "password missing"}), 400
     try:
@@ -30,6 +35,7 @@ def login() -> Tuple[str, int]:
     if len(users) <= 0:
         return jsonify(error_not_found), 404
     if users[0].is_valid_password(password):
+
         from api.v1.app import auth
         sessiond_id = auth.create_session(getattr(users[0], 'id'))
         res = jsonify(users[0].to_json())
@@ -48,4 +54,4 @@ def logout() -> Tuple[str, int]:
     from api.v1.app import auth
     if not auth.destroy_session(request):
         abort(404)
-    return jsonify({})
+    return jsonify({"success": "Logged out successfully"})

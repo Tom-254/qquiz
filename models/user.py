@@ -13,18 +13,21 @@ class User(BaseModel, Base):
     Definition of the User class
     """
     __tablename__ = "users"
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False, unique=True)
     full_name = Column(String(128), nullable=False)
+    _password = Column(String(128), nullable=False)
     profile_image = Column(String(128), nullable=True)
+    session_user = relationship("UserSession", backref="user",
+                                cascade="delete")
 
     def __init__(self, *args: list, **kwargs: dict):
         """ Initialize a User instance
         """
         super().__init__(*args, **kwargs)
         self.email = kwargs.get('email')
-        self._password = kwargs.get('_password')
+        self._password = kwargs.get('password')
         self.full_name = kwargs.get('full_name')
+        self.profile_image = kwargs.get("profile_image");
 
     @property
     def password(self) -> str:

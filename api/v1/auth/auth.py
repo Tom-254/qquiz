@@ -3,23 +3,22 @@
 """
 import re
 import os
-from typing import List, TypeVar
+from typing import List, TypeVar, Tuple
 from flask import request
 
 class Auth:
     """Class to manage the API authentication.
     """
 
-    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
+    def require_auth(self, path: str, excluded_paths: List[Tuple[str, str]], method: str) -> bool:
         """Checks if a path requires authentication.
         """
         if path is not None and excluded_paths is not None:
             for excluded_path in excluded_paths:
-                excluded_regex = '^{}$'.format(re.escape(
-                    excluded_path.rstrip('/')).replace('\\*', '.*') + '/?.*')
-                if re.match(excluded_regex, path):
+                if path == excluded_path[0] and method in excluded_path[1].split(","):
                     return False
         return True
+
 
     def authorization_header(self, request=None) -> str:
         """Returns authorization header.

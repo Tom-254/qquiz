@@ -79,6 +79,11 @@ class BaseModel:
         models.storage.new(self)
         models.storage.save()
 
+    def remove(self):
+        """ Remove object
+        """
+        models.storage.delete(self);
+
     def to_dict(self):
         """
             Return dictionary representation of BaseModel class.
@@ -114,7 +119,7 @@ class BaseModel:
             Deletes the current instance from the storage
                 by calling the method delete.
         """
-        return  models.storage.delete(self)
+        return models.storage.delete(self)
 
     @classmethod
     def count(cls) -> int:
@@ -138,12 +143,11 @@ class BaseModel:
     def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
         """ Search all objects with matching attributes
         """
-        return list(filter(self._search, models.storage[cls.__name__].values()))
-
-    def _search(obj, attributes: dict = {}) -> bool:
-        if len(attributes) == 0:
+        def _search(obj, attributes: dict = {}) -> bool:
+            if len(attributes) == 0:
+                return True
+            for k, v in attributes.items():
+                if (getattr(obj, k) != v):
+                    return False
             return True
-        for k, v in attributes.items():
-            if (getattr(obj, k) != v):
-                return False
-        return True
+        return list(filter(_search, models.storage.all(cls.__name__).values()))

@@ -2,8 +2,9 @@
 """ Module of Users views
 """
 from api.v1.views import app_views
-from flask import abort, jsonify, request
+from flask import jsonify, abort, request, make_response
 from models.user import User
+from models import storage
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
@@ -64,35 +65,45 @@ def create_user() -> str:
     JSON body:
       - email
       - password
-      - last_name (optional)
-      - first_name (optional)
+      - full_name
     Return:
       - User object JSON represented
       - 400 if can't create the new User
     """
+
     rj = None
     error_msg = None
     try:
         rj = request.get_json()
     except Exception as e:
         rj = None
+
+    # print(rj.get("full_name"))
+    # return rj.get("full_name")
     if rj is None:
         error_msg = "Wrong format"
+    if error_msg is None and rj.get("full_name", "") == "":
+        error_msg = "full name missing"
     if error_msg is None and rj.get("email", "") == "":
         error_msg = "email missing"
     if error_msg is None and rj.get("password", "") == "":
         error_msg = "password missing"
     if error_msg is None:
         try:
+            user = storage.get_user_with_email(rj.get("email")).to_dict()
+            return make_response(jsonify({"error": "Email Already Taken"}))
+        except Exception:
+            pass
+        try:
             user = User()
             user.email = rj.get("email")
             user.password = rj.get("password")
-            user.first_name = rj.get("first_name")
-            user.last_name = rj.get("last_name")
+            user.full_name = rj.get("full_name")
+            user.profile_image = rj.get("profile_image");
             user.save()
             return jsonify(user.to_json()), 201
         except Exception as e:
-            error_msg = "Can't create User: {}".format(e)
+            error_msg = "Can't create User"
     return jsonify({'error': error_msg}), 400
 
 
@@ -102,8 +113,7 @@ def update_user(user_id: str = None) -> str:
     Path parameter:
       - User ID
     JSON body:
-      - last_name (optional)
-      - first_name (optional)
+      - full_name (optional)
     Return:
       - User object JSON represented
       - 404 if the User ID doesn't exist
@@ -121,9 +131,11 @@ def update_user(user_id: str = None) -> str:
         rj = None
     if rj is None:
         return jsonify({'error': "Wrong format"}), 400
-    if rj.get('first_name') is not None:
-        user.first_name = rj.get('first_name')
-    if rj.get('last_name') is not None:
-        user.last_name = rj.get('last_name')
+    if rj.get('full_name') is not None:
+        user.full_name = rj.get('full_name')
+    if rj.get('profile_image') is not None:
+        user.profile_image = rj.get('profile_image')
+    if rj.get('email') is not None:
+        user.profile_image = rj.get('email')
     user.save()
     return jsonify(user.to_json()), 200
