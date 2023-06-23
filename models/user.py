@@ -19,7 +19,6 @@ class User(BaseModel, Base):
     profile_image = Column(String(128), nullable=True)
     session_user = relationship("UserSession", backref="user",
                                 cascade="delete")
-    questions = relationship('Question', backref='user')
 
 
     def __init__(self, *args: list, **kwargs: dict):

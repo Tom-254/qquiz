@@ -7,6 +7,10 @@ from sqlalchemy import create_engine
 from models.base import Base
 from models.user import User
 from models.user_session import UserSession
+from models.choice import Choice
+from models.question import Question
+from models.question_general_detail import QuestionGeneralDetail
+from models.qustion_category import QuestionCategory
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
@@ -42,7 +46,7 @@ class DBStorage():
                 key = item.__class__.__name__ + '.' + item.id
                 new_dict[key] = item
         else:
-            classes = [User, UserSession]
+            classes = [User, UserSession, QuestionCategory, QuestionGeneralDetail, Question, Choice]
             for class_name in classes:
                 try:
                     result = (self.__session.query(class_name).all())
@@ -102,7 +106,7 @@ class DBStorage():
         if obj is not None:
             self.__session.delete(obj)
             self.save()
-            
+
     def reload(self):
         """
         Creates all tables in the database.

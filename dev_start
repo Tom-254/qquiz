@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+. ./create_environment && ./start_api
