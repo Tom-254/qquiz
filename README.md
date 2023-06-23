@@ -29,4 +29,4 @@
 #### export QQUIZ_MYSQL_USER=qquiz_dev export QQUIZ_MYSQL_PWD="Joshuat25422?*)" export QQUIZ_MYSQL_HOST=localhost SESSION_NAME="_my_session_id" export QQUIZ_MYSQL_DB=qquiz_dev_db export QQUIZ_API_HOST=0.0.0.0 export QQUIZ_API_PORT=5000 SESSION_DURATION=60 python3 -m api.v1.app
 
 ### N/B Run this to ensure mysqlclient installs in Ubuntu22.04
-# sudo apt-get install build-essential libapache2-mod-wsgi-py3 libmysqlclient-dev
+# sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config

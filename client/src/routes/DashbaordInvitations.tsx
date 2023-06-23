@@ -1,4 +1,4 @@
-import { AcceptInvitation, DeleteIcon, EditIcon, InvitationsIcon, PrivateIcon, PublicIcon, SeeIcon } from "../assets";
+import { AcceptInvitation, EditIcon, PrivateIcon, PublicIcon, SeeIcon } from "../assets";
 import { Button } from "../components";
 import { Invitations } from "../data";
 

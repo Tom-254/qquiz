@@ -1,5 +1,4 @@
-import { Outlet } from "react-router-dom";
-import { DashboardAsideNav, DashboardFooter, DashboardMains, DashboardTopNav } from "../components";
+import { DashboardAsideNav, DashboardMains } from "../components";
 
 const DashboardRoot = () => {
   return (

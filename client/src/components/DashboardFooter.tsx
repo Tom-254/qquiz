@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AddIcon, DashboardHomeIcon, InvitationsIcon, NotificationIcon, QuizzesIcon, SearchIcon } from "../assets";
+import { AddIcon, DashboardHomeIcon, InvitationsIcon, QuizzesIcon, SearchIcon } from "../assets";
 import { Link } from "react-router-dom";
 
 type BottomNavLinkType = {
