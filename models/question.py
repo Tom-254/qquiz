@@ -13,4 +13,4 @@ class Question(BaseModel, Base):
     answer_type = Column(Enum('multiple', 'description'))
     visibility = Column(Enum('public', 'private'))
     general_detail_id = Column(String(60), ForeignKey('question_general_detail.id'))
-    choices = relationship('Choice', backref='question')
+    choices = relationship('Choice', backref='question', cascade="delete")

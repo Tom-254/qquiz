@@ -6,7 +6,6 @@ from models.question_general_detail import QuestionGeneralDetail
 from models.question_category import QuestionCategory
 from models.choice import Choice
 
-
 class Questions:
     """Class to manage All aspects relating to Quiz Creation
     """
@@ -86,7 +85,7 @@ class Questions:
         quiz.save()
         return {**quiz.to_json(), "choices" : [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
 
-    def read_quiz(self, id: str) -> QuestionCategory:
+    def read_quiz(self, id: str) -> Question:
         """Read a quiz with the given id."""
         return Question.get(id)
 

@@ -1,5 +1,8 @@
 from flask import request, jsonify, abort
+from sqlalchemy.orm import make_transient
+import models
 
+from models.choice import Choice
 from models.user import User
 from api.v1.views import app_views
 from api.v1.questions.questions import Questions
@@ -21,11 +24,13 @@ def create_category():
         abort(400)
 
     return jsonify(question_controllers.create_category(
-                    request_data.get("name")).to_json())
+        request_data.get("name")).to_json())
+
 
 @app_views.route('/category', methods=['GET'])
 def read_categories():
     return jsonify(question_controllers.read_categories())
+
 
 @app_views.route('/category/<category_id>', methods=['GET'])
 def read_category(category_id: str):
@@ -43,7 +48,6 @@ def update_category(category_id: str):
 @app_views.route('/category/<category_id>', methods=['DELETE'])
 def delete_category(category_id: str):
     pass
-
 
 
 # Quiz General Details CRUD
@@ -86,10 +90,11 @@ def update_quiz_general_detail(detail_id: str):
     if request_data is None:
         abort(400)
 
-    quiz_general_detail = question_controllers.read_quiz_general_detail(detail_id)
+    quiz_general_detail = question_controllers.read_quiz_general_detail(
+        detail_id)
 
     for key, value in request_data.items():
-        if (key not in ('id', 'created_at', 'updated_at', 'email', '__class__')):
+        if (key not in ('id', 'created_at', 'updated_at', '__class__')):
             setattr(quiz_general_detail, key, value)
 
     quiz_general_detail.save()
@@ -106,6 +111,8 @@ def delete_quiz_general_detail(detail_id: str):
     return jsonify({"error": "Details not found"})
 
 # Quiz CRUD
+
+
 @app_views.route('/quiz', methods=['POST'])
 def create_quiz():
     request_data = None
@@ -118,7 +125,6 @@ def create_quiz():
         if field not in request_data:
             abort(400, f"{field} is required")
 
-
     if "choices" in request_data:
         choices = request_data["choices"]
 
@@ -130,12 +136,26 @@ def create_quiz():
     return jsonify(question_controllers.create_quiz(
         request_data).to_json())
 
+
 @app_views.route('/quiz/<quiz_id>', methods=['GET'])
 def read_quiz(quiz_id: str):
     if quiz_id is None:
         abort(404)
 
-    return jsonify(question_controllers.read_quiz(quiz_id).to_json())
+    quiz = question_controllers.read_quiz(quiz_id)
+
+    return {**quiz.to_json(),
+                    "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
+
+@app_views.route('/quiz/', methods=['GET'])
+def read_quizes():
+
+    print(request.current_user.id)
+
+    # quiz = question_controllers.read_quiz(quiz_id)
+
+    # return {**quiz.to_json(),
+    #                 "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
 
 
 @app_views.route('/quiz/<quiz_id>', methods=['PUT'])
@@ -156,11 +176,27 @@ def update_quiz(quiz_id: str):
 
     for key, value in request_data.items():
         if (key not in ('id', 'created_at',
-                        'updated_at', 'email', '__class__', 'choices')):
+                        'updated_at', '__class__', 'choices')):
             setattr(quiz, key, value)
 
-    if "choices" in request_data:
-        quiz.choices = request_data["choices"]
+    if request_data["answer_type"] == "multiple":
+
+        if "choices" in request_data:
+            for choice in quiz.choices:
+                models.storage.delete(choice)
+                make_transient(choice)
+
+            quiz.choices = [Choice(name=choice)
+                            for choice in request_data["choices"]]
+            quiz.save()
+            return {**quiz.to_json(),
+                    "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
+
+    else:
+        for choice in quiz.choices:
+            models.storage.delete(choice)
+            make_transient(choice)
+
     quiz.save()
 
     return jsonify(quiz.to_json())
