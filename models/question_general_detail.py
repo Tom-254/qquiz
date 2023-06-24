@@ -14,7 +14,7 @@ class QuestionGeneralDetail(BaseModel, Base):
     __tablename__ = "question_general_detail"
     title = Column(String(128), nullable=False, unique=True)
     category_id = Column(String(60), ForeignKey('question_category.id'), nullable=False)
-    desription = Column(Text, nullable=False)
+    description = Column(Text, nullable=False)
     questions  = relationship("Question", backref="general_detail",
                                 cascade="delete")
 

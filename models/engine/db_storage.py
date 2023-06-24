@@ -10,7 +10,7 @@ from models.user_session import UserSession
 from models.choice import Choice
 from models.question import Question
 from models.question_general_detail import QuestionGeneralDetail
-from models.qustion_category import QuestionCategory
+from models.question_category import QuestionCategory
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 classes = {"UserSession": UserSession, "QuestionCategory": QuestionCategory,
