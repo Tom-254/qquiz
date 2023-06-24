@@ -13,7 +13,7 @@ def view_all_users() -> str:
     Return:
       - list of all User objects JSON represented
     """
-    all_users = [user.to_json() for user in User.all()]
+    all_users = [user.to_json()  for user in User.all()]
     return jsonify(all_users)
 
 
@@ -119,11 +119,19 @@ def update_user(user_id: str = None) -> str:
       - 404 if the User ID doesn't exist
       - 400 if can't update the User
     """
+
+    user = {}
     if user_id is None:
         abort(404)
-    user = User.get(user_id)
+
+    if user_id == 'me':
+        user = request.current_user
+    else:
+        user = User.get(user_id)
+
     if user is None:
         abort(404)
+
     rj = None
     try:
         rj = request.get_json()
@@ -136,6 +144,6 @@ def update_user(user_id: str = None) -> str:
     if rj.get('profile_image') is not None:
         user.profile_image = rj.get('profile_image')
     if rj.get('email') is not None:
-        user.profile_image = rj.get('email')
+        user.email = rj.get('email')
     user.save()
     return jsonify(user.to_json()), 200

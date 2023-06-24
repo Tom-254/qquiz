@@ -13,6 +13,8 @@ from models.question_general_detail import QuestionGeneralDetail
 from models.qustion_category import QuestionCategory
 from sqlalchemy.orm import sessionmaker, scoped_session
 
+classes = {"UserSession": UserSession, "QuestionCategory": QuestionCategory,
+           "QuestionGeneralDetail": QuestionGeneralDetail, "Question": Question, "Choice": Choice, "User": User}
 
 class DBStorage():
     """
@@ -46,7 +48,6 @@ class DBStorage():
                 key = item.__class__.__name__ + '.' + item.id
                 new_dict[key] = item
         else:
-            classes = [User, UserSession, QuestionCategory, QuestionGeneralDetail, Question, Choice]
             for class_name in classes:
                 try:
                     result = (self.__session.query(class_name).all())

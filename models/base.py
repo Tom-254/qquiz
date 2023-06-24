@@ -131,7 +131,7 @@ class BaseModel:
     def all(cls) -> Iterable[TypeVar('Base')]:
         """ Return all objects
         """
-        return models.storage.all(cls)
+        return cls.search()
 
     @classmethod
     def get(cls, id: str) -> TypeVar('Base'):
