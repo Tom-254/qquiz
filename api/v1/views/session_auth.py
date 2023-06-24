@@ -11,7 +11,7 @@ from api.v1.views import app_views
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def login() -> Tuple[str, int]:
+def login():
     """POST /api/v1/auth_session/login
     Return:
       - JSON representation of a User object.
@@ -46,7 +46,7 @@ def login() -> Tuple[str, int]:
 
 @app_views.route(
     '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
-def logout() -> Tuple[str, int]:
+def logout():
     """DELETE /api/v1/auth_session/logout
     Return:
       - An empty JSON object.

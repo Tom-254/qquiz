@@ -8,7 +8,6 @@ from api.v1.views import app_views
 from os import getenv
 from flask_cors import CORS
 
-from api.v1.auth.auth import Auth
 from api.v1.auth.session_db_auth import SessionDBAuth
 
 app = Flask(__name__)
@@ -19,6 +18,10 @@ app.register_blueprint(app_views)
 
 auth = SessionDBAuth()
 
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({"error": error.description or "Missing required fields" }), 400
 
 @app.errorhandler(404)
 def not_found(error) -> str:
