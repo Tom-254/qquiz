@@ -12,7 +12,7 @@ class QuestionGeneralDetail(BaseModel, Base):
     Definition of the QuestionGeneralDetail class
     """
     __tablename__ = "question_general_detail"
-    title = Column(String(128), nullable=False, unique=True)
+    title = Column(String(128), nullable=False)
     category_id = Column(String(60), ForeignKey('question_category.id'), nullable=False)
     description = Column(Text, nullable=False)
     questions  = relationship("Question", backref="general_detail",

@@ -151,3 +151,11 @@ class BaseModel:
                     return False
             return True
         return list(filter(_search, models.storage.all(cls.__name__).values()))
+
+    @classmethod
+    def bulk_insert(cls, objs):
+        """
+        Adds many objects of the same type to the database
+        """
+        models.storage.add_all(objs)
+        models.storage.save()

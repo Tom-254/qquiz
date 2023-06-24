@@ -118,6 +118,12 @@ class DBStorage():
         Session = scoped_session(session_factory)
         self.__session = Session()
 
+    def add_all(self, objs: list ):
+        """
+        Adds many objects into the db
+        """
+        self.__session.add_all(objs)
+
     def close(self):
         """ closes a session"""
         self.__session.close()

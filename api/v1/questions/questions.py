@@ -17,7 +17,7 @@ class Questions:
 
     def read_categories(self):
         """Read a quiz general detail with the given id."""
-        return [category.to_json()  for category in QuestionCategory.all()]
+        return [category.to_json() for category in QuestionCategory.all()]
 
     def create_category(self, name: str) -> QuestionCategory:
         """Create a new category with the given name."""
@@ -37,10 +37,10 @@ class Questions:
         category = QuestionCategory.get(id)
         category.remove()
 
-    def create_quiz_general_detail(self, data: dict()) -> QuestionGeneralDetail:
+    def create_quiz_general_detail(self, request_data: dict()) -> QuestionGeneralDetail:
         """Create a new quiz general detail with the
         given title, category_id, description, and user_id."""
-        general_detail = QuestionGeneralDetail(**data)
+        general_detail = QuestionGeneralDetail(**request_data)
         general_detail.save()
         return general_detail
 
@@ -66,40 +66,50 @@ class Questions:
     def delete_quiz_general_detail(self, id: str) -> None:
         """Delete a quiz general detail with the given id."""
         general_detail = QuestionGeneralDetail.get(id)
-        general_detail.remove()
+        if general_detail:
+            general_detail.remove()
+            return True
+        return False
 
-    def create_quiz(self, question: str, answer_type: str, general_detail_id: str, user_id: str) -> Question:
-        """Create a new quiz with the given question, answer_type, general_detail_id, and user_id."""
-        quiz = Question(question=question, answer_type=answer_type,
-                        general_detail_id=general_detail_id, user_id=user_id)
+    def create_quiz(self, request_data: dict()) -> Question:
+        """Create a new quiz with the given question,
+        answer_type, general_detail_id, and user_id."""
+        quiz = Question(**request_data)
         quiz.save()
         return quiz
 
-    def update_quiz(self, id: str, question: str = None, answer_type: str = None,
-                    general_detail_id: str = None,
-                    user_id: str = None) -> None:
-        """Update the quiz with the given id."""
-        quiz = Question.get(id)
-        if question is not None:
-            quiz.question = question
-        if answer_type is not None:
-            quiz.answer_type = answer_type
-        if general_detail_id is not None:
-            quiz.general_detail_id = general_detail_id
-        if user_id is not None:
-            quiz.user_id = user_id
+    def create_quiz_with_choices(self, question_data, choices: list[str]) -> Question:
+        """Create a new quiz with the given question, answer_type, general_detail_id, user_id, and choices."""
+        quiz = Question(**question_data)
+
+        quiz.choices = [Choice(name=choice) for choice in choices]
         quiz.save()
+        return {**quiz.to_json(), "choices" : [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
+
+    def read_quiz(self, id: str) -> QuestionCategory:
+        """Read a quiz with the given id."""
+        return Question.get(id)
 
     def delete_quiz(self, id: str) -> None:
         """Delete a quiz with a given id"""
         quiz = Question.get(id)
-        quiz.remove()
+        if quiz:
+            quiz.remove()
+            return True
+        return False
 
     def create_choice(self, choice: str, question_id: str) -> Choice:
         """Create a new choice with the given choice and question_id."""
         choice_object = Choice(choice=choice, question_id=question_id)
         choice_object.save()
         return choice_object
+
+    def create_choices(self, choices: list[dict]) -> list[Choice]:
+        """Bulk insert multiple choices using the values in the given list of dictionaries."""
+        choice_objects = [Choice(**choice) for choice in choices]
+        Choice.bulk_insert(choice_objects)
+        choice_to_json = [obj.to_json() for obj in choice_objects]
+        return choice_to_json
 
     def read_choice(self, id: str) -> Choice:
         """Read a choice with the given id."""
@@ -113,8 +123,12 @@ class Questions:
         if question_id is not None:
             choice_object.question_id = question_id
         choice_object.save()
+        return choice_object
 
     def delete_choice(self, id: str) -> None:
         """Delete a choice with the given id."""
         choice_object = Choice.get(id)
-        choice_object.remove()
+        if choice_object:
+            choice_object.remove()
+            return True
+        return False
