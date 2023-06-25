@@ -6,6 +6,9 @@ from models.question_general_detail import QuestionGeneralDetail
 from models.question_category import QuestionCategory
 from models.choice import Choice
 
+from sqlalchemy.orm import joinedload
+from sqlalchemy import or_, and_
+
 
 class Questions:
     """Class to manage All aspects relating to Quiz Creation
@@ -48,20 +51,45 @@ class Questions:
         """Read a quiz general detail with the given id."""
         return QuestionGeneralDetail.get(id)
 
-    def update_quiz_general_detail(self, id: str, title: str = None, category_id: str = None,
-                                   description: str = None,
-                                   user_id: str = None) -> None:
-        """Update a quiz general detail with the given id."""
-        general_detail = QuestionGeneralDetail.get(id)
-        if title is not None:
-            general_detail.title = title
-        if category_id is not None:
-            general_detail.category_id = category_id
-        if description is not None:
-            general_detail.description = description
-        if user_id is not None:
-            general_detail.user_id = user_id
-        general_detail.save()
+    def read_public_quiz_groups(self,
+                    page: int, per_page: int):
+        general_details = QuestionGeneralDetail.get_query().filter(
+            QuestionGeneralDetail.visibility == 'public'
+        ).options(
+            joinedload(QuestionGeneralDetail.category),
+            joinedload(QuestionGeneralDetail.questions).joinedload(Question.choices)
+        ).limit(per_page).offset((page - 1) * per_page).all()
+        total = QuestionGeneralDetail.get_query().filter(
+            QuestionGeneralDetail.visibility == 'public'
+        ).count()
+        return {"data": general_details, "total": total}
+
+    def read_user_quiz_groups(self,
+                    page: int, per_page: int, user_id: str):
+
+        general_details = QuestionGeneralDetail.get_query().filter(
+            or_(
+                QuestionGeneralDetail.visibility == 'public',
+                and_(
+                    QuestionGeneralDetail.visibility == 'private',
+                    QuestionGeneralDetail.user_id == user_id
+                )
+            )
+        ).options(
+            joinedload(QuestionGeneralDetail.category),
+            joinedload(QuestionGeneralDetail.questions).joinedload(Question.choices)
+        ).limit(per_page).offset((page - 1) * per_page).all()
+
+        total = QuestionGeneralDetail.get_query().filter(
+            or_(
+                QuestionGeneralDetail.visibility == 'public',
+                and_(
+                    QuestionGeneralDetail.visibility == 'private',
+                    QuestionGeneralDetail.user_id == user_id
+                )
+            )
+        ).count()
+        return {"data": general_details, "total": total}
 
     def delete_quiz_general_detail(self, id: str) -> None:
         """Delete a quiz general detail with the given id."""
@@ -78,6 +106,8 @@ class Questions:
         quiz.save()
         return quiz
 
+
+
     def create_quiz_with_choices(self, question_data, choices: list[str]) -> Question:
         """Create a new quiz with the given question, answer_type, general_detail_id, user_id, and choices."""
         quiz = Question(**question_data)
@@ -93,9 +123,8 @@ class Questions:
         """Read a quiz with the given id."""
         return Question.get(id)
 
-    def read_quizes_paginated(self, page: int, per_page: int) -> list[Question]:
+    def read_quizes_paginated(self, page: int, per_page: int, user_id: str = None) -> list[Question]:
         return Question.get_paginated_data(page, per_page);
-
 
     def delete_quiz(self, id: str) -> None:
         """Delete a quiz with a given id"""

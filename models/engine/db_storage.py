@@ -139,3 +139,6 @@ class DBStorage():
     def close(self):
         """ closes a session"""
         self.__session.close()
+
+    def get_query(self, obj):
+        return self.__session.query(obj)

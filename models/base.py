@@ -121,6 +121,9 @@ class BaseModel:
         """
         return models.storage.delete(self)
 
+    def add_obj(self):
+        models.storage.new(self)
+
     @classmethod
     def count(cls) -> int:
         """ Count all objects
@@ -164,5 +167,6 @@ class BaseModel:
     def get_paginated_data(cls, page: int, per_page: int):
         return models.storage.get_paginated(cls, page, per_page)
 
-    def add_obj(self):
-        models.storage.new(self)
+    @classmethod
+    def get_query(cls):
+        return models.storage.get_query(cls)

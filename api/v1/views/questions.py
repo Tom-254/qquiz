@@ -61,7 +61,7 @@ def create_quiz_general_detail():
     except Exception as e:
         abort(400, "Invalid JSON formart.")
 
-    for field in ["title", "category_id", "description", "user_id"]:
+    for field in ["title", "category_id", "description", "user_id", "visibility"]:
         if field not in request_data:
             abort(400, f"{field} is required")
 
@@ -76,6 +76,80 @@ def read_quiz_general_detail(detail_id: str):
 
     return jsonify(question_controllers.read_quiz_general_detail(detail_id).to_json())
 
+
+@app_views.route('/public_general_details_with_quiz/', methods=['GET'])
+def read_public_quiz_groups():
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+
+    if page is None or per_page is None:
+        abort(400, "Missing required arguments")
+
+    quizes = question_controllers.read_public_quiz_groups(page, per_page)
+
+    data, total = quizes.values()
+
+    result = []
+    for general_detail in data:
+        result.append({
+            'id': general_detail.id,
+            'title': general_detail.title,
+            'category': general_detail.category.name,
+            'visibility': general_detail.visibility,
+            'description': general_detail.description,
+            'questions': [{
+                'id': question.id,
+                'question': question.question,
+                'answer_type': question.answer_type,
+                'choices': [choice.name for choice in question.choices]
+            } for question in general_detail.questions]
+        })
+
+    return jsonify({
+        'general_details': result,
+        'total': total,
+        'pages': math.ceil(total / per_page),
+        'prev_num': page - 1 if page > 1 else None,
+        'next_num': page + 1 if page * per_page < total else None
+    })
+
+@app_views.route('/user_general_details_with_quiz/', methods=['GET'])
+def read_user_quiz_groups():
+
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+
+    if page is None or per_page is None:
+        abort(400, "Missing required arguments")
+
+    quizes = question_controllers.read_user_quiz_groups(page, per_page, request.current_user.id)
+
+    data, total = quizes.values()
+
+    result = []
+    for general_detail in data:
+        result.append({
+            'id': general_detail.id,
+            'title': general_detail.title,
+            'category': general_detail.category.name,
+            'visibility': general_detail.visibility,
+            'description': general_detail.description,
+            'questions': [{
+                'id': question.id,
+                'question': question.question,
+                'answer_type': question.answer_type,
+                'choices': [choice.name for choice in question.choices]
+            } for question in general_detail.questions]
+        })
+
+    return jsonify({
+        'general_details': result,
+        'total': total,
+        'pages': math.ceil(total / per_page),
+        'prev_num': page - 1 if page > 1 else None,
+        'next_num': page + 1 if page * per_page < total else None
+    })
 
 @app_views.route('/quiz_general_detail/<detail_id>', methods=['PUT'])
 def update_quiz_general_detail(detail_id: str):
@@ -122,7 +196,7 @@ def create_quiz():
     except Exception as e:
         abort(400, "Invalid JSON formart.")
 
-    for field in ["question", "answer_type", "general_detail_id", "user_id", "visibility"]:
+    for field in ["question", "answer_type", "general_detail_id"]:
         if field not in request_data:
             abort(400, f"{field} is required")
 
@@ -173,11 +247,6 @@ def read_quizes_paginated():
         'prev_num': page - 1 if page > 1 else None,
         'next_num': page + 1 if page * per_page < total else None
     })
-
-    # quiz = question_controllers.read_quiz(quiz_id)
-
-    return {**quiz.to_json(),
-            "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
 
 
 @app_views.route('/quiz/<quiz_id>', methods=['PUT'])
