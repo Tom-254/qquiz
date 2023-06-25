@@ -1,3 +1,4 @@
+import math
 from flask import request, jsonify, abort
 from sqlalchemy.orm import make_transient
 import models
@@ -145,17 +146,38 @@ def read_quiz(quiz_id: str):
     quiz = question_controllers.read_quiz(quiz_id)
 
     return {**quiz.to_json(),
-                    "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
+            "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
+
 
 @app_views.route('/quiz/', methods=['GET'])
-def read_quizes():
+def read_quizes_paginated():
 
-    print(request.current_user.id)
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+
+    if page is None or per_page is None:
+        abort(400, "Missing required arguments")
+
+    quizes = question_controllers.read_quizes_paginated(page, per_page)
+
+    data, total = quizes.values()
+
+    return jsonify({
+        'data': [{
+            **quiz.to_json(),
+            "choices": [
+                {"id": choice.id, "name": choice.name} for choice in quiz.choices]
+        } for quiz in data],
+        'total': total,
+        'pages': math.ceil(total / per_page),
+        'prev_num': page - 1 if page > 1 else None,
+        'next_num': page + 1 if page * per_page < total else None
+    })
 
     # quiz = question_controllers.read_quiz(quiz_id)
 
-    # return {**quiz.to_json(),
-    #                 "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
+    return {**quiz.to_json(),
+            "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
 
 
 @app_views.route('/quiz/<quiz_id>', methods=['PUT'])

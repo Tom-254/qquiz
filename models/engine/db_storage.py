@@ -124,6 +124,18 @@ class DBStorage():
         """
         self.__session.add_all(objs)
 
+    def get_paginated(self, obj, page: int, per_page: int):
+        data = self.__session.query(obj).limit(
+            per_page).offset(
+                (page - 1) * per_page).all()
+
+        total = self.__session.query(obj).count()
+
+        return {
+            "data": data,
+            "total": total
+        }
+
     def close(self):
         """ closes a session"""
         self.__session.close()

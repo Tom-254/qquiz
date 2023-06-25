@@ -159,3 +159,10 @@ class BaseModel:
         """
         models.storage.add_all(objs)
         models.storage.save()
+
+    @classmethod
+    def get_paginated_data(cls, page: int, per_page: int):
+        return models.storage.get_paginated(cls, page, per_page)
+
+    def add_obj(self):
+        models.storage.new(self)

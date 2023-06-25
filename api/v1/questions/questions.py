@@ -82,13 +82,20 @@ class Questions:
         """Create a new quiz with the given question, answer_type, general_detail_id, user_id, and choices."""
         quiz = Question(**question_data)
 
-        quiz.choices = [Choice(name=choice) for choice in choices]
+        for choice in choices:
+            temp_choice = Choice(name=choice, question_id=quiz.id)
+            temp_choice.add_obj()
+
         quiz.save()
         return {**quiz.to_json(), "choices": [{"id": choice.id, "name": choice.name} for choice in quiz.choices]}
 
     def read_quiz(self, id: str) -> Question:
         """Read a quiz with the given id."""
         return Question.get(id)
+
+    def read_quizes_paginated(self, page: int, per_page: int) -> list[Question]:
+        return Question.get_paginated_data(page, per_page);
+
 
     def delete_quiz(self, id: str) -> None:
         """Delete a quiz with a given id"""
