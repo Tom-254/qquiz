@@ -77,7 +77,7 @@ def read_quiz_general_detail(detail_id: str):
     return jsonify(question_controllers.read_quiz_general_detail(detail_id).to_json())
 
 
-@app_views.route('/public_general_details_with_quiz/', methods=['GET'])
+@app_views.route('/public_quiz_groups/', methods=['GET'])
 def read_public_quiz_groups():
 
     page = request.args.get('page', 1, type=int)
@@ -93,11 +93,13 @@ def read_public_quiz_groups():
     result = []
     for general_detail in data:
         result.append({
-            'id': general_detail.id,
-            'title': general_detail.title,
-            'category': general_detail.category.name,
-            'visibility': general_detail.visibility,
-            'description': general_detail.description,
+            'general_detail': {
+                'id': general_detail.id,
+                'title': general_detail.title,
+                'category_id': general_detail.category_id,
+                'user_id': general_detail.user_id,
+                'description': general_detail.description
+            },
             'questions': [{
                 'id': question.id,
                 'question': question.question,
@@ -107,14 +109,15 @@ def read_public_quiz_groups():
         })
 
     return jsonify({
-        'general_details': result,
+        'data': result,
         'total': total,
         'pages': math.ceil(total / per_page),
         'prev_num': page - 1 if page > 1 else None,
         'next_num': page + 1 if page * per_page < total else None
     })
 
-@app_views.route('/user_general_details_with_quiz/', methods=['GET'])
+
+@app_views.route('/user_quiz_groups/', methods=['GET'])
 def read_user_quiz_groups():
 
     page = request.args.get('page', 1, type=int)
@@ -123,18 +126,22 @@ def read_user_quiz_groups():
     if page is None or per_page is None:
         abort(400, "Missing required arguments")
 
-    quizes = question_controllers.read_user_quiz_groups(page, per_page, request.current_user.id)
+    quizes = question_controllers.read_user_quiz_groups(
+        page, per_page, request.current_user.id)
 
     data, total = quizes.values()
 
     result = []
     for general_detail in data:
         result.append({
-            'id': general_detail.id,
-            'title': general_detail.title,
-            'category': general_detail.category.name,
-            'visibility': general_detail.visibility,
-            'description': general_detail.description,
+            'general_detail': {
+                'id': general_detail.id,
+                'title': general_detail.title,
+                'category_id': general_detail.category_id,
+                'user_id': general_detail.user_id,
+                'visibility': general_detail.visibility,
+                'description': general_detail.description
+            },
             'questions': [{
                 'id': question.id,
                 'question': question.question,
@@ -144,12 +151,106 @@ def read_user_quiz_groups():
         })
 
     return jsonify({
-        'general_details': result,
+        'data': result,
         'total': total,
         'pages': math.ceil(total / per_page),
         'prev_num': page - 1 if page > 1 else None,
         'next_num': page + 1 if page * per_page < total else None
     })
+
+
+@app_views.route('/create_quiz_group/', methods=['POST'])
+def create_quiz_group():
+    request_data = None
+    try:
+        request_data = request.get_json()
+    except Exception as e:
+        abort(400, "Invalid JSON formart.")
+
+    for field in ["general_detail", "questions"]:
+        if field not in request_data:
+            abort(400, f"{field} is required")
+
+    # Check if all required fields are present in general_detail
+    for field in ["title", "category_id", "user_id", "description", "visibility"]:
+        if field not in request_data['general_detail']:
+            abort(400, f"{field} is required in general_detail")
+
+    for question_data in request_data['questions']:
+        # Check if all required fields are present in question
+        for field in ["question", "answer_type", "choices"]:
+            if field not in question_data:
+                abort(400, f"{field} is required in question")
+
+    general_detail = question_controllers.create_quiz_group(request_data)
+
+    return jsonify({
+        'data': {
+            'general_detail': {
+                'id': general_detail.id,
+                'title': general_detail.title,
+                'category_id': general_detail.category_id,
+                'user_id': general_detail.user_id,
+                'visibility': general_detail.visibility,
+                'description': general_detail.description
+            },
+            'questions': [{
+                'id': question.id,
+                'question': question.question,
+                'answer_type': question.answer_type,
+                'choices': [choice.name for choice in question.choices]
+            } for question in general_detail.questions]
+        },
+    })
+
+
+@app_views.route('/update_quiz_group/<general_detail_id>', methods=['PUT'])
+def update_quiz_group(general_detail_id):
+
+    if general_detail_id is None:
+        abort(404)
+
+    request_data = None
+    try:
+        request_data = request.get_json()
+    except Exception as e:
+        abort(400, "Invalid JSON formart.")
+
+    general_detail = question_controllers.update_quiz_group(
+        general_detail_id, request_data)
+
+    if not general_detail:
+        abort(404)
+
+    return jsonify({
+        'data': {
+            'general_detail': {
+                'id': general_detail.id,
+                'title': general_detail.title,
+                'category_id': general_detail.category_id,
+                'user_id': general_detail.user_id,
+                'visibility': general_detail.visibility,
+                'description': general_detail.description
+            },
+            'questions': [{
+                'id': question.id,
+                'question': question.question,
+                'answer_type': question.answer_type,
+                'choices': [choice.name for choice in question.choices]
+            } for question in general_detail.questions]
+        },
+    })
+
+
+@app_views.route('/delete_quiz_group/<general_detail_id>', methods=['DELETE'])
+def delete_quiz_group(general_detail_id):
+    if general_detail_id is None:
+        abort(404)
+
+    if question_controllers.delete_quiz_group(general_detail_id):
+        return jsonify({"success": "Deleted Successfully"})
+    return jsonify({"error": "Details not found"})
+
 
 @app_views.route('/quiz_general_detail/<detail_id>', methods=['PUT'])
 def update_quiz_general_detail(detail_id: str):

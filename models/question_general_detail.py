@@ -21,4 +21,4 @@ class QuestionGeneralDetail(BaseModel, Base):
     description = Column(Text, nullable=False)
     visibility = Column(Enum('public', 'private'))
     questions = relationship("Question", backref="general_detail",
-                             cascade="delete")
+                             cascade='all, delete-orphan')

@@ -52,20 +52,88 @@ class Questions:
         return QuestionGeneralDetail.get(id)
 
     def read_public_quiz_groups(self,
-                    page: int, per_page: int):
+                                page: int, per_page: int):
         general_details = QuestionGeneralDetail.get_query().filter(
             QuestionGeneralDetail.visibility == 'public'
         ).options(
             joinedload(QuestionGeneralDetail.category),
-            joinedload(QuestionGeneralDetail.questions).joinedload(Question.choices)
+            joinedload(QuestionGeneralDetail.questions).joinedload(
+                Question.choices)
         ).limit(per_page).offset((page - 1) * per_page).all()
         total = QuestionGeneralDetail.get_query().filter(
             QuestionGeneralDetail.visibility == 'public'
         ).count()
         return {"data": general_details, "total": total}
+
+    def create_quiz_group(self, request_data: dict()):
+        general_detail_data = request_data['general_detail']
+
+        general_detail = QuestionGeneralDetail(
+            title=general_detail_data['title'],
+            category_id=general_detail_data['category_id'],
+            user_id=general_detail_data['user_id'],
+            description=general_detail_data['description'],
+            visibility=general_detail_data['visibility']
+        )
+
+        general_detail.add_obj()
+
+        for question_data in request_data['questions']:
+            question = Question(
+                question=question_data['question'],
+                answer_type=question_data['answer_type'],
+                general_detail=general_detail,
+            )
+
+            question.add_obj()
+
+            for choice_data in question_data['choices']:
+                choice = Choice(
+                    name=choice_data,
+                    question=question
+                )
+
+                choice.add_obj()
+
+        general_detail.save()
+        return general_detail
+
+    def update_quiz_group(self, general_detail_id: str, request_data: dict()):
+        general_detail = QuestionGeneralDetail.get_query().filter_by(
+            id=general_detail_id).first()
+        if general_detail:
+            for key, value in request_data['general_detail'].items():
+                if key not in ('id', 'created_at', 'updated_at', '__class__'):
+                    setattr(general_detail, key, value)
+
+            # Update questions
+            for question_data, question in zip(request_data['questions'],
+                                               general_detail.questions):
+                # Update question fields
+                for key, value in question_data.items():
+                    if key not in ('id', 'created_at', 'updated_at', '__class__', 'choices'):
+                        setattr(question, key, value)
+
+                # Update choices
+                for choice_data, choice in zip(question_data['choices'], question.choices):
+                    choice.choice = choice_data
+
+            general_detail.save()
+
+            return general_detail
+        else:
+            return False
+
+    def delete_quiz_group(self, general_detail_id: str):
+        general_detail = QuestionGeneralDetail.get(general_detail_id)
+
+        if general_detail:
+            general_detail.remove()
+            return True
+        return False
 
     def read_user_quiz_groups(self,
-                    page: int, per_page: int, user_id: str):
+                              page: int, per_page: int, user_id: str):
 
         general_details = QuestionGeneralDetail.get_query().filter(
             or_(
@@ -77,7 +145,8 @@ class Questions:
             )
         ).options(
             joinedload(QuestionGeneralDetail.category),
-            joinedload(QuestionGeneralDetail.questions).joinedload(Question.choices)
+            joinedload(QuestionGeneralDetail.questions).joinedload(
+                Question.choices)
         ).limit(per_page).offset((page - 1) * per_page).all()
 
         total = QuestionGeneralDetail.get_query().filter(
@@ -91,7 +160,7 @@ class Questions:
         ).count()
         return {"data": general_details, "total": total}
 
-    def delete_quiz_general_detail(self, id: str) -> None:
+    def delete_quiz_general_detail(self, id: str) -> bool:
         """Delete a quiz general detail with the given id."""
         general_detail = QuestionGeneralDetail.get(id)
         if general_detail:
@@ -105,8 +174,6 @@ class Questions:
         quiz = Question(**request_data)
         quiz.save()
         return quiz
-
-
 
     def create_quiz_with_choices(self, question_data, choices: list[str]) -> Question:
         """Create a new quiz with the given question, answer_type, general_detail_id, user_id, and choices."""
@@ -124,7 +191,7 @@ class Questions:
         return Question.get(id)
 
     def read_quizes_paginated(self, page: int, per_page: int, user_id: str = None) -> list[Question]:
-        return Question.get_paginated_data(page, per_page);
+        return Question.get_paginated_data(page, per_page)
 
     def delete_quiz(self, id: str) -> None:
         """Delete a quiz with a given id"""
