@@ -3,7 +3,7 @@
     Implementation of the User class which inherits from BaseModel
 """
 from models.base import BaseModel, Base
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship
 
 
@@ -13,6 +13,7 @@ class Answer(BaseModel, Base):
     question = relationship('Question', backref='answers')
     user_id = Column(String(60), ForeignKey('users.id'))
     user = relationship('User', backref='answers')
-    choice_id = Column(String(60), ForeignKey('choice.id'))
+    choice_id = Column(String(60), ForeignKey('choice.id'), nullable=True)
     choice = relationship('Choice')
+    description = Column(Text, nullable=True)
     score = Column(Integer)

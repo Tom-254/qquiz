@@ -429,18 +429,18 @@ def submit_answers():
     return jsonify(question_controllers.submit_answers(request_data))
 
 
-@app_views.route('/get_user_quiz_results/', methods=['GET'])
-def get_user_quiz_results(user_id):
+@app_views.route('/get_user_quiz_groups_results/', methods=['GET'])
+def get_user_quiz_groups_results():
     user_id = request.current_user.id
-    return jsonify(question_controllers.get_user_quiz_results(user_id))
+    return jsonify(question_controllers.get_user_quiz_groups_results(user_id))
 
 
-@app_views.route('/get_quiz_user_result/<general_detail_id>',
+@app_views.route('/get_user_quiz_group_result/<general_detail_id>',
                  methods=['GET'])
-def get_quiz_user_result(general_detail_id):
+def get_user_quiz_group_result(general_detail_id):
     user_id = request.current_user.id
 
     if general_detail_id is None:
         abort(404)
 
-    return jsonify(question_controllers.get_user_quiz_result(user_id, general_detail_id))
+    return jsonify(question_controllers.get_user_quiz_group_result(user_id, general_detail_id))

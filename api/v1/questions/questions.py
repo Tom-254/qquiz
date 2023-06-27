@@ -58,16 +58,31 @@ class Questions:
         user_id = request_data['user_id']
         general_detail_id = request_data['general_detail_id']
 
+        general_detail = QuestionGeneralDetail.get_query().filter_by(id=general_detail_id).first()
+        if not general_detail:
+            return {'error': 'general_detail_id not found'}
+
         score = 0
 
         for answer_data in request_data['answers']:
             question_id = answer_data['question_id']
-            choice_id = answer_data['choice_id']
+            choice_id = answer_data.get('choice_id')
+            description = answer_data.get('description')
 
-            choice = Choice.get_query().filter_by(
-                id=choice_id, question_id=question_id).first()
+            question = Question.get_query().filter_by(
+                id=question_id).first()
 
-            if choice:
+            if not question:
+                return {'error': 'question_id not found'}
+
+            if question.answer_type == 'multiple':
+
+                choice = Choice.get_query().filter_by(
+                    id=choice_id, question_id=question_id).first()
+
+                if not choice:
+                    return {'error': 'choice_id not found'}
+
                 answer = Answer(
                     question_id=question_id,
                     user_id=user_id,
@@ -79,6 +94,15 @@ class Questions:
 
                 if choice.is_correct:
                     score += 1
+            elif question.answer_type == 'description':
+                answer = Answer(
+                    question_id=question_id,
+                    user_id=user_id,
+                    description=description,
+                    score=0
+                )
+
+                answer.add_obj()
 
         score_obj = Score(
             user_id=user_id,
@@ -91,7 +115,7 @@ class Questions:
 
         return {'score': score}
 
-    def get_user_quiz_results(user_id: str):
+    def get_user_quiz_groups_results(self, user_id: str):
         answers = Answer.get_query().filter_by(user_id=user_id).all()
 
         general_detail_ids = set(
@@ -117,7 +141,6 @@ class Questions:
                     'id': question.id,
                     'question': question.question,
                     'answer_type': question.answer_type,
-                    'user_id': question.user_id,
                     'choices': [],
                     'user_answer': None
                 }
@@ -125,7 +148,7 @@ class Questions:
                 for choice in question.choices:
                     choice_data = {
                         'id': choice.id,
-                        'choice': choice.choice,
+                        'choice': choice.name,
                         'is_correct': choice.is_correct
                     }
 
@@ -147,9 +170,9 @@ class Questions:
 
         return data
 
-    def get_user_quiz_result(user_id: str, general_detail_id:str):
+    def get_user_quiz_group_result(self, user_id: str, general_detail_id: str):
         general_detail = QuestionGeneralDetail.get_query().filter_by(
-        id=general_detail_id).first()
+            id=general_detail_id).first()
 
         if general_detail:
             answers = Answer.get_query().filter_by(user_id=user_id, question_id=Question.id).join(
@@ -172,7 +195,6 @@ class Questions:
                     'id': question.id,
                     'question': question.question,
                     'answer_type': question.answer_type,
-                    'user_id': question.user_id,
                     'choices': [],
                     'user_answer': None
                 }
@@ -180,7 +202,7 @@ class Questions:
                 for choice in question.choices:
                     choice_data = {
                         'id': choice.id,
-                        'choice': choice.choice,
+                        'choice': choice.name,
                         'is_correct': choice.is_correct
                     }
 
