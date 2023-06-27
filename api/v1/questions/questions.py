@@ -11,7 +11,8 @@ from sqlalchemy import or_, and_
 
 
 class Questions:
-    """Class to manage All aspects relating to Quiz Creation
+    """
+    Class to manage All aspects relating to Quiz Creation
     """
 
     def read_category(self, id: str) -> QuestionCategory:
@@ -89,7 +90,8 @@ class Questions:
 
             for choice_data in question_data['choices']:
                 choice = Choice(
-                    name=choice_data,
+                    name=choice_data["name"],
+                    is_correct=choice_data["is_correct"],
                     question=question
                 )
 
@@ -116,7 +118,8 @@ class Questions:
 
                 # Update choices
                 for choice_data, choice in zip(question_data['choices'], question.choices):
-                    choice.choice = choice_data
+                    choice.name = choice_data['name']
+                    choice.is_correct = choice_data['is_correct']
 
             general_detail.save()
 

@@ -104,7 +104,11 @@ def read_public_quiz_groups():
                 'id': question.id,
                 'question': question.question,
                 'answer_type': question.answer_type,
-                'choices': [choice.name for choice in question.choices]
+                'choices': [{
+                    'id': choice.id,
+                    'name': choice.name,
+                    'is_correct': choice.is_correct
+                } for choice in question.choices]
             } for question in general_detail.questions]
         })
 
@@ -139,14 +143,17 @@ def read_user_quiz_groups():
                 'title': general_detail.title,
                 'category_id': general_detail.category_id,
                 'user_id': general_detail.user_id,
-                'visibility': general_detail.visibility,
                 'description': general_detail.description
             },
             'questions': [{
                 'id': question.id,
                 'question': question.question,
                 'answer_type': question.answer_type,
-                'choices': [choice.name for choice in question.choices]
+                'choices': [{
+                    'id': choice.id,
+                    'name': choice.name,
+                    'is_correct': choice.is_correct
+                } for choice in question.choices]
             } for question in general_detail.questions]
         })
 
@@ -191,14 +198,17 @@ def create_quiz_group():
                 'title': general_detail.title,
                 'category_id': general_detail.category_id,
                 'user_id': general_detail.user_id,
-                'visibility': general_detail.visibility,
                 'description': general_detail.description
             },
             'questions': [{
                 'id': question.id,
                 'question': question.question,
                 'answer_type': question.answer_type,
-                'choices': [choice.name for choice in question.choices]
+                'choices': [{
+                    'id': choice.id,
+                    'name': choice.name,
+                    'is_correct': choice.is_correct
+                } for choice in question.choices]
             } for question in general_detail.questions]
         },
     })
@@ -229,14 +239,17 @@ def update_quiz_group(general_detail_id):
                 'title': general_detail.title,
                 'category_id': general_detail.category_id,
                 'user_id': general_detail.user_id,
-                'visibility': general_detail.visibility,
                 'description': general_detail.description
             },
             'questions': [{
                 'id': question.id,
                 'question': question.question,
                 'answer_type': question.answer_type,
-                'choices': [choice.name for choice in question.choices]
+                'choices': [{
+                    'id': choice.id,
+                    'name': choice.name,
+                    'is_correct': choice.is_correct
+                } for choice in question.choices]
             } for question in general_detail.questions]
         },
     })

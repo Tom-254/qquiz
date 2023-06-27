@@ -11,10 +11,13 @@ from models.choice import Choice
 from models.question import Question
 from models.question_general_detail import QuestionGeneralDetail
 from models.question_category import QuestionCategory
+from models.answer import Answer
+from models.score import Score
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 classes = {"UserSession": UserSession, "QuestionCategory": QuestionCategory,
-           "QuestionGeneralDetail": QuestionGeneralDetail, "Question": Question, "Choice": Choice, "User": User}
+           "QuestionGeneralDetail": QuestionGeneralDetail, "Question": Question, "Choice": Choice, "Answer": Answer, "Score": Score, "User": User}
+
 
 class DBStorage():
     """
@@ -118,7 +121,7 @@ class DBStorage():
         Session = scoped_session(session_factory)
         self.__session = Session()
 
-    def add_all(self, objs: list ):
+    def add_all(self, objs: list):
         """
         Adds many objects into the db
         """
