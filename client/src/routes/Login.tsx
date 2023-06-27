@@ -151,9 +151,8 @@ const Login = () => {
                 <input
                   type="checkbox"
                   id="rememberMe"
-                  className="w-[16px] h-[16px] rounded-[10px] border-primary"
+                  className="w-[20px] h-[20px] rounded-[5px] border-2 border-primary form-checkbox"
                   {...register("rememberMe")}
-                  checked
                 />
                 <label
                   htmlFor="rememberMe"
