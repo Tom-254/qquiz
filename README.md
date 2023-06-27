@@ -22,9 +22,9 @@ Qquiz is a quiz making and sharing web application that allows users to create c
 
 ## Team Members
 
-- Fredrick Onyango:[here](https://github.com/aTfure)
+- Fredrick Onyango: [click to owner](https://github.com/aTfure)
 - Fullstack Software Engineer from Kenya, with a keen eye on powerful APIs
-- Oscar Tiego: [here](https://github.com/Tom-254)
+- Oscar Tiego: [click to owner](https://github.com/Tom-254)
 - Fullstack Software Engineer from Kenya, with a keen eye on beautiful designs
 
 ## Learning Objectives
