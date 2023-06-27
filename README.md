@@ -22,8 +22,10 @@ Qquiz is a quiz making and sharing web application that allows users to create c
 
 ## Team Members
 
-- Fredrick Onyango: Fullstack Software Engineer from Kenya, with a keen eye on powerful APIs
-- Oscar Tiego: Fullstack Software Engineer from Kenya, with a keen eye on beautiful designs
+- Fredrick Onyango:[here](https://github.com/aTfure)
+- Fullstack Software Engineer from Kenya, with a keen eye on powerful APIs
+- Oscar Tiego: [here](https://github.com/Tom-254)
+- Fullstack Software Engineer from Kenya, with a keen eye on beautiful designs
 
 ## Learning Objectives
 
@@ -74,11 +76,11 @@ The work schedule for the Qquiz project is available [here](https://trello.com/b
 
 ## Full Report
 
-The full report of the Qquiz project is available [here](https://docs.google.com/document/d/1ZjxqZ6d7K4xh4J9Zx8k5gQ/edit?usp=sharing). It contains the details of the developments, highlighting successes, challenges, areas for improvement, lessons learned, and future steps for the project.
+The full report of the Qquiz project is available [here](https://docs.google.com/presentation/d/1v_EXXeENf_F3YDmbsBOdijNA5gDmViT3C-c9hNrdYZI/edit?usp=sharing). It contains the details of the developments, highlighting successes, challenges, areas for improvement, lessons learned, and future steps for the project.
 
 ## GitHub Repository
 
-The GitHub repository for the Qquiz project is available [here](https://github.com/fredrickonyango/qquiz).
+The GitHub repository for the Qquiz project is available [here](https://github.com/Tom-254/qquiz/).
 
 ## Branches
 
