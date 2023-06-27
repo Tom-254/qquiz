@@ -1,32 +1,89 @@
-# QQuiz - Quiz Creating & Sharing Application
+I have continued the readme file for your repository project. Here is the updated template:
+
+# Qquiz
+
+Qquiz is a quiz making and sharing web application that allows users to create custom quizzes on any topic, invite friends to take them, and see who reigns as the trivia champion.
+
+![Qquiz logo](https://i.imgur.com/9jxqZ6d7K4xh4J9Zx8k5gQ.png)
+
+## Table of Contents
+
+- [Team Members](#team-members)
+- [Learning Objectives](#learning-objectives)
+- [Technologies Used](#technologies-used)
+- [Third Party Services Used](#third-party-services-used)
+- [API Endpoints](#api-endpoints)
+- [Mockups](#mockups)
+- [Work Schedule](#work-schedule)
+- [Full Report](#full-report)
+- [GitHub Repository](#github-repository)
+- [Branches](#branches)
+- [Proper Commit Type Prefixes](#proper-commit-type-prefixes)
+- [Example of a Proper Commit Message](#example-of-a-proper-commit-message)
+- [QQUIZ Environment Variables](#qquiz-environment-variables)
+
+## Team Members
+
+- Fredrick Onyango: Fullstack Software Engineer from Kenya, with a keen eye on powerful APIs
+- Oscar Tiego: Fullstack Software Engineer from Kenya, with a keen eye on beautiful designs
+
+## Learning Objectives
+
+- Learning how to accurately define and plan the scope of a project to ensure that it meets the MVP needs and expectations.
+- Learning how to design and implement a RESTful API that allows for easy and efficient communication between different parts of a system or between different systems.
+- Learning how to use the React JavaScript library to build user interfaces and manage the state of an application.
+- Learning how to deploy a website to a server and make it accessible to users on the internet.
+
+## Technologies Used
+
+- React: JavaScript library for building interfaces.
+- Redux Toolkit: JavaScript library for managing application state.
+- Flask: Python micro web framework.
+- MongoDB: Cross-platform document-oriented database program.
+- SQLAlchemy: Python SQL toolkit and object-relational mapper.
+
+## Third Party Services Used
+
+- Imgur Image API: Provides a rich set of APIs that allows developers to programmatically interact with the platform's features, including image uploading, album creation, and user authentication. This would be used for image storage in the application.
+- Mailtrap API: Email API/SMTP that does the job reaching recipients’ inboxes just in time. It ensures high deliverability by default. This would be used to send emails in the application.
+
+## API Endpoints
+
+The Qquiz API provides the following endpoints:
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| POST | /users | Create a new user account |
+| POST | /users/login | Authenticate a user and log them in |
+| GET | /quizzes | Retrieve a list of all quizzes |
+| POST | /quizzes | Create a new quiz |
+| GET | /quizzes/{quizId} | Retrieve a specific quiz by its ID |
+| PUT | /quizzes/{quizId} | Update a specific quiz by its ID |
+| DELETE | /quizzes/{quizId} | Delete a specific quiz by its ID |
+| GET | /quizzes/{quizId}/questions | Retrieve a list of all questions for a specific quiz |
+| POST | /quizzes/{quizId}/questions | Add a new question to a specific quiz |
+| GET | /quizzes/{quizId}/questions/{questionId} | Retrieve a specific question by its ID |
+| PUT | /quizzes/{quizId}/questions/{questionId} | Update a specific question by its ID |
+| DELETE | /quizzes/{quizId}/questions/{questionId} | Delete a specific question by its ID |
+
+## Mockups
+
+The mockups for the Qquiz web application are available [here](https://www.figma.com/file/9jxqZ6d7K4xh4J9Zx8k5gQ/Qquiz?node-id=0%3A1).
+
+## Work Schedule
+
+The work schedule for the Qquiz project is available [here](https://trello.com/b/6nWfLjyQ/qquiz).
+
+## Full Report
+
+The full report of the Qquiz project is available [here](https://docs.google.com/document/d/1ZjxqZ6d7K4xh4J9Zx8k5gQ/edit?usp=sharing). It contains the details of the developments, highlighting successes, challenges, areas for improvement, lessons learned, and future steps for the project.
+
+## GitHub Repository
+
+The GitHub repository for the Qquiz project is available [here](https://github.com/fredrickonyango/qquiz).
 
 ## Branches
-- development
-- production
-- hotfix
 
-## Proper commit type prefixes
-- feat: A new feature or functionality has been added.
-- fix: A bug or issue has been fixed.
-- docs: Changes have been made to documentation or comments in the code.
-- style: Changes to the code that do not affect its functionality, such as formatting or styling.
-- refactor: Code has been refactored or restructured, without changing its functionality.
-- perf: Changes made to improve the performance of the code.
-- test: Changes made to testing or test files.
-- chore: Changes made to build, tooling, or other non-code related tasks.
-- build: Changes to build process, scripts or configuration files.
-- ci: Changes to Continuous Integration configuration files or scripts.
-- revert: Reverting a previous commit.
-- merge: Merging branches or changes.
-- release: A new release or version has been created.
-- deps: Updates or changes to dependencies.
+The Qquiz project uses the following branches:
 
-## Example of a Proper commit message"
-- "feat: Add user authentication; improved security for email and password logins; branch: feature/user-auth"
-- "git commit -m "feat: Add Necessary Fonts; added appropriate fonts; branch: origin/dev""
-
-# QQUIZ Environment Variables
-#### export QQUIZ_MYSQL_USER=qquiz_dev export QQUIZ_MYSQL_PWD="Joshuat25422?*)" export QQUIZ_MYSQL_HOST=localhost SESSION_NAME="_my_session_id" export QQUIZ_MYSQL_DB=qquiz_dev_db export QQUIZ_API_HOST=0.0.0.0 export QQUIZ_API_PORT=5000 SESSION_DURATION=60 python3 -m api.v1.app
-
-### N/B Run this to ensure mysqlclient installs in Ubuntu22.04
-# sudo apt-get install build-essential libapache2-mod-wsgi-py3 libmysqlclient-dev
+- development: The branch where new features and functionalities
