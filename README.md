@@ -68,11 +68,11 @@ The Qquiz API provides the following endpoints:
 
 ## Mockups
 
-The mockups for the Qquiz web application are available [here](https://www.figma.com/file/9jxqZ6d7K4xh4J9Zx8k5gQ/Qquiz?node-id=0%3A1).
+The mockups for the Qquiz web application are available [here](https://www.figma.com/proto/rrWVmmjfFGtvrqeDmnqMWB/Qquiz?page-id=147%3A1364&type=design&node-id=147-1365&viewport=417%2C147%2C0.02&scaling=scale-down-width).
 
 ## Work Schedule
 
-The work schedule for the Qquiz project is available [here](https://trello.com/b/6nWfLjyQ/qquiz).
+The work schedule for the Qquiz project is available [here](https://trello.com/b/2ItYkHru/webstack-portfolio-project-alx).
 
 ## Full Report
 
