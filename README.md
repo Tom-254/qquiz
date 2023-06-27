@@ -1,5 +1,3 @@
-I have continued the readme file for your repository project. Here is the updated template:
-
 # Qquiz
 
 Qquiz is a quiz making and sharing web application that allows users to create custom quizzes on any topic, invite friends to take them, and see who reigns as the trivia champion.
@@ -86,4 +84,7 @@ The GitHub repository for the Qquiz project is available [here](https://github.c
 
 The Qquiz project uses the following branches:
 
-- development: The branch where new features and functionalities
+- development: The branch where new features and functionalities are developed and tested before being merged to the production branch.
+- production: The branch where the stable and ready-to-deploy version of the project is maintained. It reflects the current state of the website on the server.
+- qapi: The branch where the Qquiz API is developed and tested. It contains the Flask application and the SQLAlchemy models for the database.
+- docs: The branch where the documentation and readme files for the project are created and updated. It contains the information about the project, its objectives, technologies, endpoints, mockups, report, and repository.
