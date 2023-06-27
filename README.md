@@ -2,7 +2,7 @@
 
 Qquiz is a quiz making and sharing web application that allows users to create custom quizzes on any topic, invite friends to take them, and see who reigns as the trivia champion.
 
-![Qquiz logo](https://imgur.com/a5uotMs)
+![Qquiz logo](https://imgur.com/a5uotMs.png)
 
 ## Table of Contents
 
