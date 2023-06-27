@@ -411,7 +411,7 @@ const DashboardMains = () => {
                   <p className="text-primarytext-1000 font-extrabold text-[length:var(--h6-title-16)] ">
                     Notifications
                   </p>
-                  <div className="text-secondarytext-500"><Popover.Button><Button type="link" buttonIconRight={<CloseIcon className="text-secondarytext-600 h-[14px] w-[14px]" />} /></Popover.Button></div>
+                  <div className="text-secondarytext-500"><Popover.Button><CloseIcon className="text-secondarytext-600 h-[14px] w-[14px]" /></Popover.Button></div>
                 </div>
                 <ul className="flex flex-col w-[260px] sm:w-[350px] px-[20px] pt-[5px] pb-[12px] rounded-[24px]">
                   <li className="cursor-pointer flex items-center  gap-[16px] py-[12px] w-full text-[length:var(--h6-title-16)] text-secondarytext-600 font-medium"><div className="flex items-center justify-center bg-background w-[45px] h-[45px] p-[10px] rounded-full">
