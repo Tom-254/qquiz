@@ -299,6 +299,7 @@ def delete_quiz_general_detail(detail_id: str):
         return jsonify({"success": "Deleted Successfully"})
     return jsonify({"error": "Details not found"})
 
+
 # Quiz CRUD
 
 
@@ -416,22 +417,30 @@ def delete_quiz(quiz_id: str):
     return jsonify({"error": "Details not found"})
 
 
-# Choice CRUD
-@app_views.route('/choice', methods=['POST'])
-def create_choice():
-    pass
+# Answers CRUD
+@app_views.route('/submit_answers', methods=['POST'])
+def submit_answers():
+    request_data = None
+    try:
+        request_data = request.get_json()
+    except Exception as e:
+        abort(400, "Invalid JSON formart.")
+
+    return jsonify(question_controllers.submit_answers(request_data))
 
 
-@app_views.route('/choice/<choice_id>', methods=['GET'])
-def read_choice(choice_id: str):
-    pass
+@app_views.route('/get_user_quiz_results/', methods=['GET'])
+def get_user_quiz_results(user_id):
+    user_id = request.current_user.id
+    return jsonify(question_controllers.get_user_quiz_results(user_id))
 
 
-@app_views.route('/choice/<choice_id>', methods=['PUT'])
-def update_choice(choice_id: str):
-    pass
+@app_views.route('/get_quiz_user_result/<general_detail_id>',
+                 methods=['GET'])
+def get_quiz_user_result(general_detail_id):
+    user_id = request.current_user.id
 
+    if general_detail_id is None:
+        abort(404)
 
-@app_views.route('/choice/<choice_id>', methods=['DELETE'])
-def delete_choice(choice_id: str):
-    pass
+    return jsonify(question_controllers.get_user_quiz_result(user_id, general_detail_id))

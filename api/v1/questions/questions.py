@@ -5,6 +5,8 @@ from models.question import Question
 from models.question_general_detail import QuestionGeneralDetail
 from models.question_category import QuestionCategory
 from models.choice import Choice
+from models.answer import Answer
+from models.score import Score
 
 from sqlalchemy.orm import joinedload
 from sqlalchemy import or_, and_
@@ -51,6 +53,154 @@ class Questions:
     def read_quiz_general_detail(self, id: str) -> QuestionGeneralDetail:
         """Read a quiz general detail with the given id."""
         return QuestionGeneralDetail.get(id)
+
+    def submit_answers(self, request_data: dict()):
+        user_id = request_data['user_id']
+        general_detail_id = request_data['general_detail_id']
+
+        score = 0
+
+        for answer_data in request_data['answers']:
+            question_id = answer_data['question_id']
+            choice_id = answer_data['choice_id']
+
+            choice = Choice.get_query().filter_by(
+                id=choice_id, question_id=question_id).first()
+
+            if choice:
+                answer = Answer(
+                    question_id=question_id,
+                    user_id=user_id,
+                    choice_id=choice_id,
+                    score=int(choice.is_correct)
+                )
+
+                answer.add_obj()
+
+                if choice.is_correct:
+                    score += 1
+
+        score_obj = Score(
+            user_id=user_id,
+            general_detail_id=general_detail_id,
+            score=score
+        )
+
+        score_obj.add_obj()
+        score_obj.save()
+
+        return {'score': score}
+
+    def get_user_quiz_results(user_id: str):
+        answers = Answer.get_query().filter_by(user_id=user_id).all()
+
+        general_detail_ids = set(
+            answer.question.general_detail_id for answer in answers)
+
+        general_details = QuestionGeneralDetail.get_query().filter(
+            QuestionGeneralDetail.id.in_(general_detail_ids)).all()
+
+        data = []
+
+        for general_detail in general_details:
+            general_detail_data = {
+                'id': general_detail.id,
+                'title': general_detail.title,
+                'category_id': general_detail.category_id,
+                'user_id': general_detail.user_id,
+                'description': general_detail.description,
+                'questions': []
+            }
+
+            for question in general_detail.questions:
+                question_data = {
+                    'id': question.id,
+                    'question': question.question,
+                    'answer_type': question.answer_type,
+                    'user_id': question.user_id,
+                    'choices': [],
+                    'user_answer': None
+                }
+
+                for choice in question.choices:
+                    choice_data = {
+                        'id': choice.id,
+                        'choice': choice.choice,
+                        'is_correct': choice.is_correct
+                    }
+
+                    question_data['choices'].append(choice_data)
+
+                answer = Answer.get_query().filter_by(
+                    user_id=user_id, question_id=question.id).first()
+
+                if answer:
+                    question_data['user_answer'] = {
+                        'id': answer.id,
+                        'choice_id': answer.choice_id,
+                        'score': answer.score
+                    }
+
+                general_detail_data['questions'].append(question_data)
+
+            data.append(general_detail_data)
+
+        return data
+
+    def get_user_quiz_result(user_id: str, general_detail_id:str):
+        general_detail = QuestionGeneralDetail.get_query().filter_by(
+        id=general_detail_id).first()
+
+        if general_detail:
+            answers = Answer.get_query().filter_by(user_id=user_id, question_id=Question.id).join(
+                Question).filter(Question.general_detail_id == general_detail_id).all()
+
+            if not answers:
+                return {'error': 'User has not taken this quiz'}
+
+            general_detail_data = {
+                'id': general_detail.id,
+                'title': general_detail.title,
+                'category_id': general_detail.category_id,
+                'user_id': general_detail.user_id,
+                'description': general_detail.description,
+                'questions': []
+            }
+
+            for question in general_detail.questions:
+                question_data = {
+                    'id': question.id,
+                    'question': question.question,
+                    'answer_type': question.answer_type,
+                    'user_id': question.user_id,
+                    'choices': [],
+                    'user_answer': None
+                }
+
+                for choice in question.choices:
+                    choice_data = {
+                        'id': choice.id,
+                        'choice': choice.choice,
+                        'is_correct': choice.is_correct
+                    }
+
+                    question_data['choices'].append(choice_data)
+
+                answer = Answer.get_query().filter_by(
+                    user_id=user_id, question_id=question.id).first()
+
+                if answer:
+                    question_data['user_answer'] = {
+                        'id': answer.id,
+                        'choice_id': answer.choice_id,
+                        'score': answer.score
+                    }
+
+                general_detail_data['questions'].append(question_data)
+
+            return general_detail_data
+        else:
+            return {'error': 'Question not found'}
 
     def read_public_quiz_groups(self,
                                 page: int, per_page: int):
