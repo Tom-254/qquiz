@@ -90,3 +90,56 @@ The Qquiz project uses the following branches:
 - production: The branch where the stable and ready-to-deploy version of the project is maintained. It reflects the current state of the website on the server.
 - qapi: The branch where the Qquiz API is developed and tested. It contains the Flask application and the SQLAlchemy models for the database.
 - docs: The branch where the documentation and readme files for the project are created and updated. It contains the information about the project, its objectives, technologies, endpoints, mockups, report, and repository.
+- hotfix: The branch where urgent fixes or patches are applied to the production branch.
+
+## Proper Commit Type Prefixes
+- feat: A new feature or functionality has been added.
+- fix: A bug or issue has been fixed.
+- docs: Changes have been made to documentation or comments in the code.
+- style: Changes to the code that do not affect its functionality, such as formatting or styling.
+- refactor: Code has been refactored or restructured, without changing its functionality.
+- perf: Changes made to improve the performance of the code.
+- test: Changes made to testing or test files.
+- chore: Changes made to build, tooling, or other non-code related tasks.
+- build: Changes to build process, scripts or configuration files.
+- ci: Changes to Continuous Integration configuration files or scripts.
+- revert: Reverting a previous commit.
+- merge: Merging branches or changes.
+- release: A new release or version has been created.
+- deps: Updates or changes to dependencies.
+
+## Example of a Proper Commit Message
+A proper commit message should follow this format:
+
+`<type>: <subject>; <description>; branch: <branch name>`
+
+where `<type>` is one of the prefixes listed above, `<subject>` is a concise summary of the changes made, `<description>` is an optional explanation of the changes in more detail, and `<branch name>` is the name of the branch where the commit was made.
+
+For example:
+
+- "feat: Add user authentication; improved security for email and password logins; branch: feature/user-auth"
+- "git commit -m "feat: Add Necessary Fonts; added appropriate fonts; branch: origin/dev""
+
+## QQUIZ Environment Variables
+Environment variables are used to store sensitive or configurable information that should not be exposed in the code. They are usually set in a separate file or in the terminal before running the application. For QQUIZ, the following environment variables are required:
+
+- QQUIZ_MYSQL_USER: The username for accessing the MySQL database
+- QQUIZ_MYSQL_PWD: The password for accessing the MySQL database
+- QQUIZ_MYSQL_HOST: The host name or IP address of the MySQL database server
+- SESSION_NAME: The name of the session cookie for user authentication
+- QQUIZ_MYSQL_DB: The name of the MySQL database for QQUIZ
+- QQUIZ_API_HOST: The host name or IP address of the QQUIZ API server
+- QQUIZ_API_PORT: The port number of the QQUIZ API server
+- SESSION_DURATION: The duration of the session cookie in minutes
+
+To set these environment variables in Ubuntu 22.04, you can use the `export` command in the terminal, followed by the variable name and value. For example:
+
+`export QQUIZ_MYSQL_USER=qquiz_dev`
+
+To run the QQUIZ API server, you need to use this command:
+
+`python3 -m api.v1.app`
+
+To ensure that mysqlclient installs in Ubuntu 22.04, you need to run this command:
+
+`sudo apt-get install build-essential libapache2-mod-wsgi-py3 libmysqlclient-dev`
