@@ -11,6 +11,7 @@ interface Props {
     | "navlinkdashboard"
     | "navlink"
     | "green"
+    | "primaryred"
     | "red";
   full?: boolean;
   active?: boolean;
@@ -51,7 +52,8 @@ const Button = ({
       active ? "text-primarytext-primary" : ""
     }`,
     green: "border-[1px] border-primarygreen hover:border-primayred hover:bg-primarygreen/20 hover:text-primarygreen text-primarygreen font-bold rounded-[--border-radius-large]",
-    red: "border-[1px] border-primaryred hover:border-primayred hover:bg-primaryred/20 hover:text-primaryred text-primaryred font-bold rounded-[--border-radius-large]"
+    red: "border-[1px] border-primaryred hover:border-primayred hover:bg-primaryred/20 hover:text-primaryred text-primaryred font-bold rounded-[--border-radius-large]",
+    primaryred: "border-[1px] border-primaryred hover:border-primaryred bg-primaryred hover:bg-primaryred hover:text- text-white font-bold rounded-[--border-radius-large]"
   };
   const ButtonSize: StringObject = {
     small: `flex flex-row items-center justify-center px-[12px] h-[27px] text-[length:var(--button-text-13-b)] normal-case ${

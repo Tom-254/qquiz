@@ -5,7 +5,7 @@ import { CloseIcon } from "../assets";
 
 interface Props {
   isOpen?: boolean;
-  title?: string,
+  title?: string | React.ReactNode,
   closeModal: (event: React.MouseEvent<HTMLElement>) => void;
   children?: React.ReactNode;
 }
@@ -39,12 +39,12 @@ const MessageModal = ({ isOpen, title, closeModal, children }: Props) => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-[20px] bg-white text-left  shadow-xl transition-all">
-                  <Dialog.Title className="flex flex-col  gap-[16px] bg-white w-full py-[16px] h-full border-b-[1px] border-light">
-                    <div className="flex flex-row items-center justify-between px-[24px] mb-auto">
-                      <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b-20)]">
+                  <Dialog.Title className="flex flex-col  gap-[16px] bg-white w-full py-[16px] h-full">
+                    <div className="flex flex-row justify-between px-[24px] mb-auto">
+                      <div className="text-primarytext-900 font-extrabold text-[length:var(--body-text-16-sb)]">
                         {title}
-                      </p>
-                      <Button type="link" buttonIconRight={<CloseIcon />} onClick={closeModal} />
+                      </div>
+                      <div className="mt-[3px]"><Button type="link" buttonIconRight={<CloseIcon />} onClick={closeModal} /></div>
                     </div>
                   </Dialog.Title>
                   <Dialog.Description as="div" className="relative">

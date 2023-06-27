@@ -33,6 +33,8 @@ import { ReactComponent as CloseIcon } from "../assets/close-icon.svg";
 import { ReactComponent as LongLeftArrow } from "../assets/long-left-arrow.svg";
 import { ReactComponent as AddChoices } from "../assets/add-choices-icon.svg";
 import { ReactComponent as UpIcon } from "../assets/up_icon.svg";
+import { ReactComponent as ErrorIcon } from "../assets/error-icon.svg";
+import { ReactComponent as SuccessIcon } from "../assets/success-icon.svg";
 import AvatarIcon from "../assets/avatar.svg";
 import HeroImage from "../assets/hero-image.svg";
 import AboutUsImage from "../assets/about-us-image.svg";
@@ -44,6 +46,8 @@ import LegendBe from "../assets/legend-be.svg";
 import ImagePlaceHolder from "../assets/image-placeholder-icon.svg";
 
 export {
+  ErrorIcon,
+  SuccessIcon,
   ImagePlaceHolder,
   UpIcon,
   AddChoices,
