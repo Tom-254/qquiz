@@ -62,14 +62,6 @@ const Login = () => {
 
   };
 
-  useEffect(() => {
-    const get = async () => {
-
-      const k = await fetch('http://127.0.0.1:5000/api/v1/stats');
-      console.log(k)
-    }
-    get()
-  },[])
 
   return (
     <main className="bg-white flex flex-col justify-center">

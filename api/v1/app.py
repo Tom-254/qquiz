@@ -11,7 +11,7 @@ from flask_cors import CORS
 from api.v1.auth.session_db_auth import SessionDBAuth
 
 app = Flask(__name__)
-CORS(app, resources={
+CORS(app, supports_credentials=True, resources={
      "/api/v1/*": {"origins": ['0.0.0.0', 'http://localhost:5173/']}})
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)

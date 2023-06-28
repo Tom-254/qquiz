@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import Cookies from "js-cookie";
 
 export const api = createApi({
   reducerPath: "api",
@@ -11,7 +12,7 @@ export const api = createApi({
         .find((row) => row.startsWith("_my_session_id="))
         ?.split("=")[1];
 
-      headers.set("Content-Type", "application/json");
+      // headers.set("Content-Type", "application/json");
 
       // Add the session_id to the request headers
       if (_my_session_id) {
@@ -19,6 +20,12 @@ export const api = createApi({
       }
 
       return headers;
+    },
+    credentials: "include",
+    transformResponse: (response: any) => {
+      const myHeader = response.headers;
+      console.log(myHeader);
+      return response;
     },
   }),
   endpoints: (builder) => ({
@@ -31,31 +38,49 @@ export const api = createApi({
       }),
     }),
     login: builder.mutation({
-      query: (body) => {
-        console.log(body);
-        return { url: "auth_session/login", method: "POST", body };
-    }}),
+      query: (body) => ({
+        url: "auth_session/login",
+        method: "POST",
+        mode: "cors",
+        body,
+      }),
+    }),
     logout: builder.query({
-      query: () => ({ url: `auth_session/logout`, method: "DELETE" }),
+      query: () => ({
+        url: `auth_session/logout`,
+        method: "DELETE",
+        mode: "cors",
+      }),
     }),
     getProfile: builder.query({
-      query: () => ({ url: `users/me/`, method: "GET" }),
+      query: () => ({ url: `users/me/`, method: "GET", mode: "cors" }),
     }),
     updateProfile: builder.mutation({
-      query: (body) => ({ url: `users/me/`, method: "PUT", body }),
+      query: (body) => ({
+        url: `users/me/`,
+        method: "PUT",
+        mode: "cors",
+        body,
+      }),
     }),
     // Category Endpoints
     getCategories: builder.query({
-      query: () => ({ url: `category`, method: "GET" }),
+      query: () => ({ url: `category`, method: "GET", mode: "cors" }),
     }),
     // Quiz Groups Endpoints
     addQuizGroup: builder.mutation({
-      query: (body) => ({ url: `create_quiz_group`, method: "POST", body }),
+      query: (body) => ({
+        url: `create_quiz_group`,
+        method: "POST",
+        mode: "cors",
+        body,
+      }),
     }),
     updateQuizGroup: builder.mutation({
       query: ({ id, body }) => ({
         url: `create_quiz_group/${id}`,
         method: "PUT",
+        mode: "cors",
         body,
       }),
     }),
@@ -63,18 +88,21 @@ export const api = createApi({
       query: (page) => ({
         url: `public_quiz_groups?page=${page}`,
         method: "GET",
+        mode: "cors",
       }),
     }),
     getUserQuizGroups: builder.query({
       query: (page) => ({
         url: `user_quiz_groups?page=${page}`,
         method: "GET",
+        mode: "cors",
       }),
     }),
     deleteUserQuizGroups: builder.query({
       query: (id) => ({
         url: `delete_quiz_group/${id}`,
         method: "DELETE",
+        mode: "cors",
       }),
     }),
     // Answers Endpoints
@@ -82,6 +110,7 @@ export const api = createApi({
       query: (body) => ({
         url: `submit_answers`,
         method: "POST",
+        mode: 'cors',
         body,
       }),
     }),
@@ -89,12 +118,14 @@ export const api = createApi({
       query: () => ({
         url: `get_user_quiz_groups_results`,
         method: "GET",
+        mode: 'cors'
       }),
     }),
     getUserQuizTaken: builder.query({
       query: (id) => ({
         url: `get_user_quiz_group_result/${id}`,
         method: "GET",
+        mode: 'cors'
       }),
     }),
   }),
