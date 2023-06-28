@@ -105,6 +105,17 @@ The GitHub repository for the Qquiz project is available [here](https://github.c
 ## Branches
 
 The Qquiz project uses the following branches:
+
+| Method | Endpoint | Description |
+| ------ | -------- | ----------- |
+| POST  | /auth_session/login | Validate the user's email and password, create a session for the authenticated user, and set a cookie with the session ID. Return a JSON representation of the user object or an error message. |
+| POST | users | Create a new user account with some data and return a JSON representation of the user object or an error message. |
+| POST | /category | Create a new category with a given name and return a JSON representation of the category object or an error message. |
+| POST | /quiz_general_detail | Create a new quiz with a given title, category_id, description, user_id, and visibility and return a JSON representation of the quiz object or an error message. |
+| GET | /public_quiz_groups | Return a paginated list of all public quizzes with their general details, questions, and choices as a JSON object or an error message. |
+| PUT | /update_quiz_group/<general_detail_id> | Update a specific quiz group by its ID with some new data and return a JSON representation of the updated quiz group object or an error message. |
+| DELETE | delete_quiz_group/<general_detail_id> | Delete a specific quiz group by its ID and return an empty JSON object or an error message. |
+| POST | /quiz | Create a new quiz with some data and return a JSON representation of the quiz object or an error message. |
 | Branch | Description |
 | ------ | ----------- |
 
