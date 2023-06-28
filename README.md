@@ -77,12 +77,11 @@ The Qquiz API provides the following endpoints:
 | GET | /public_quiz_groups | Return a paginated list of all public quizzes with their general details, questions, and choices as a JSON object or an error message. This endpoint is important because it shows how your application allows users to browse and access public quizzes created by other users. |
 | GET | /user_quiz_groups | Return a paginated list of all quiz groups created by the current user with their general details, questions, and choices as a JSON object or an error message. This endpoint is important because it shows how your application allows users to manage their own quiz groups. |
 
-¹: [Blueprints and Views — Flask Documentation (1.1.x)](^1^)
-²: [API — Flask Documentation (2.3.x)](^2^)
 
-- (1) Blueprints and Views — Flask Documentation (1.1.x). https://flask.palletsprojects.com/en/1.1.x/tutorial/views/.
 
-- (2) API — Flask Documentation (2.3.x). https://flask.palletsprojects.com/en/2.3.x/api/.
+- (^1^) Blueprints and Views — Flask Documentation (1.1.x). https://flask.palletsprojects.com/en/1.1.x/tutorial/views/.
+
+- (^2^) API — Flask Documentation (2.3.x). https://flask.palletsprojects.com/en/2.3.x/api/.
 
 - (3) Use a Flask Blueprint to Architect Your Applications. https://realpython.com/flask-blueprint/. |
 
@@ -113,6 +112,7 @@ The Qquiz project uses the following branches:
 | qapi | The branch where the Qquiz API is developed and tested. It contains the Flask application and the SQLAlchemy models for the database. |
 | docs | The branch where the documentation and readme files for the project are created and updated. It contains the information about the project, its objectives, technologies, endpoints, mockups, report, and repository. | 
 | hotfix | The branch where urgent fixes or patches are applied to the production branch. | 
+
 ## Proper Commit Type Prefixes
 - feat: A new feature or functionality has been added.
 - fix: A bug or issue has been fixed.
