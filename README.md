@@ -53,8 +53,8 @@ The Qquiz API provides the following endpoints:
 
 | Method | Endpoint | Description |
 | ------ | -------- | ----------- |
-| POST | /users | Create a new user account |
-| POST | /users/login | Authenticate a user and log them in |
+| POST  | /auth_session/login | Validate the user's email and password, create a session for the authenticated user, and set a cookie with the session ID. Return a JSON representation of the user object or an error message. |
+| POST | users | Create a new user account with some data and return a JSON representation of the user object or an error message. |
 | GET | /quizzes | Retrieve a list of all quizzes |
 | POST | /quizzes | Create a new quiz |
 | GET | /quizzes/{quizId} | Retrieve a specific quiz by its ID |
