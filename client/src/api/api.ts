@@ -1,32 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import Cookies from "js-cookie";
+
 
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_API_URL,
-    prepareHeaders: (headers) => {
-      // Get the session_id cookie
-      const _my_session_id = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("_my_session_id="))
-        ?.split("=")[1];
-
-      // headers.set("Content-Type", "application/json");
-
-      // Add the session_id to the request headers
-      if (_my_session_id) {
-        headers.set("_my_session_id", _my_session_id);
-      }
-
-      return headers;
-    },
     credentials: "include",
-    transformResponse: (response: any) => {
-      const myHeader = response.headers;
-      console.log(myHeader);
-      return response;
-    },
   }),
   endpoints: (builder) => ({
     // Authentication Endpoints

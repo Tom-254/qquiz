@@ -11,15 +11,25 @@ import { Button } from "../components";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useGetStatusQuery, useLoginMutation } from "../api/api";
-import { useEffect } from "react";
-import axios from "axios";
+import { useLoginMutation } from "../api/api";
+import { useAppDispatch } from "../app/hooks";
+import { setEmailValue, setIdValue, setNameValue, setProfileImageValue } from "../features/userSlice";
+import { setMessageValue, setTypeValue } from "../features/appMessagesSlice";
 
 type Inputs = {
   email: string;
   password: string;
   rememberMe: boolean;
 };
+
+// interface UserState {
+//   app: {
+//     full_name: string,
+//     email: string,
+//     id: string,
+//     profile_image: null,
+//   }
+// }
 
 const schema = yup.object().shape({
   email: yup
@@ -41,25 +51,29 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const [login] = useLoginMutation()
+  const [ login ] = useLoginMutation()
+
+  const dispatch: any = useAppDispatch();
 
   const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
-    const k = await login({
+    const response = await login({
       email, password
     })
-    console.log(k)
-    // const hello = await login({
-    //   email: email,
-    //   password: password
-    // })
 
-    // console.log(hello)
-    // console.log(data);
+    if ('error' in response) {
+      dispatch(setTypeValue("error"))
+      dispatch(setMessageValue(response.error as string))
+      console.log(response.error)
+      return
+    }
+    dispatch(setIdValue(response.data.id ))
+    dispatch(setNameValue(response.data.full_name))
+    dispatch(setEmailValue(response.data.email))
+    dispatch(setProfileImageValue(response.data.profile_image))
   };
 
   const OnClickRedirect = (path: string) => {
-    // navigate(path);
-
+    navigate(path);
   };
 
 
@@ -184,7 +198,6 @@ const Login = () => {
               which="submit"
               size="large"
               buttonIconRight={<LongRightArrow />}
-              onClick={() => OnClickRedirect("/dashboard")}
             >
               Login
             </Button>

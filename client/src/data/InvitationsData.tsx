@@ -1,4 +1,4 @@
-import { AcceptedInvitationsIcon, AverageScoreIcon, HeroWor, JohnSmith, LegendBe, QuizInvitationsIcon, SamRajes, TotalQuizzesIcon } from "../assets"
+import {  HeroWor, JohnSmith } from "../assets"
 
 export const Invitations = [
     {
