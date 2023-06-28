@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   AcceptInvitation,
   DeleteIcon,
@@ -9,8 +9,8 @@ import {
 } from "../assets";
 import { Button, MessageModal } from "../components";
 import { MyQuizzes, NewQuizzes, OverviewData, QuizInvitations } from "../data";
-import { title } from "process";
 import CustomDialog from "../components/CustomDialog";
+import { useForm } from "react-hook-form";
 
 const DashboardHome = () => {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -24,7 +24,69 @@ const DashboardHome = () => {
   const [openSeeQuizDetailsDialog, setOpenSeeQuizDetailsDialog] =
     useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (formData: any) => {
+    // handle form submission
+    const answers = Object.entries(formData).map(([question, answer]) => {
+      if (typeof answer === "string") {
+        return {
+          question_id: question,
+          choice_id: answer,
+        };
+      } else {
+        return {
+          question_id: question,
+          description: answer,
+        };
+      }
+    });
+
+    console.log(answers);
+  };
+
+  const formData = {
+    title: "",
+    category: "",
+    description: "",
+  };
+
+  const questions = [
+    {
+      id: "one",
+      question: "Hello world",
+      answer_type: "multiple",
+      choices: [
+        { id: 1, name: "Jumping home" },
+        { id: 2, name: "Eating Sugar" },
+        { id: 3, name: "Playing" },
+      ],
+    },
+    {
+      id: "two",
+      question: "Hello world Kenya",
+      answer_type: "multiple",
+      choices: [
+        { id: 4, name: "Jumping home" },
+        { id: 5, name: "Eating Sugar" },
+        { id: 6, name: "Playing" },
+      ],
+    },
+    {
+      id: "three",
+      question: "Hello world Kenya",
+      answer_type: "description",
+      choices: [],
+    },
+  ];
+
   const openTakeQuizModal = () => {
+    reset();
     setOpenTakeQuizDialog(true);
     setDialogTitle("Take Quiz");
   };
@@ -295,12 +357,141 @@ const DashboardHome = () => {
         title={dialogTitle}
         closeModal={closeTakeQuizModal}
       >
-        <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
-          <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
-            <Button which="button" type="tertiary" onClick={closeSeeQuizModal}>
-              Cancel
-            </Button>
-            <Button>Submit Answers</Button>
+        <div className="flex flex-col gap-[24px] py-[24px]">
+          <div className="px-[24px] flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Title
+            </p>
+            <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+              {formData.title}
+            </p>
+          </div>
+          <div className="px-[24px] flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Category
+            </p>
+            <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+              {formData.category}
+            </p>
+          </div>
+          <div className="px-[24px] flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Description
+            </p>
+            <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+              Lorem ipsum dolor sit amet consectetur. Malesuada vitae est amet
+              enim ultrices semper. Odio convallis placerat velit nunc.
+            </p>
+          </div>
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="px-[24px] text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Questions
+            </p>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col gap-[10px] mx-auto w-full"
+            >
+              {questions.map((question, index) => (
+                <div
+                  key={index + 2}
+                  className="border-t-[1px] py-[10px] mx-[24px]"
+                >
+                  <>
+                    <div className="flex w-full flex-col sm:flex-row sm:items-center gap-[10px] md:justify-between text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb) focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                      <div className="flex items-center w-full justify-between text-left">
+                        <span className="flex items-center gap-[8px] first-letter:uppercase">
+                          {index + 1}.{" "}
+                          <p className="first-letter:uppercase">
+                            {question.question}?
+                          </p>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="px-[8px] pt-4 pb-2 text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)">
+                      <div className="flex items-center gap-[8px]">
+                        <p className="text-secondarytext-600 font-bold text-[length:var(--body-text-13-r)]">
+                          Type:
+                        </p>
+                        <Button which="button" type="tertiary" size="small">
+                          {question.answer_type === "multiple"
+                            ? "Multiple Choices"
+                            : "Description Answer"}
+                        </Button>
+                      </div>
+                      {question.choices &&
+                        question.answer_type === "multiple" && (
+                          <ul
+                            key={question.id}
+                            className="flex flex-col gap-[4px] mt-[8px]"
+                          >
+                            {question.choices.map((choice) => (
+                              <li
+                                key={choice.name}
+                                className="flex items-center gap-[8px]"
+                              >
+                                <input
+                                  type="radio"
+                                  className="rounded-full border-[1px] border-secondarytext-600 form-radio cursor-pointer"
+                                  id={`${choice.id}`}
+                                  value={`${choice.id}`}
+                                  {...register(question.id, {
+                                    required: true,
+                                  })}
+                                />
+                                <label
+                                  htmlFor={`${choice.id}`}
+                                  className="text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)] pointer-none"
+                                >
+                                  {choice.name}
+                                </label>
+                              </li>
+                            ))}
+                            {errors[question.id] && (
+                              <p
+                                role="alert"
+                                className="text-primaryred font-bold text-[length:var(--body-text-13-r)]
+                                    ]"
+                              >
+                                Answer is required
+                              </p>
+                            )}
+                          </ul>
+                        )}
+                      {question.answer_type === "description" && (
+                        <div className="flex flex-col gap-[8px] w-full mt-[15px]">
+                          <textarea
+                            className=" outline-none w-full text-primarytext-900 rounded-[8px] form-textarea focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none h-full"
+                            placeholder="Enter the questions description here"
+                            {...register(question.id, { required: true })}
+                          />
+                          {errors[question.id] && (
+                            <p
+                              role="alert"
+                              className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
+                            >
+                              Answer is required
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </>
+                </div>
+              ))}
+              <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
+                <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
+                  <Button
+                    which="button"
+                    type="tertiary"
+                    onClick={() => closeTakeQuizModal()}
+                  >
+                    Cancel
+                  </Button>
+                  <Button>Submit Answers</Button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </CustomDialog>
@@ -309,12 +500,106 @@ const DashboardHome = () => {
         title={dialogTitle}
         closeModal={closeSeeQuizModal}
       >
+        <div className="flex flex-col gap-[24px] p-[24px]">
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Title
+            </p>
+            <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+              {formData.title}
+            </p>
+          </div>
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Category
+            </p>
+            <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+              {formData.category}
+            </p>
+          </div>
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Description
+            </p>
+            <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+              Lorem ipsum dolor sit amet consectetur. Malesuada vitae est amet
+              enim ultrices semper. Odio convallis placerat velit nunc.
+            </p>
+          </div>
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="text-primarytext-900 font-bold text-[length:var(--lead-text-b)]">
+              Questions
+            </p>
+            <div className="flex flex-col gap-[10px] mx-auto w-full">
+              {questions.map((question, index) => (
+                <div key={index + 2} className="border-t-[1px] py-[10px]">
+                  <>
+                    <div className="flex w-full flex-col sm:flex-row sm:items-center gap-[10px] md:justify-between text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb) focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75">
+                      <div className="flex items-center w-full justify-between text-left">
+                        <span className="flex items-center gap-[8px] first-letter:uppercase">
+                          {index + 1}.{" "}
+                          <p className="first-letter:uppercase">
+                            {question.question}?
+                          </p>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="px-[8px] pt-4 pb-2 text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)">
+                      <div className="flex items-center gap-[8px]">
+                        <p className="text-secondarytext-600 font-bold text-[length:var(--body-text-13-r)]">
+                          Type:
+                        </p>
+                        <Button which="button" type="tertiary" size="small">
+                          {question.answer_type === "multiple"
+                            ? "Multiple Choices"
+                            : "Description Answer"}
+                        </Button>
+                      </div>
+                      {question.choices && (
+                        <ul className="flex flex-col gap-[4px] mt-[8px]">
+                          {question.choices.map((choice, index) => (
+                            <li
+                              key={index + 3}
+                              className="flex items-center gap-[8px]"
+                            >
+                              <div className=" max-h-[1px] rounded-full border-[3px] border-secondarytext-600"></div>
+                              <p className="text-secondarytext-600 font-bold text-[length:var(--button-text-15-b)]">
+                                {choice.name}
+                              </p>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {question.answer_type === "description" && (
+                        <div className="flex flex-col gap-[8px] w-full">
+                          <p className="text-primarytext-900 font-bold text-[length:var(--button-text-15-b)]">
+                            What is a Description answer ?
+                          </p>
+                          <p className="text-secondarytext-600 font-semibold text-[length:var(--body-text16-sb)]">
+                            A Description answer is one where a user describes
+                            what there answer is. This ofcourse is subject to
+                            the rules of a particular subject
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className="px-[24px] pt-[16px] pb-[20px] w-full flex gap-[24px] flex-col-reverse sm:flex-row sm:items-center md:justify-between border-t-[1px] border-light">
           <div className="flex flex-col-reverse sm:flex-row sm:items-center gap-[12px] sm:gap-[24px] sm:ml-auto">
-            <Button which="button" type="tertiary" onClick={closeSeeQuizModal}>
+            <Button
+              which="button"
+              type="tertiary"
+              onClick={() => closeSeeQuizModal()}
+            >
               Cancel
             </Button>
-            <Button>Confirm</Button>
+            <Button which="submit">Confirm</Button>
           </div>
         </div>
       </CustomDialog>
