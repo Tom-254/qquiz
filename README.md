@@ -55,16 +55,34 @@ The Qquiz API provides the following endpoints:
 | ------ | -------- | ----------- |
 | POST  | /auth_session/login | Validate the user's email and password, create a session for the authenticated user, and set a cookie with the session ID. Return a JSON representation of the user object or an error message. |
 | POST | users | Create a new user account with some data and return a JSON representation of the user object or an error message. |
-| GET | /quizzes | Retrieve a list of all quizzes |
-| POST | /quizzes | Create a new quiz |
-| GET | /quizzes/{quizId} | Retrieve a specific quiz by its ID |
-| PUT | /quizzes/{quizId} | Update a specific quiz by its ID |
-| DELETE | /quizzes/{quizId} | Delete a specific quiz by its ID |
-| GET | /quizzes/{quizId}/questions | Retrieve a list of all questions for a specific quiz |
-| POST | /quizzes/{quizId}/questions | Add a new question to a specific quiz |
-| GET | /quizzes/{quizId}/questions/{questionId} | Retrieve a specific question by its ID |
-| PUT | /quizzes/{quizId}/questions/{questionId} | Update a specific question by its ID |
-| DELETE | /quizzes/{quizId}/questions/{questionId} | Delete a specific question by its ID |
+| POST | /category | Create a new category with a given name and return a JSON representation of the category object or an error message. |
+| POST | /quiz_general_detail | Create a new quiz with a given title, category_id, description, user_id, and visibility and return a JSON representation of the quiz object or an error message. |
+| GET | /public_quiz_groups | Return a paginated list of all public quizzes with their general details, questions, and choices as a JSON object or an error message. |
+| PUT | /update_quiz_group/<general_detail_id> | Update a specific quiz group by its ID with some new data and return a JSON representation of the updated quiz group object or an error message. |
+| DELETE | delete_quiz_group/<general_detail_id> | Delete a specific quiz group by its ID and return an empty JSON object or an error message. |
+| POST | /quiz | Create a new quiz with some data and return a JSON representation of the quiz object or an error message. |
+| GET | /quiz/<quiz_id> | Retrieve a specific quiz by its ID and return a JSON representation of the quiz object or an error message |
+| PUT | /quiz_general_detail/<detail_id> | Update a specific quiz by its ID with some new data and return a JSON representation of the updated quiz object or an error message. |
+| DELETE | /quiz_general_detail/<detail_id> | Delete a specific quiz by its ID and return an empty JSON object or an error message. |
+| POST | /submit_answers | Submit the user's answers to a quiz and return a JSON representation of the score or an error message. |
+| GET | /get_user_quiz_groups_results | Return a list of all quiz groups that the user has answered and their scores as a JSON object or an error message. |
+| GET | /get_user_quiz_group_result/<general_detail_id> | Return the result of a specific quiz group that the user has answered and their score as a JSON object or an error message. |
+| DELETE | /quiz/<quiz_id> | Delete a specific quiz by its ID and return an empty JSON object or an error message. |
+| DELETE | /auth_session/logout | Destroy the session associated with the request and return an empty JSON object or an error message. |
+| PUT | /users/<user_id> | Update a specific user by their ID with some new data and return a JSON representation of the updated user object or an error message. |
+| GET | /status | Return the status of the API as a JSON object with the key "status" and the value "OK". This endpoint is important because it shows that your API is up and running and can respond to requests¹. |
+| GET | /stats | Return the number of each objects in the database as a JSON object with the keys being the object names and the values being the counts. This endpoint is important because it shows how your API interacts with your database models and how you use the count method to get the statistics². |
+| POST | /category | Create a new category with a given name and return a JSON representation of the category object or an error message. This endpoint is important because it shows how your application allows users to create categories for their quizzes. |
+| POST | /quiz_general_detail | Create a new quiz with a given title, category_id, description, user_id, and visibility and return a JSON representation of the quiz object or an error message. This endpoint is important because it shows how your application allows users to create quizzes for their categories. |
+| GET | /public_quiz_groups | Return a paginated list of all public quizzes with their general details, questions, and choices as a JSON object or an error message. This endpoint is important because it shows how your application allows users to browse and access public quizzes created by other users. |
+| GET | /user_quiz_groups | Return a paginated list of all quiz groups created by the current user with their general details, questions, and choices as a JSON object or an error message. This endpoint is important because it shows how your application allows users to manage their own quiz groups. |
+
+¹: [Blueprints and Views — Flask Documentation (1.1.x)](^1^)
+²: [API — Flask Documentation (2.3.x)](^2^)
+
+(1) Blueprints and Views — Flask Documentation (1.1.x). https://flask.palletsprojects.com/en/1.1.x/tutorial/views/.
+(2) API — Flask Documentation (2.3.x). https://flask.palletsprojects.com/en/2.3.x/api/.
+(3) Use a Flask Blueprint to Architect Your Applications. https://realpython.com/flask-blueprint/. |
 
 ## Mockups
 
