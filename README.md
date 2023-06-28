@@ -80,9 +80,11 @@ The Qquiz API provides the following endpoints:
 ¹: [Blueprints and Views — Flask Documentation (1.1.x)](^1^)
 ²: [API — Flask Documentation (2.3.x)](^2^)
 
-(1) Blueprints and Views — Flask Documentation (1.1.x). https://flask.palletsprojects.com/en/1.1.x/tutorial/views/.
-(2) API — Flask Documentation (2.3.x). https://flask.palletsprojects.com/en/2.3.x/api/.
-(3) Use a Flask Blueprint to Architect Your Applications. https://realpython.com/flask-blueprint/. |
+- (1) Blueprints and Views — Flask Documentation (1.1.x). https://flask.palletsprojects.com/en/1.1.x/tutorial/views/.
+
+- (2) API — Flask Documentation (2.3.x). https://flask.palletsprojects.com/en/2.3.x/api/.
+
+- (3) Use a Flask Blueprint to Architect Your Applications. https://realpython.com/flask-blueprint/. |
 
 ## Mockups
 
@@ -103,12 +105,14 @@ The GitHub repository for the Qquiz project is available [here](https://github.c
 ## Branches
 
 The Qquiz project uses the following branches:
+| Branch | Description |
+| ------ | ----------- |
 
-- development: The branch where new features and functionalities are developed and tested before being merged to the production branch.
-- production: The branch where the stable and ready-to-deploy version of the project is maintained. It reflects the current state of the website on the server.
-- qapi: The branch where the Qquiz API is developed and tested. It contains the Flask application and the SQLAlchemy models for the database.
-- docs: The branch where the documentation and readme files for the project are created and updated. It contains the information about the project, its objectives, technologies, endpoints, mockups, report, and repository.
-- hotfix: The branch where urgent fixes or patches are applied to the production branch.
+| development | The branch where new features and functionalities are developed and tested before being merged to the production branch. |
+| production | The branch where the stable and ready-to-deploy version of the project is maintained. It reflects the current state of the website on the server. |
+| qapi | The branch where the Qquiz API is developed and tested. It contains the Flask application and the SQLAlchemy models for the database. |
+| docs | The branch where the documentation and readme files for the project are created and updated. It contains the information about the project, its objectives, technologies, endpoints, mockups, report, and repository. |
+| hotfix | The branch where urgent fixes or patches are applied to the production branch. |
 
 ## Proper Commit Type Prefixes
 - feat: A new feature or functionality has been added.
