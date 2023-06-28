@@ -49,16 +49,16 @@ def authenticate_user():
     """Validates all requests to secure the API:
     """
     excluded_paths = [
-        ('/api/v1/status/', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/status', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/unauthorized/', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/unauthorized', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/forbidden/', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/forbidden', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/auth_session/login/', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/auth_session/login', 'GET,POST,DELETE,PATCH,PUT'),
-        ('/api/v1/users', 'POST'),
-        ('/api/v1/users/', 'POST'),
+        ('/api/v1/status/', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/status', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/unauthorized/', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/unauthorized', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/forbidden/', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/forbidden', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/auth_session/login/', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/auth_session/login', 'GET,POST,DELETE,PATCH,PUT,OPTIONS'),
+        ('/api/v1/users', 'POST,OPTIONS'),
+        ('/api/v1/users/', 'POST,OPTIONS'),
     ]
     if auth and auth.require_auth(request.path, excluded_paths, request.method):
         user = auth.current_user(request)

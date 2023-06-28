@@ -88,6 +88,13 @@ class DBStorage():
             return None
         return obj
 
+    def get_user_with_session_id(self, session_id):
+        obj = self.__session.query(UserSession).filter_by(
+            session_id=session_id).first()
+        if obj is None:
+            return None
+        return obj
+
     def count(self, cls=None):
         """
             Count the number of objects in storage:

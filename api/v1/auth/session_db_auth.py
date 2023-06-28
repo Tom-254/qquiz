@@ -29,28 +29,24 @@ class SessionDBAuth(SessionExpAuth):
     def user_id_for_session_id(self, session_id=None):
         """Returns a User ID based on a Session ID:
         """
-        try:
-            sessions = UserSession.search({'session_id': session_id})
-        except Exception:
+        session = UserSession.get_user_with_session(session_id)
+        if session is None:
             return None
-        if len(sessions) <= 0:
-            return None
+
         cur_time = datetime.now()
         time_span = timedelta(seconds=self.session_duration)
-        exp_time = sessions[0].created_at + time_span
+        exp_time = session.created_at + time_span
         if exp_time < cur_time:
             return None
-        return sessions[0].user_id
+        return session.user_id
 
     def destroy_session(self, request=None) -> bool:
         """Deletes the user session / logout
         """
         session_id = self.session_cookie(request)
-        try:
-            sessions = UserSession.search({'session_id': session_id})
-        except Exception:
+        session = UserSession.get_user_with_session(session_id)
+        if session is None:
             return False
-        if len(sessions) <= 0:
-            return False
-        sessions[0].remove()
+
+        session.remove()
         return True

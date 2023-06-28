@@ -170,3 +170,11 @@ class BaseModel:
     @classmethod
     def get_query(cls):
         return models.storage.get_query(cls)
+
+    @classmethod
+    def get_user_with_email(cls, email: str):
+        return models.storage.get_user_with_email(email)
+
+    @classmethod
+    def get_user_with_session(cls, session_id: str):
+        return models.storage.get_user_with_session_id(session_id)

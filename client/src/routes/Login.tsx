@@ -11,6 +11,9 @@ import { Button } from "../components";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useGetStatusQuery, useLoginMutation } from "../api/api";
+import { useEffect } from "react";
+import axios from "axios";
 
 type Inputs = {
   email: string;
@@ -38,13 +41,35 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<Inputs> = (data: object) => {
-    console.log(data);
+  const [login] = useLoginMutation()
+
+  const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
+    const k = await login({
+      email, password
+    })
+    console.log(k)
+    // const hello = await login({
+    //   email: email,
+    //   password: password
+    // })
+
+    // console.log(hello)
+    // console.log(data);
   };
 
   const OnClickRedirect = (path: string) => {
-    navigate(path);
+    // navigate(path);
+
   };
+
+  useEffect(() => {
+    const get = async () => {
+
+      const k = await fetch('http://127.0.0.1:5000/api/v1/stats');
+      console.log(k)
+    }
+    get()
+  },[])
 
   return (
     <main className="bg-white flex flex-col justify-center">
