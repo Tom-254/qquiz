@@ -34,19 +34,18 @@ const DashboardHome = () => {
   const onSubmit = (formData: any) => {
     // handle form submission
     const answers = Object.entries(formData).map(([question, answer]) => {
-      if (typeof answer === "string") {
+      if (question.split("_2_")[1] !== "description") {
         return {
           question_id: question,
           choice_id: answer,
         };
       } else {
         return {
-          question_id: question,
+          question_id: question.split("_2_")[0],
           description: answer,
         };
       }
     });
-
     console.log(answers);
   };
 
@@ -463,9 +462,9 @@ const DashboardHome = () => {
                           <textarea
                             className=" outline-none w-full text-primarytext-900 rounded-[8px] form-textarea focus:border-primary focus:border-[1px] focus:outline-none focus:shadow-none h-full"
                             placeholder="Enter the questions description here"
-                            {...register(question.id, { required: true })}
+                            {...register(question.id + "_2_" + "description", { required: true })}
                           />
-                          {errors[question.id] && (
+                          {errors[question.id + "_2_" + "description"] && (
                             <p
                               role="alert"
                               className="text-primaryred font-bold text-[length:var(--body-text-13-r)]"
