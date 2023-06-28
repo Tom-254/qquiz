@@ -79,11 +79,11 @@ The Qquiz API provides the following endpoints:
 
 
 
-- (^1^) Blueprints and Views — Flask Documentation (1.1.x). https://flask.palletsprojects.com/en/1.1.x/tutorial/views/.
+(1) Blueprints and Views — Flask Documentation (1.1.x). https://flask.palletsprojects.com/en/1.1.x/tutorial/views/.
 
-- (^2^) API — Flask Documentation (2.3.x). https://flask.palletsprojects.com/en/2.3.x/api/.
+(2) API — Flask Documentation (2.3.x). https://flask.palletsprojects.com/en/2.3.x/api/.
 
-- (3) Use a Flask Blueprint to Architect Your Applications. https://realpython.com/flask-blueprint/. |
+(3) Use a Flask Blueprint to Architect Your Applications. https://realpython.com/flask-blueprint/. |
 
 ## Mockups
 
