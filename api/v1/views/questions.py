@@ -25,7 +25,7 @@ def create_category():
         abort(400)
 
     return jsonify(question_controllers.create_category(
-        request_data.get("name")).to_json())
+        request_data.get("name")).to_json()), 200
 
 
 @app_views.route('/category', methods=['GET'])
@@ -66,7 +66,7 @@ def create_quiz_general_detail():
             abort(400, f"{field} is required")
 
     return jsonify(question_controllers.create_quiz_general_detail(
-        request_data).to_json())
+        request_data).to_json()), 200
 
 
 @app_views.route('/quiz_general_detail/<detail_id>', methods=['GET'])
@@ -74,7 +74,7 @@ def read_quiz_general_detail(detail_id: str):
     if detail_id is None:
         abort(404)
 
-    return jsonify(question_controllers.read_quiz_general_detail(detail_id).to_json())
+    return jsonify(question_controllers.read_quiz_general_detail(detail_id).to_json()), 200
 
 
 @app_views.route('/public_quiz_groups/', methods=['GET'])
@@ -118,7 +118,7 @@ def read_public_quiz_groups():
         'pages': math.ceil(total / per_page),
         'prev_num': page - 1 if page > 1 else None,
         'next_num': page + 1 if page * per_page < total else None
-    })
+    }), 200
 
 
 @app_views.route('/user_quiz_groups/', methods=['GET'])
@@ -155,7 +155,7 @@ def read_user_quiz_groups():
                     'is_correct': choice.is_correct
                 } for choice in question.choices]
             } for question in general_detail.questions]
-        })
+        }), 200
 
     return jsonify({
         'data': result,
@@ -211,7 +211,7 @@ def create_quiz_group():
                 } for choice in question.choices]
             } for question in general_detail.questions]
         },
-    })
+    }), 200
 
 
 @app_views.route('/update_quiz_group/<general_detail_id>', methods=['PUT'])
@@ -252,7 +252,7 @@ def update_quiz_group(general_detail_id):
                 } for choice in question.choices]
             } for question in general_detail.questions]
         },
-    })
+    }), 200
 
 
 @app_views.route('/delete_quiz_group/<general_detail_id>', methods=['DELETE'])
@@ -262,7 +262,7 @@ def delete_quiz_group(general_detail_id):
 
     if question_controllers.delete_quiz_group(general_detail_id):
         return jsonify({"success": "Deleted Successfully"})
-    return jsonify({"error": "Details not found"})
+    return jsonify({"error": "Details not found"}), 200
 
 
 @app_views.route('/quiz_general_detail/<detail_id>', methods=['PUT'])
@@ -288,7 +288,7 @@ def update_quiz_general_detail(detail_id: str):
 
     quiz_general_detail.save()
 
-    return jsonify(quiz_general_detail.to_json())
+    return jsonify(quiz_general_detail.to_json()), 200
 
 
 @app_views.route('/quiz_general_detail/<detail_id>', methods=['DELETE'])
@@ -297,7 +297,7 @@ def delete_quiz_general_detail(detail_id: str):
         abort(404)
     if question_controllers.delete_quiz_general_detail(detail_id):
         return jsonify({"success": "Deleted Successfully"})
-    return jsonify({"error": "Details not found"})
+    return jsonify("Details not found"), 200
 
 
 # Quiz CRUD
@@ -414,7 +414,7 @@ def delete_quiz(quiz_id: str):
         abort(404)
     if question_controllers.delete_quiz(quiz_id):
         return jsonify({"success": "Deleted Successfully"})
-    return jsonify({"error": "Details not found"})
+    return jsonify("Details not found"), 404
 
 
 # Answers CRUD
@@ -443,4 +443,4 @@ def get_user_quiz_group_result(general_detail_id):
     if general_detail_id is None:
         abort(404)
 
-    return jsonify(question_controllers.get_user_quiz_group_result(user_id, general_detail_id))
+    return jsonify(question_controllers.get_user_quiz_group_result(user_id, general_detail_id)), 200

@@ -60,7 +60,7 @@ class Questions:
 
         general_detail = QuestionGeneralDetail.get_query().filter_by(id=general_detail_id).first()
         if not general_detail:
-            return {'error': 'general_detail_id not found'}
+            return {'message': 'general_detail_id not found'}
 
         score = 0
 
@@ -73,7 +73,7 @@ class Questions:
                 id=question_id).first()
 
             if not question:
-                return {'error': 'question_id not found'}
+                return {'message': 'question_id not found'}
 
             if question.answer_type == 'multiple':
 
@@ -81,7 +81,7 @@ class Questions:
                     id=choice_id, question_id=question_id).first()
 
                 if not choice:
-                    return {'error': 'choice_id not found'}
+                    return {'message': 'choice_id not found'}
 
                 answer = Answer(
                     question_id=question_id,
@@ -179,7 +179,7 @@ class Questions:
                 Question).filter(Question.general_detail_id == general_detail_id).all()
 
             if not answers:
-                return {'error': 'User has not taken this quiz'}
+                return {'message': 'User has not taken this quiz'}
 
             general_detail_data = {
                 'id': general_detail.id,
@@ -222,7 +222,7 @@ class Questions:
 
             return general_detail_data
         else:
-            return {'error': 'Question not found'}
+            return {'message': 'Question not found'}
 
     def read_public_quiz_groups(self,
                                 page: int, per_page: int):

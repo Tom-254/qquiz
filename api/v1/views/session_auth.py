@@ -17,18 +17,18 @@ def login():
     Return:
       - JSON representation of a User object.
     """
-    error_not_found = {"error": "no user found for this email"}
+    error_not_found =  "no user found for this email"
     try:
         request_data = request.get_json()
     except Exception as ex:
-        return make_response(jsonify({'error': 'Not a JSON', "status" : 400}))
+        return jsonify('Not a JSON'), 400
 
     email = request_data.get('email')
     if not email or not email.strip():
-        return jsonify({"error": "email missing"}), 400
+        return jsonify("email missing"), 400
     password = request_data.get('password')
     if not password or not password.strip():
-        return jsonify({"error": "password missing"}), 400
+        return jsonify("password missing"), 400
 
     user = User.get_user_with_email(email)
     if not user:
@@ -41,7 +41,7 @@ def login():
         res = jsonify(user.to_json())
         res.set_cookie(os.getenv("SESSION_NAME"), sessiond_id, secure=True, samesite='None')
         return make_response(res)
-    return jsonify({"error": "wrong password"}), 401
+    return jsonify("wrong password"), 401
 
 
 @app_views.route(
@@ -52,6 +52,6 @@ def logout():
       - An empty JSON object.
     """
     from api.v1.app import auth
-    if not auth.destroy_session(request):
+    if not auth.destroy_sessionm(request):
         abort(404)
-    return jsonify({"success": "Logged out successfully"})
+    return jsonify("Logged out successfully"), 200
