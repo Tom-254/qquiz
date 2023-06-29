@@ -24,7 +24,7 @@ export const api = createApi({
         body,
       }),
     }),
-    logout: builder.query({
+    logout: builder.mutation({
       query: () => ({
         url: `auth_session/logout`,
         method: "DELETE",
@@ -113,7 +113,7 @@ export const api = createApi({
 export const {
   useSignupMutation,
   useLoginMutation,
-  useLogoutQuery,
+  useLogoutMutation,
   useGetProfileQuery,
   useUpdateProfileMutation,
   useGetCategoriesQuery,

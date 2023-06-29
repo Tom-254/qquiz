@@ -52,6 +52,6 @@ def logout():
       - An empty JSON object.
     """
     from api.v1.app import auth
-    if not auth.destroy_sessionm(request):
+    if not auth.destroy_session(request):
         abort(404)
     return jsonify("Logged out successfully"), 200

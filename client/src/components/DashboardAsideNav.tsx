@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -16,6 +16,7 @@ import { Button } from ".";
 import { useEffect, useState } from "react";
 import CustomDialog from "./CustomDialog";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useLogoutMutation } from "../api/api";
 
 type Inputs = {
   fullName: string;
@@ -66,7 +67,13 @@ const DashboardAsideNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
 
+
   const { pathname } = useLocation();
+
+  const [logout, { isLoading, isSuccess }] = useLogoutMutation();
+
+  const navigate = useNavigate()
+
 
   const {
     register,
@@ -119,6 +126,11 @@ const DashboardAsideNav = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data: object) => {
     console.log(data);
+  };
+
+  const logoutUser = async() => {
+    await logout("none");
+    if (isSuccess) navigate("/login");
   };
 
   const location = pathname.split("/").pop();
@@ -181,11 +193,12 @@ const DashboardAsideNav = () => {
           </div>
           <div className="mt-auto mb-[20px] mx-auto lg:mx-0">
             <Link
-              to={"/register"}
+              to={"#"}
               className={
                 "w-fit lg:w-auto bg-transparent px-[24px] py-[16px] text-secondarytext-600 font-bold hover:text-primary flex items-center justify-center lg:justify-start gap-[16px] rounded-[12px]"
               }
               title="Logout"
+              onClick={() => logoutUser()}
             >
               <LogoutIcon /> <span className="hidden lg:block">Logout</span>
             </Link>

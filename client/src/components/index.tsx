@@ -6,9 +6,11 @@ import DashboardTopNav from "./DashboardTopNav";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import MessageModal from "./MessageModal";
+import Loader from "./Loader";
 
 
 export {
+    Loader,
     Button,
     Footer,
     Navbar,
