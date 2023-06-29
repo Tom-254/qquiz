@@ -21,27 +21,27 @@ auth = SessionDBAuth()
 
 @app.errorhandler(400)
 def bad_request(error):
-    return jsonify({"error": error.description or "Missing required fields" }), 400
+    return jsonify(error.description or "Missing required fields"), 400
 
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
     """
-    return jsonify({"error": "Not found"}), 404
+    return jsonify("Not found"), 404
 
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
     """Unauthorized handler.
     """
-    return jsonify({"error": "Unauthorized"}), 401
+    return jsonify("Unauthorized"), 401
 
 
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """Forbidden handler.
     """
-    return jsonify({"error": "Forbidden"}), 403
+    return jsonify("Forbidden"), 403
 
 
 @app.before_request

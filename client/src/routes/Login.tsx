@@ -13,8 +13,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useLoginMutation } from "../api/api";
 import { useAppDispatch } from "../app/hooks";
-import { setEmailValue, setIdValue, setNameValue, setProfileImageValue } from "../features/userSlice";
-import { setMessageValue, setTypeValue } from "../features/appMessagesSlice";
+import {
+  setEmailValue,
+  setIdValue,
+  setNameValue,
+  setProfileImageValue,
+} from "../features/userSlice";
+import { useState } from "react";
 
 type Inputs = {
   email: string;
@@ -30,6 +35,11 @@ type Inputs = {
 //     profile_image: null,
 //   }
 // }
+
+type ErrorInputs = {
+  status: number;
+  data: string;
+};
 
 const schema = yup.object().shape({
   email: yup
@@ -49,33 +59,36 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
+  const [loginErrors, setLoginErrors] = useState("");
+
   const navigate = useNavigate();
 
-  const [ login ] = useLoginMutation()
+  const [login] = useLoginMutation();
 
   const dispatch: any = useAppDispatch();
 
-  const onSubmit: SubmitHandler<Inputs> = async ({email, password}) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
     const response = await login({
-      email, password
-    })
+      email,
+      password,
+    });
 
-    if ('error' in response) {
-      dispatch(setTypeValue("error"))
-      dispatch(setMessageValue(response.error as string))
-      console.log(response.error)
-      return
+    if ("error" in response) {
+      const { status, data } = response.error as ErrorInputs;
+      setLoginErrors(data)
+      return;
     }
-    dispatch(setIdValue(response.data.id ))
-    dispatch(setNameValue(response.data.full_name))
-    dispatch(setEmailValue(response.data.email))
-    dispatch(setProfileImageValue(response.data.profile_image))
+    dispatch(setIdValue(response.data.id));
+    dispatch(setNameValue(response.data.full_name));
+    dispatch(setEmailValue(response.data.email));
+    dispatch(setProfileImageValue(response.data.profile_image));
+    setLoginErrors("")
+    navigate("/dashboard");
   };
 
   const OnClickRedirect = (path: string) => {
     navigate(path);
   };
-
 
   return (
     <main className="bg-white flex flex-col justify-center">
@@ -192,8 +205,15 @@ const Login = () => {
                   Remember me
                 </label>
               </div>
-              <Button type="link" which="button">Forgot Password</Button>
+              <Button type="link" which="button">
+                Forgot Password
+              </Button>
             </div>
+            {loginErrors && (
+              <p className=" p-[8px] px-[20px] text-center w-fit rounded-full max-w-sm font-bold bg-red-100 text-primaryred text-[length:var(--button-text-15-b)">
+                {loginErrors}
+              </p>
+            )}
             <Button
               which="submit"
               size="large"

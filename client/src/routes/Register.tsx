@@ -12,6 +12,15 @@ import { Button } from "../components";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useSignupMutation } from "../api/api";
+import { useAppDispatch } from "../app/hooks";
+import {
+  setEmailValue,
+  setIdValue,
+  setNameValue,
+  setProfileImageValue,
+} from "../features/userSlice";
+import { useState } from "react";
 
 type Inputs = {
   fullName: string;
@@ -19,6 +28,18 @@ type Inputs = {
   password: string;
   confirmPassword: string;
 };
+
+type DataInputs = {
+  fullName: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+};
+
+type ErrorInputs = {
+  status: number,
+  data: string,
+}
 
 const schema = yup.object().shape({
   fullName: yup.string().required("This field is required"),
@@ -52,10 +73,33 @@ const Register = () => {
     resolver: yupResolver(schema),
   });
 
+  const [signupErrors, setSignupErrors] = useState("")
+
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<Inputs> = (data: object) => {
-    console.log(data);
+  const [signup] = useSignupMutation();
+
+  const dispatch = useAppDispatch();
+
+  const onSubmit: SubmitHandler<Inputs> = async (data: object) => {
+    const { fullName, email, password } = data as DataInputs;
+    console.log(fullName, email, password);
+    const response = await signup({
+      full_name: fullName,
+      email: email,
+      password,
+    });
+    if ("error" in response) {
+      const { status, data } = response.error as ErrorInputs;
+      setSignupErrors(data)
+      return;
+    }
+    dispatch(setIdValue(response.data.id));
+    dispatch(setNameValue(response.data.full_name));
+    dispatch(setEmailValue(response.data.email));
+    dispatch(setProfileImageValue(response.data.profile_image));
+    setSignupErrors(data)
+    navigate("/dashboard")
   };
 
   const OnClickRedirect = (path: string) => {
@@ -214,6 +258,11 @@ const Register = () => {
                 </p>
               )}
             </div>
+            {signupErrors && (
+              <p className=" p-[8px] px-[20px] text-center w-fit rounded-full max-w-sm font-bold bg-red-100 text-primaryred text-[length:var(--button-text-15-b)">
+                {signupErrors}
+              </p>
+            )}
             <Button
               which="submit"
               size="large"

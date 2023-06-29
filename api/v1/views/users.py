@@ -91,7 +91,7 @@ def create_user() -> str:
     if error_msg is None:
         try:
             user = storage.get_user_with_email(rj.get("email")).to_dict()
-            return make_response(jsonify({"error": "Email Already Taken"}))
+            return jsonify("Email Already Taken"), 409
         except Exception:
             pass
         try:
@@ -138,7 +138,7 @@ def update_user(user_id: str = None) -> str:
     except Exception as e:
         rj = None
     if rj is None:
-        return jsonify({'error': "Wrong format"}), 400
+        return jsonify("Wrong JSON format"), 400
     if rj.get('full_name') is not None:
         user.full_name = rj.get('full_name')
     if rj.get('profile_image') is not None:

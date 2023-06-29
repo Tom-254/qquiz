@@ -262,7 +262,7 @@ def delete_quiz_group(general_detail_id):
 
     if question_controllers.delete_quiz_group(general_detail_id):
         return jsonify({"success": "Deleted Successfully"})
-    return jsonify({"error": "Details not found"}), 200
+    return jsonify("Details not found"), 404
 
 
 @app_views.route('/quiz_general_detail/<detail_id>', methods=['PUT'])
