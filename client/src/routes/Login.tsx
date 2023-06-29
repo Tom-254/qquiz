@@ -68,6 +68,7 @@ const Login = () => {
   const dispatch: any = useAppDispatch();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+    setLoginErrors("")
     const response = await login({
       email,
       password,
@@ -125,7 +126,7 @@ const Login = () => {
             </div>
           </div>
           <form
-            className="flex flex-col gap-[24px]"
+            className="flex flex-col gap-[24px] w-full"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-[8px]">
@@ -210,7 +211,7 @@ const Login = () => {
               </Button>
             </div>
             {loginErrors && (
-              <p className=" p-[8px] px-[20px] text-center w-fit rounded-full max-w-sm font-bold bg-red-100 text-primaryred text-[length:var(--button-text-15-b)">
+              <p className="lowercase p-[8px] px-[20px] text-center rounded-full max-w-full font-bold bg-red-100 text-primaryred text-[length:var(--button-text-15-b) first-letter:uppercase">
                 {loginErrors}
               </p>
             )}

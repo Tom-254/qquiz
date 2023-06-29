@@ -79,9 +79,10 @@ const Register = () => {
 
   const [signup] = useSignupMutation();
 
-  const dispatch = useAppDispatch();
+  const dispatch: any = useAppDispatch();
 
   const onSubmit: SubmitHandler<Inputs> = async (data: object) => {
+    setSignupErrors("")
     const { fullName, email, password } = data as DataInputs;
     console.log(fullName, email, password);
     const response = await signup({
@@ -98,7 +99,7 @@ const Register = () => {
     dispatch(setNameValue(response.data.full_name));
     dispatch(setEmailValue(response.data.email));
     dispatch(setProfileImageValue(response.data.profile_image));
-    setSignupErrors(data)
+    setSignupErrors("")
     navigate("/dashboard")
   };
 
@@ -259,7 +260,7 @@ const Register = () => {
               )}
             </div>
             {signupErrors && (
-              <p className=" p-[8px] px-[20px] text-center w-fit rounded-full max-w-sm font-bold bg-red-100 text-primaryred text-[length:var(--button-text-15-b)">
+              <p className="lowercase p-[8px] px-[20px] text-center rounded-full max-w-full font-bold bg-red-100 text-primaryred text-[length:var(--button-text-15-b) first-letter:uppercase">
                 {signupErrors}
               </p>
             )}
