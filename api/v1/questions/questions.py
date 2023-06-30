@@ -224,19 +224,40 @@ class Questions:
         else:
             return {'message': 'Question not found'}
 
-    def read_public_quiz_groups(self,
-                                page: int, per_page: int):
+    # def read_public_quiz_groups(self,
+    #                             page: int, per_page: int):
+    #     general_details = QuestionGeneralDetail.get_query().filter(
+    #         QuestionGeneralDetail.visibility == 'public'
+    #     ).options(
+    #         joinedload(QuestionGeneralDetail.category),
+    #         joinedload(QuestionGeneralDetail.questions).joinedload(
+    #             Question.choices)
+    #     ).limit(per_page).offset((page - 1) * per_page).all()
+    #     total = QuestionGeneralDetail.get_query().filter(
+    #         QuestionGeneralDetail.visibility == 'public'
+    #     ).count()
+    #     return {"data": general_details, "total": total}
+    def read_public_quiz_groups(self, page: int, per_page: int):
         general_details = QuestionGeneralDetail.get_query().filter(
             QuestionGeneralDetail.visibility == 'public'
         ).options(
             joinedload(QuestionGeneralDetail.category),
             joinedload(QuestionGeneralDetail.questions).joinedload(
-                Question.choices)
+                Question.choices),
+            joinedload(QuestionGeneralDetail.user)
         ).limit(per_page).offset((page - 1) * per_page).all()
+
+
+        for detail in general_details:
+            detail.user_name = detail.user.full_name
+            detail.user_profile_image = detail.user.profile_image
+
         total = QuestionGeneralDetail.get_query().filter(
             QuestionGeneralDetail.visibility == 'public'
         ).count()
+
         return {"data": general_details, "total": total}
+
 
     def create_quiz_group(self, request_data: dict()):
         general_detail_data = request_data['general_detail']

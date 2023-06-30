@@ -98,7 +98,9 @@ def read_public_quiz_groups():
                 'title': general_detail.title,
                 'category_id': general_detail.category_id,
                 'user_id': general_detail.user_id,
-                'description': general_detail.description
+                'description': general_detail.description,
+                'user_name' : general_detail.user_name,
+                'user_profile_image': general_detail.user_profile_image,
             },
             'questions': [{
                 'id': question.id,
@@ -143,7 +145,7 @@ def read_user_quiz_groups():
                 'title': general_detail.title,
                 'category_id': general_detail.category_id,
                 'user_id': general_detail.user_id,
-                'description': general_detail.description
+                'description': general_detail.description,
             },
             'questions': [{
                 'id': question.id,
