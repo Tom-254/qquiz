@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -17,10 +17,16 @@ import { useEffect, useState } from "react";
 import CustomDialog from "./CustomDialog";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLogoutMutation } from "../api/api";
+import { useAppSelector } from "../app/hooks";
 
 type Inputs = {
   fullName: string;
   email: string;
+};
+
+type ErrorInputs = {
+  status: number;
+  data: string;
 };
 
 const schema = yup.object().shape({
@@ -67,12 +73,16 @@ const DashboardAsideNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
 
+  const [logoutErrors, setLogoutErrors] = useState("")
+
 
   const { pathname } = useLocation();
 
-  const [logout, { isLoading, isSuccess }] = useLogoutMutation();
+  const [logout ] = useLogoutMutation();
 
   const navigate = useNavigate()
+
+  const { full_name, email, profile_image } = useAppSelector((state) => state.user);
 
 
   const {
@@ -129,8 +139,14 @@ const DashboardAsideNav = () => {
   };
 
   const logoutUser = async() => {
-    await logout("none");
-    if (isSuccess) navigate("/login");
+    const response = await logout("none");
+    console.log(response);
+    if ("error" in response) {
+      // const { status, data } = response.error as ErrorInputs;
+      // setLogoutErrors(data)
+      return;
+    }
+    navigate("/login", {replace: true});
   };
 
   const location = pathname.split("/").pop();
@@ -144,6 +160,8 @@ const DashboardAsideNav = () => {
       setActive(3);
     }
   }, [location]);
+
+  if (logoutErrors) return <Navigate to="/login" replace />
 
   return (
     <>
@@ -159,7 +177,7 @@ const DashboardAsideNav = () => {
               <div className="flex items-center justify-center w-[60px] h-[60px] lg:w-[70px] lg:h-[70px] rounded-full">
                 <img
                   className="rounded-full w-full"
-                  src={AvatarIcon}
+                  src={profile_image ? profile_image : AvatarIcon}
                   alt="Profile Image"
                 />
               </div>
@@ -168,7 +186,7 @@ const DashboardAsideNav = () => {
           />
 
           <p className="hidden lg:block text-primarytext-1000 font-bold text-[length:var(--h6-title-16)] ">
-            Louis Carter
+            {full_name}
           </p>
           <div className="hidden lg:block">
             <Button type="tertiary" size="small" onClick={openModal}>
@@ -215,8 +233,8 @@ const DashboardAsideNav = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-[24px] px-[24px] sm:flex-row sm:justify-between sm:items-center sm:w-[70%] sm:mx-auto">
-            <div className="w-[88px] h-[80px]">
-              <img src={ImagePlaceHolder} alt="Person Image" />
+            <div className="w-[88px] h-[82px] border-[1px] rounded-[12px] flex">
+              <img src={profile_image ? profile_image : ImagePlaceHolder} className="w-full h-full object-cover" alt="Person Image" />
             </div>
             <div className="flex flex-row items-center gap-[16px]">
               <Button which="button" type="green" size="small">
@@ -298,16 +316,16 @@ const DashboardAsideNav = () => {
           <div className="flex items-center justify-center w-[100px] h-[100px] rounded-full">
             <img
               className="rounded-full w-full"
-              src={AvatarIcon}
+              src={profile_image ? profile_image : AvatarIcon}
               alt="Profile Image"
             />
           </div>
           <div className="flex flex-col gap-[5px]">
           <p className="text-primarytext-1000 font-extrabold text-[length:var(--h6-title-16)] ">
-            Louis Carter
+            {full_name}
           </p>
             <p  className=" text-secondarytext-600 font-medium text-[length:var(--button-text-15-b)] ">
-              louiscarte@gmail.com
+              {email}
             </p>
           </div>
         </div>

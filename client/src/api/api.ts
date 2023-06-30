@@ -24,6 +24,14 @@ export const api = createApi({
         body,
       }),
     }),
+    getLoginStatus: builder.query({
+      query: () => ({
+        url: "loggedin",
+        method: "GET",
+        mode: "cors"
+      })
+    })
+    ,
     logout: builder.mutation({
       query: () => ({
         url: `auth_session/logout`,
@@ -125,4 +133,5 @@ export const {
   useSubmitAnswersMutation,
   useGetUserQuizzesTakenQuery,
   useGetUserQuizTakenQuery,
+  useGetLoginStatusQuery,
 } = api;

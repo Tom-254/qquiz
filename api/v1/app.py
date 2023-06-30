@@ -11,13 +11,24 @@ from flask_cors import CORS
 from api.v1.auth.session_db_auth import SessionDBAuth
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={
-     "/api/v1/*": {"origins": ['0.0.0.0', 'http://localhost:5173/']}})
+CORS(app, resources={
+     "/api/v1/*": {"origins": ['http://0.0.0.0:5000', 'http://127.0.0.1:5000', 'http://localhost:5173']}})
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
 
 auth = SessionDBAuth()
 
+@app.after_request
+def after_request(response):
+    if request.method == 'OPTIONS':
+        response.status_code = 200
+    # response.headers['Access-Control-Allow-Origin'] = 'http://localhost:5173'
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+
+
+    return response
 
 @app.errorhandler(400)
 def bad_request(error):
@@ -62,6 +73,8 @@ def authenticate_user():
     ]
     if auth and auth.require_auth(request.path, excluded_paths, request.method):
         user = auth.current_user(request)
+
+
         if auth.session_cookie(request) is None:
             abort(401)
 

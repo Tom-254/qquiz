@@ -46,6 +46,7 @@ class SessionDBAuth(SessionExpAuth):
         session_id = self.session_cookie(request)
         session = UserSession.get_user_with_session(session_id)
         if session is None:
+            print("None")
             return False
 
         session.remove()
