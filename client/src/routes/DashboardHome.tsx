@@ -7,10 +7,11 @@ import {
   SeeIcon,
   SuccessIcon,
 } from "../assets";
-import { Button, MessageModal } from "../components";
+import { Button, Loader, MessageModal } from "../components";
 import { MyQuizzes, NewQuizzes, OverviewData, QuizInvitations } from "../data";
 import CustomDialog from "../components/CustomDialog";
 import { useForm } from "react-hook-form";
+import { useGetPublicQuizGroupsQuery } from "../api/api";
 
 const DashboardHome = () => {
   const [isOpenDelete, setIsOpenDelete] = useState(false);
@@ -30,6 +31,12 @@ const DashboardHome = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const {
+    data: publicQuizData,
+    isFetching: fetchingQuizData,
+    isLoading: loadingQuizData,
+  } = useGetPublicQuizGroupsQuery("public");
 
   const onSubmit = (formData: any) => {
     // handle form submission
@@ -119,6 +126,12 @@ const DashboardHome = () => {
     setDialogMessage(message);
     setIsOpenDelete(true);
   };
+
+
+  if (fetchingQuizData || loadingQuizData) return <Loader />
+
+  console.log(publicQuizData)
+
   return (
     <>
       <section className="grid grid-cols-1 md:grid-cols-2 gap-[24px] px-[10px] sm:px-[24px] pb-[70px] overflow-y-auto max-h-[80vh]">

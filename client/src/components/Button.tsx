@@ -19,6 +19,7 @@ interface Props {
   buttonIconLeft?: React.ReactNode;
   buttonIconRight?: React.ReactNode;
   show?: boolean;
+  disabled?: boolean;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   children?: React.ReactNode;
 }
@@ -29,6 +30,7 @@ const Button = ({
   full = false,
   active = false,
   show = true,
+  disabled,
   which,
   buttonIconLeft,
   buttonIconRight,
@@ -91,7 +93,7 @@ const Button = ({
   return (
     <>
       {show && (
-        <button type={which} className={classNames} onClick={onClick}>
+        <button type={which} className={classNames} onClick={onClick} disabled={disabled}>
           <div className="flex items-center gap-[8px]">
             {buttonIconLeft}
             {children}
